@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lab Tin Học & IC3 GS6 - Cổng Giảng Dạy</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-light: #60a5fa;
+      --primary-subtle: #eff6ff;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-focus: #93c5fd;
+      --sidebar-width: 295px;
+      --header-height: 64px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] {
+      --primary: #3b82f6;
+      --primary-hover: #60a5fa;
+      --primary-light: #93c5fd;
+      --primary-subtle: #1e293b;
+      --bg: #0b0f19;
+      --surface: #111827;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1f2937;
+      --border-focus: #3b82f6;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER */
+    .portal-header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--header-height);
+      flex-shrink: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.25s ease;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      color: white;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.22);
+      flex-shrink: 0;
+    }
+
+    .brand-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-title p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Zoom Controls */
+    .zoom-controls {
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 3px 5px;
+    }
+
+    .zoom-btn {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .zoom-btn:hover {
+      background: var(--primary-subtle);
+      border-color: var(--border-focus);
+      color: var(--primary);
+    }
+
+    #zoom-text {
+      min-width: 52px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.84rem;
+      padding: 0 4px;
+      color: var(--text);
+    }
+
+    /* Search Box */
+    .search-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      width: 280px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      background: var(--surface);
+    }
+
+    .search-box input {
+      border: none;
+      background: transparent;
+      outline: none;
+      margin-left: 8px;
+      width: 100%;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .btn,
+    .btn-icon {
+      padding: 7px 16px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-icon {
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+    }
+
+    .btn:hover,
+    .btn-icon:hover {
+      background: var(--primary-subtle);
+      border-color: var(--border-focus);
+      color: var(--primary);
+    }
+
+    /* Layout */
+    .app-container {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - var(--header-height));
+      overflow: hidden;
+    }
+
+    /* REFINED, ELEGANT SIDEBAR */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      transition: margin-left 0.25s ease;
+      flex-shrink: 0;
+    }
+
+    .sidebar.collapsed {
+      margin-left: calc(var(--sidebar-width) * -1);
+    }
+
+    .sidebar-header {
+      padding: 12px 16px;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #334155;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.03em;
+    }
+
+    .sidebar-header i {
+      color: #64748b;
+      font-size: 0.95rem;
+    }
+
+    /* Tree Accordion */
+    .tree-section {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 4px;
+    }
+
+    .tree-header {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #1e293b;
+      user-select: none;
+      transition: background 0.15s;
+    }
+
+    .tree-header:hover {
+      background: #f8fafc;
+    }
+
+    .tree-header .left-info {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .tree-header .left-info i {
+      color: #64748b;
+      font-size: 0.92rem;
+    }
+
+    .tree-header i.chevron {
+      font-size: 0.7rem;
+      color: #94a3b8;
+      transition: transform 0.2s ease;
+    }
+
+    .tree-section.expanded > .tree-header i.chevron {
+      transform: rotate(180deg);
+    }
+
+    .tree-content {
+      display: none;
+      padding: 2px 0 4px 0;
+    }
+
+    .tree-section.expanded > .tree-content {
+      display: block;
+    }
+
+    /* Level Item */
+    .level-block {
+      margin: 2px 6px;
+    }
+
+    .level-header-btn {
+      width: 100%;
+      padding: 7px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.15s;
+    }
+
+    .level-header-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .level-header-btn.active {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    .level-header-btn i.level-chevron {
+      font-size: 0.66rem;
+      color: #94a3b8;
+      transition: transform 0.2s ease;
+    }
+
+    .level-block.expanded > .level-header-btn i.level-chevron {
+      transform: rotate(180deg);
+    }
+
+    .modules-list {
+      display: none;
+      padding-left: 6px;
+    }
+
+    .level-block.expanded > .modules-list {
+      display: block;
+    }
+
+    /* Module item */
+    .module-item-btn {
+      width: 100%;
+      padding: 6px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      text-align: left;
+      margin: 1px 0;
+      transition: all 0.15s;
+    }
+
+    .module-item-btn:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .module-item-btn.active {
+      background: #e0f2fe;
+      color: #0369a1;
+      font-weight: 700;
+    }
+
+    .badge-pill {
+      font-size: 0.68rem;
+      padding: 1px 6px;
+      border-radius: 6px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      color: #475569;
+      font-weight: 600;
+    }
+
+    .module-item-btn.active .badge-pill {
+      background: #0284c7;
+      border-color: #0284c7;
+      color: white;
+    }
+
+    /* 20 Lessons List for GM1 */
+    .lessons-sublist {
+      display: none;
+      padding: 2px 0 4px 8px;
+      border-left: 2px solid #e2e8f0;
+      margin-left: 12px;
+    }
+
+    .lessons-sublist.expanded {
+      display: block;
+    }
+
+    .lesson-link {
+      width: 100%;
+      padding: 4px 8px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      color: #475569;
+      cursor: pointer;
+      text-align: left;
+      text-decoration: none;
+      margin: 1px 0;
+      line-height: 1.25;
+      transition: all 0.15s;
+    }
+
+    .lesson-link:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 600;
+    }
+
+    .lesson-link.active {
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-weight: 700;
+      border-left: 3px solid #2563eb;
+    }
+
+    .lesson-num {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      color: #64748b;
+      font-size: 0.66rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .lesson-link.active .lesson-num {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+
+    /* Main Stage - Seamless Edge-to-Edge Container */
+    .main-stage {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+      height: 100%;
+      position: relative;
+    }
+
+    /* Clean Viewer Container without thick borders or padding */
+    .viewer-container {
+      flex: 1;
+      height: 100%;
+      width: 100%;
+      padding: 0;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lab-frame-wrapper {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      overflow: hidden;
+      background: white;
+      box-shadow: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .lab-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: transparent;
+    }
+
+    /* Placeholder for other modules */
+    .demo-placeholder {
+      background: var(--surface);
+      border-radius: 12px;
+      padding: 36px 28px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      max-width: 800px;
+      margin: 40px auto;
+      border: 1px solid var(--border);
+    }
+
+    .demo-placeholder h2 {
+      color: var(--primary);
+      font-size: 1.35rem;
+      margin-bottom: 10px;
+    }
+
+    /* Presentation Focus Mode */
+    body.focus-mode .sidebar {
+      display: none;
+    }
+
+    body.focus-mode .portal-header {
+      height: 48px;
+      padding: 0 14px;
+    }
+
+    body.focus-mode .brand-logo {
+      width: 34px;
+      height: 34px;
+      font-size: 1.15rem;
+    }
+
+    body.focus-mode .brand-title h1 {
+      font-size: 1.1rem;
+    }
+
+    body.focus-mode .brand-title p {
+      display: none;
+    }
+
+    body.focus-mode .app-container {
+      height: calc(100vh - 48px);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="portal-header">
+    <div class="brand-section">
+      <button class="btn-icon" id="btn-toggle-sidebar" title="Ẩn/Hiện Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+      <div class="brand-logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+      <div class="brand-title">
+        <h1>LAB TIN HỌC & IC3 GS6</h1>
+        <p>Cổng Giảng Dạy Học Sinh</p>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <!-- Zoom Scale Controls -->
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="btn-zoom-out" title="Thu nhỏ"><i class="fa-solid fa-minus"></i></button>
+        <span id="zoom-text">100%</span>
+        <button class="zoom-btn" id="btn-zoom-in" title="Phóng to"><i class="fa-solid fa-plus"></i></button>
+      </div>
+
+      <!-- Search Box -->
+      <div class="search-box">
+        <i class="fa-solid fa-magnifying-glass" style="color: var(--text-muted);"></i>
+        <input type="text" id="search-input" placeholder="Tìm bài học, chủ đề lab...">
+      </div>
+
+      <!-- Presentation / Classroom Mode -->
+      <button class="btn" id="btn-focus-mode">
+        <i class="fa-solid fa-expand"></i>
+        <span>Trình Chiếu Giảng Dạy</span>
+      </button>
+
+      <!-- Theme Switcher -->
+      <button class="btn-icon" id="btn-theme-toggle" title="Chuyển chế độ Sáng/Tối">
+        <i class="fa-solid fa-sun"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="app-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <i class="fa-solid fa-book-open"></i>
+        <span>CHƯƠNG TRÌNH HỌC & MÔ-ĐUN</span>
+      </div>
+
+      <nav id="sidebar-nav">
+        <!-- KHỐI THCS (IC3 GS6) -->
+        <div class="tree-section expanded" id="sec-thcs">
+          <div class="tree-header" onclick="toggleSection('sec-thcs')">
+            <div class="left-info">
+              <i class="fa-solid fa-laptop-code"></i>
+              <span>THCS (IC3 GS6)</span>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+
+          <div class="tree-content">
+            <!-- LEVEL 1 -->
+            <div class="level-block expanded" id="lvl-thcs-1">
+              <button class="level-header-btn active" id="btn-lvl-thcs-1" onclick="toggleLevel('lvl-thcs-1')">
+                <span><i class="fa-solid fa-folder-open" style="color: #64748b; margin-right: 6px;"></i> Level 1 (LV1)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+
+              <div class="modules-list">
+                <!-- GM1 -->
+                <button class="module-item-btn active" id="btn-mod-thcs-lv1-gm1" onclick="toggleGM1Lessons()">
+                  <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
+                  <span class="badge-pill">25 Lab</span>
+                </button>
+
+                <!-- 20 Lessons of GM1 -->
+                <div class="lessons-sublist expanded" id="gm1-lessons-container">
+                  <!-- Populated by JavaScript -->
+                </div>
+
+                <!-- GM2 -->
+                <button class="module-item-btn" id="btn-mod-thcs-lv1-gm2" onclick="selectModule('thcs', 'lv1', 'gm2', 'THCS Level 1 - GM2')">
+                  <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- LEVEL 2 (Lớp 7) -->
+            <div class="level-block" id="lvl-thcs-2">
+              <button class="level-header-btn" id="btn-lvl-thcs-2" onclick="toggleLevel('lvl-thcs-2')">
+                <span><i class="fa-solid fa-folder" style="color: #64748b; margin-right: 6px;"></i> Level 2 (Lớp 7)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+
+              <div class="modules-list">
+                <!-- GM1 -->
+                <button class="module-item-btn" id="btn-mod-thcs-lv2-gm1" onclick="toggleLV2GM1Lessons()">
+                  <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
+                  <span class="badge-pill">Lab 43</span>
+                </button>
+
+                <!-- Lessons of Level 2 GM1 -->
+                <div class="lessons-sublist" id="lv2-gm1-lessons-container">
+                  <button class="lesson-link" id="lesson-btn-lv2-43" onclick="loadLab43()">
+                    <span class="lesson-num">43</span>
+                    <span>Mã Hoá (Encryption)</span>
+                  </button>
+                </div>
+
+                <!-- GM2 -->
+                <button class="module-item-btn" id="btn-mod-thcs-lv2-gm2" onclick="selectModule('thcs', 'lv2', 'gm2', 'THCS Level 2 - GM2')">
+                  <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- LEVEL 3 -->
+            <div class="level-block" id="lvl-thcs-3">
+              <button class="level-header-btn" id="btn-lvl-thcs-3" onclick="toggleLevel('lvl-thcs-3')">
+                <span><i class="fa-solid fa-folder" style="color: #64748b; margin-right: 6px;"></i> Level 3 (LV3)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+
+              <div class="modules-list">
+                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm1" onclick="selectModule('thcs', 'lv3', 'gm1', 'THCS Level 3 - GM1')">
+                  <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
+                </button>
+                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm2" onclick="selectModule('thcs', 'lv3', 'gm2', 'THCS Level 3 - GM2')">
+                  <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KHỐI TIỂU HỌC (IC3 SPARK) -->
+        <div class="tree-section" id="sec-tieuhoc">
+          <div class="tree-header" onclick="toggleSection('sec-tieuhoc')">
+            <div class="left-info">
+              <i class="fa-solid fa-child-reaching"></i>
+              <span>Tiểu học (IC3 Spark)</span>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+
+          <div class="tree-content">
+            <div class="level-block" id="lvl-th-1">
+              <button class="level-header-btn" onclick="toggleLevel('lvl-th-1')">
+                <span>Level 1 (Lớp 3)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+              <div class="modules-list">
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv1-gm1" onclick="selectModule('tieuhoc', 'lv1', 'gm1', 'Tiểu học Level 1 - GM1: Làm Quen Máy Tính')">
+                  <span>GM1: Khám phá máy tính</span>
+                </button>
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv1-gm2" onclick="selectModule('tieuhoc', 'lv1', 'gm2', 'Tiểu học Level 1 - GM2: Trò Chơi Luyện Phím')">
+                  <span>GM2: Luyện tập gõ phím</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="level-block" id="lvl-th-2">
+              <button class="level-header-btn" onclick="toggleLevel('lvl-th-2')">
+                <span>Level 2 (Lớp 4)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+              <div class="modules-list">
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv2-gm1" onclick="selectModule('tieuhoc', 'lv2', 'gm1', 'Tiểu học Level 2 - GM1: Internet & An Toàn Số')">
+                  <span>GM1: An toàn Internet</span>
+                </button>
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv2-gm2" onclick="selectModule('tieuhoc', 'lv2', 'gm2', 'Tiểu học Level 2 - GM2: Soạn Thảo Văn Bản Cơ Bản')">
+                  <span>GM2: Soạn thảo cơ bản</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="level-block" id="lvl-th-3">
+              <button class="level-header-btn" onclick="toggleLevel('lvl-th-3')">
+                <span>Level 3 (Lớp 5)</span>
+                <i class="fa-solid fa-chevron-down level-chevron"></i>
+              </button>
+              <div class="modules-list">
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv3-gm1" onclick="selectModule('tieuhoc', 'lv3', 'gm1', 'Tiểu học Level 3 - GM1: Trình Chiếu Đa Phương Tiện')">
+                  <span>GM1: Trình chiếu sáng tạo</span>
+                </button>
+                <button class="module-item-btn" id="btn-mod-tieuhoc-lv3-gm2" onclick="selectModule('tieuhoc', 'lv3', 'gm2', 'Tiểu học Level 3 - GM2: Đề Ôn Thi IC3 Spark')">
+                  <span>GM2: Đề ôn thi Spark</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- KHỐI THPT (MOS OFFICE) -->
+        <div class="tree-section" id="sec-thpt">
+          <div class="tree-header" onclick="toggleSection('sec-thpt')">
+            <div class="left-info">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>THPT (Chứng Chỉ MOS)</span>
+            </div>
+            <i class="fa-solid fa-chevron-down chevron"></i>
+          </div>
+
+          <div class="tree-content">
+            <div class="level-block">
+              <button class="level-header-btn" id="btn-mod-thpt-word-all" onclick="selectModule('thpt', 'word', 'all', 'Microsoft Word 2019 / 365 (MOS)')">
+                <span><i class="fa-solid fa-file-word" style="color: #2b579a; margin-right: 6px;"></i> Word 2019 / 365</span>
+              </button>
+            </div>
+            <div class="level-block">
+              <button class="level-header-btn" id="btn-mod-thpt-excel-all" onclick="selectModule('thpt', 'excel', 'all', 'Microsoft Excel 2019 / 365 (MOS)')">
+                <span><i class="fa-solid fa-file-excel" style="color: #217346; margin-right: 6px;"></i> Excel 2019 / 365</span>
+              </button>
+            </div>
+            <div class="level-block">
+              <button class="level-header-btn" id="btn-mod-thpt-ppt-all" onclick="selectModule('thpt', 'ppt', 'all', 'Microsoft PowerPoint 2019 / 365 (MOS)')">
+                <span><i class="fa-solid fa-file-powerpoint" style="color: #d24726; margin-right: 6px;"></i> PowerPoint 2019 / 365</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- MAIN STAGE (FULL SEAMLESS VIEW) -->
+    <main class="main-stage">
+      <div class="viewer-container" id="viewer-container">
+        <div class="lab-frame-wrapper">
+          <iframe src="./lab1_thcs_lv1_gm1.html" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab"></iframe>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // 25 Lessons Data for THCS Level 1 - GM1
+    const gm1Lessons = [
+      { id: 1, name: "Sự cố kết nối Internet" },
+      { id: 2, name: "Thuật ngữ Hệ điều hành" },
+      { id: 3, name: "Phân loại Ứng dụng & App" },
+      { id: 4, name: "Phân loại Phản hồi Email" },
+      { id: 5, name: "Nhận diện & Mô phỏng Mã độc" },
+      { id: 6, name: "Giấy phép Creative Commons (CC)" },
+      { id: 7, name: "Sử dụng Hợp lý (Fair Use)" },
+      { id: 8, name: "Phương thức Đưa File/App" },
+      { id: 9, name: "Dịch vụ Mạng Cốt lõi" },
+      { id: 10, name: "Công cụ Kết nối Mạng" },
+      { id: 11, name: "Phân loại Tương tác Số" },
+      { id: 12, name: "Phân loại Thiết bị Lưu trữ" },
+      { id: 13, name: "Ưu điểm Điện toán Đám mây" },
+      { id: 14, name: "Phân biệt Máy in Laser & Phun" },
+      { id: 15, name: "Chỉnh sửa Ảnh & Video" },
+      { id: 16, name: "4 Công cụ Mật mã Bảo mật" },
+      { id: 17, name: "Các Tính năng Tự động" },
+      { id: 18, name: "Các Hành vi Nguy hiểm" },
+      { id: 19, name: "Khái niệm Prototype" },
+      { id: 20, name: "Lưu đồ Thuật toán (Flowchart)" },
+      { id: 21, name: "Phân loại Các loại Biểu đồ" },
+      { id: 22, name: "Hỗ trợ Kỹ thuật IT Helpdesk" },
+      { id: 23, name: "6 Bước tạo Game Di động" },
+      { id: 24, name: "Giao tiếp Phần cứng & Phần mềm" },
+      { id: 25, name: "Nhận diện Ngụy biện Logic" }
+    ];
+
+    let currentLabId = 1;
+    let zoomLevel = 100;
+    let isFocusMode = false;
+    let currentTheme = 'light';
+
+    const viewerContainer = document.getElementById('viewer-container');
+    const zoomText = document.getElementById('zoom-text');
+    const sidebar = document.getElementById('sidebar');
+
+    // Persistence Helpers
+    function saveState(stateObj) {
+      try {
+        localStorage.setItem('ic3_portal_active_state', JSON.stringify(stateObj));
+        // Update URL hash without reload for bookmarking
+        if (stateObj.type === 'thcs-lv1-gm1') {
+          history.replaceState(null, null, `#lab-${stateObj.labId}`);
+        } else if (stateObj.type === 'thcs-lv1-gm2') {
+          history.replaceState(null, null, `#lab-06`);
+        } else if (stateObj.type === 'thcs-lv2-gm1') {
+          history.replaceState(null, null, `#lab-43`);
+        } else if (stateObj.type === 'thcs-lv2-gm2') {
+          history.replaceState(null, null, `#lv2-gm2-06`);
+        } else if (stateObj.type === 'module') {
+          history.replaceState(null, null, `#mod-${stateObj.cat}-${stateObj.lvl}-${stateObj.mod}`);
+        }
+      } catch (e) {}
+    }
+
+    function getSavedState() {
+      // 1. Check URL Hash first
+      const hash = window.location.hash;
+      if (hash) {
+        if (hash === '#lab-43' || hash === '#lv2-43' || hash === '#lv2-gm1-43') {
+          return { type: 'thcs-lv2-gm1', labId: 43 };
+        }
+        const matchLab = hash.match(/^#lab-(\d+)$/);
+        if (matchLab) {
+          const id = parseInt(matchLab[1]);
+          if (id >= 1 && id <= 25) {
+            return { type: 'thcs-lv1-gm1', labId: id };
+          }
+        }
+      }
+
+      // 2. Check localStorage
+      try {
+        const raw = localStorage.getItem('ic3_portal_active_state');
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.type === 'thcs-lv2-gm1' && parsed.labId === 43) return parsed;
+          if (parsed && parsed.type === 'thcs-lv1-gm1' && parsed.labId >= 1 && parsed.labId <= 25) return parsed;
+          if (parsed && parsed.type === 'module') return parsed;
+        }
+      } catch (e) {}
+
+      return null;
+    }
+
+    // Render 20 Lessons in Sidebar
+    function renderGM1Lessons() {
+      const container = document.getElementById('gm1-lessons-container');
+      container.innerHTML = '';
+
+      gm1Lessons.forEach(lab => {
+        const btn = document.createElement('button');
+        btn.className = `lesson-link ${lab.id === currentLabId ? 'active' : ''}`;
+        btn.id = `lesson-btn-${lab.id}`;
+        btn.innerHTML = `
+          <span class="lesson-num">${lab.id}</span>
+          <span>${lab.name}</span>
+        `;
+        btn.onclick = () => selectLabLesson(lab.id);
+        container.appendChild(btn);
+      });
+    }
+
+    // Switch to a specific lesson (1-20)
+    function selectLabLesson(labId) {
+      currentLabId = labId;
+      saveState({ type: 'thcs-lv1-gm1', labId: labId });
+
+      // Update sidebar active lesson
+      document.querySelectorAll('.lesson-link').forEach(el => el.classList.remove('active'));
+      const activeBtn = document.getElementById(`lesson-btn-${labId}`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Expand necessary parent tree nodes
+      document.getElementById('sec-thcs')?.classList.add('expanded');
+      document.getElementById('lvl-thcs-1')?.classList.add('expanded');
+      document.getElementById('gm1-lessons-container')?.classList.add('expanded');
+
+      // Highlight GM1 module button
+      document.querySelectorAll('.module-item-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('btn-mod-thcs-lv1-gm1')?.classList.add('active');
+
+      // Check if iframe exists in viewerContainer
+      let iframe = document.getElementById('lab-iframe');
+      if (!iframe || !iframe.src.includes('lab1_thcs_lv1_gm1.html')) {
+        viewerContainer.innerHTML = `
+          <div class="lab-frame-wrapper">
+            <iframe src="./lab1_thcs_lv1_gm1.html" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab"></iframe>
+          </div>
+        `;
+        iframe = document.getElementById('lab-iframe');
+        iframe.onload = () => {
+          applyIframeLab(iframe, labId);
+          applyZoomToIframe();
+        };
+      } else {
+        applyIframeLab(iframe, labId);
+      }
+    }
+
+    function applyIframeLab(iframe, labId) {
+      function send() {
+        try {
+          if (iframe.contentWindow && typeof iframe.contentWindow.setLab === 'function') {
+            iframe.contentWindow.setLab(labId);
+          } else if (iframe.contentWindow) {
+            iframe.contentWindow.postMessage({ type: 'SET_LAB', labId: labId }, '*');
+          }
+        } catch (e) {
+          try {
+            iframe.contentWindow.postMessage({ type: 'SET_LAB', labId: labId }, '*');
+          } catch (err) {}
+        }
+      }
+      send();
+      setTimeout(send, 80);
+      setTimeout(send, 250);
+    }
+
+    // Toggle Section
+    function toggleSection(secId) {
+      const sec = document.getElementById(secId);
+      sec.classList.toggle('expanded');
+    }
+
+    // Toggle Level Block
+    function toggleLevel(lvlId) {
+      const lvl = document.getElementById(lvlId);
+      lvl.classList.toggle('expanded');
+    }
+
+    // Toggle GM1 Lessons List (Level 1)
+    function toggleGM1Lessons() {
+      const container = document.getElementById('gm1-lessons-container');
+      container.classList.toggle('expanded');
+      selectLabLesson(currentLabId);
+    }
+
+    // Toggle & Load Lab 06 for Level 1 - GM2
+    function toggleLV1GM2Lessons() {
+      const container = document.getElementById('lv1-gm2-lessons-container');
+      container?.classList.toggle('expanded');
+      loadLab06();
+    }
+
+    function loadLab06() {
+      saveState({ type: 'thcs-lv1-gm2', labId: 6 });
+
+      document.querySelectorAll('.module-item-btn, .lesson-link').forEach(el => el.classList.remove('active'));
+
+      // Ensure tree is expanded
+      document.getElementById('sec-thcs')?.classList.add('expanded');
+      document.getElementById('lvl-thcs-1')?.classList.add('expanded');
+      document.getElementById('lv1-gm2-lessons-container')?.classList.add('expanded');
+
+      const modBtn = document.getElementById('btn-mod-thcs-lv1-gm2');
+      if (modBtn) modBtn.classList.add('active');
+      const labBtn = document.getElementById('lesson-btn-lv1-gm2-6');
+      if (labBtn) labBtn.classList.add('active');
+
+      let iframe = document.getElementById('lab-iframe');
+      if (!iframe || !iframe.src.includes('lab06_thcs_lv1_gm2.html')) {
+        viewerContainer.innerHTML = `
+          <div class="lab-frame-wrapper">
+            <iframe src="./lab06_thcs_lv1_gm2.html" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM2 - Lab 06: Thiết Kế Phần Cứng Phổ Quát"></iframe>
+          </div>
+        `;
+        iframe = document.getElementById('lab-iframe');
+        iframe.onload = () => {
+          applyZoomToIframe();
+        };
+      }
+    }
+
+    // Toggle & Load Lab 43 for Level 2 (Lớp 7)
+    function toggleLV2GM1Lessons() {
+      const container = document.getElementById('lv2-gm1-lessons-container');
+      container.classList.toggle('expanded');
+      loadLab43();
+    }
+
+    function loadLab43() {
+      saveState({ type: 'thcs-lv2-gm1', labId: 43 });
+
+      document.querySelectorAll('.module-item-btn, .lesson-link').forEach(el => el.classList.remove('active'));
+      
+      // Ensure tree is expanded
+      document.getElementById('sec-thcs')?.classList.add('expanded');
+      document.getElementById('lvl-thcs-2')?.classList.add('expanded');
+      document.getElementById('lv2-gm1-lessons-container')?.classList.add('expanded');
+
+      const modBtn = document.getElementById('btn-mod-thcs-lv2-gm1');
+      if (modBtn) modBtn.classList.add('active');
+      const labBtn = document.getElementById('lesson-btn-lv2-43');
+      if (labBtn) labBtn.classList.add('active');
+
+      let iframe = document.getElementById('lab-iframe');
+      if (!iframe || !iframe.src.includes('lab2_thcs_lv2_gm1.html')) {
+        viewerContainer.innerHTML = `
+          <div class="lab-frame-wrapper">
+            <iframe src="./lab2_thcs_lv2_gm1.html" class="lab-iframe" id="lab-iframe" title="THCS Level 2 GM1 - Chủ đề 43: Mã Hoá"></iframe>
+          </div>
+        `;
+        iframe = document.getElementById('lab-iframe');
+        iframe.onload = () => {
+          applyZoomToIframe();
+        };
+      }
+    }
+
+    // Toggle & Load Lab 06 for Level 2 (Lớp 7) - GM2
+    function toggleLV2GM2Lessons() {
+      const container = document.getElementById('lv2-gm2-lessons-container');
+      container?.classList.toggle('expanded');
+      loadLab2THCSLV2GM2();
+    }
+
+    function loadLab2THCSLV2GM2() {
+      saveState({ type: 'thcs-lv2-gm2', labId: 6 });
+
+      document.querySelectorAll('.module-item-btn, .lesson-link').forEach(el => el.classList.remove('active'));
+      
+      // Ensure tree is expanded
+      document.getElementById('sec-thcs')?.classList.add('expanded');
+      document.getElementById('lvl-thcs-2')?.classList.add('expanded');
+      document.getElementById('lv2-gm2-lessons-container')?.classList.add('expanded');
+
+      const modBtn = document.getElementById('btn-mod-thcs-lv2-gm2');
+      if (modBtn) modBtn.classList.add('active');
+      const labBtn = document.getElementById('lesson-btn-lv2-gm2-6');
+      if (labBtn) labBtn.classList.add('active');
+
+      let iframe = document.getElementById('lab-iframe');
+      if (!iframe || !iframe.src.includes('lab2_thcs_lv2_gm2.html')) {
+        viewerContainer.innerHTML = `
+          <div class="lab-frame-wrapper">
+            <iframe src="./lab2_thcs_lv2_gm2.html" class="lab-iframe" id="lab-iframe" title="THCS Level 2 GM2 - Chủ đề 06: Thiết Kế Phần Cứng Phổ Quát"></iframe>
+          </div>
+        `;
+        iframe = document.getElementById('lab-iframe');
+        iframe.onload = () => {
+          applyZoomToIframe();
+        };
+      }
+    }
+
+    // Select other non-GM1 modules
+    function selectModule(cat, lvl, mod, title) {
+      saveState({ type: 'module', cat, lvl, mod, title });
+
+      document.querySelectorAll('.module-item-btn, .lesson-link').forEach(el => el.classList.remove('active'));
+      const activeModBtn = document.getElementById(`btn-mod-${cat}-${lvl}-${mod}`);
+      if (activeModBtn) activeModBtn.classList.add('active');
+
+      viewerContainer.innerHTML = `
+        <div class="demo-placeholder">
+          <h2>${title}</h2>
+          <p style="margin: 14px 0 24px 0; color: var(--text-muted); font-size: 1.05rem;">
+            Chương trình mô phỏng và bài giảng đang được đồng bộ dữ liệu.
+          </p>
+          <button onclick="selectLabLesson(1)" style="background:var(--primary); color:white; padding:12px 32px; border:none; border-radius:50px; font-size:1rem; cursor:pointer; font-weight:600;">
+            <i class="fa-solid fa-play"></i> Mở 25 Bài Lab THCS Level 1 (GM1)
+          </button>
+        </div>
+      `;
+    }
+
+    // Sidebar Toggle Functionality
+    function toggleSidebar() {
+      sidebar.classList.toggle('collapsed');
+      try {
+        localStorage.setItem('ic3_sidebar_collapsed', sidebar.classList.contains('collapsed'));
+      } catch (e) {}
+    }
+
+    document.getElementById('btn-toggle-sidebar').addEventListener('click', toggleSidebar);
+
+    // Zoom Controls
+    function setZoom(newZoom) {
+      zoomLevel = Math.max(70, Math.min(150, newZoom));
+      zoomText.textContent = zoomLevel + '%';
+      applyZoomToIframe();
+      try {
+        localStorage.setItem('ic3_zoom_level', zoomLevel);
+      } catch (e) {}
+    }
+
+    function applyZoomToIframe() {
+      const iframe = document.getElementById('lab-iframe');
+      if (iframe) {
+        iframe.style.zoom = zoomLevel / 100;
+      }
+    }
+
+    document.getElementById('btn-zoom-in').addEventListener('click', () => setZoom(zoomLevel + 10));
+    document.getElementById('btn-zoom-out').addEventListener('click', () => setZoom(zoomLevel - 10));
+
+    // Presentation / Focus Mode Toggle
+    document.getElementById('btn-focus-mode').addEventListener('click', () => {
+      isFocusMode = !isFocusMode;
+      document.body.classList.toggle('focus-mode', isFocusMode);
+      const btn = document.getElementById('btn-focus-mode');
+      btn.innerHTML = isFocusMode 
+        ? `<i class="fa-solid fa-compress"></i> <span>Thoát Trình Chiếu</span>` 
+        : `<i class="fa-solid fa-expand"></i> <span>Trình Chiếu Giảng Dạy</span>`;
+    });
+
+    // Dark / Light Theme Toggle
+    document.getElementById('btn-theme-toggle').addEventListener('click', () => {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      applyTheme(currentTheme);
+      try {
+        localStorage.setItem('ic3_theme', currentTheme);
+      } catch (e) {}
+    });
+
+    function applyTheme(theme) {
+      currentTheme = theme;
+      document.documentElement.setAttribute('data-theme', currentTheme);
+      document.getElementById('btn-theme-toggle').innerHTML = currentTheme === 'light'
+        ? `<i class="fa-solid fa-sun"></i>`
+        : `<i class="fa-solid fa-moon"></i>`;
+    }
+
+    // Real-time Search Filter
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      const links = document.querySelectorAll('.lesson-link, .module-item-btn');
+      links.forEach(item => {
+        if (!q || item.textContent.toLowerCase().includes(q)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      // Expand all sections when searching
+      if (q) {
+        document.querySelectorAll('.tree-section, .level-block, .lessons-sublist').forEach(el => el.classList.add('expanded'));
+      }
+    });
+
+    // INIT & RESTORE STATE (Keeps current lesson on F5 refresh!)
+    function initPortal() {
+      // Restore Theme
+      try {
+        const savedTheme = localStorage.getItem('ic3_theme');
+        if (savedTheme) applyTheme(savedTheme);
+      } catch (e) {}
+
+      // Restore Zoom
+      try {
+        const savedZoom = localStorage.getItem('ic3_zoom_level');
+        if (savedZoom) zoomLevel = parseInt(savedZoom);
+      } catch (e) {}
+      setZoom(zoomLevel);
+
+      // Restore Sidebar collapsed state
+      try {
+        if (localStorage.getItem('ic3_sidebar_collapsed') === 'true') {
+          sidebar.classList.add('collapsed');
+        }
+      } catch (e) {}
+
+      // Render 20 Lessons list in GM1
+      renderGM1Lessons();
+
+      // Check saved lesson / active module
+      const savedState = getSavedState();
+      if (savedState) {
+        if (savedState.type === 'thcs-lv2-gm1' && savedState.labId === 43) {
+          loadLab43();
+        } else if (savedState.type === 'thcs-lv1-gm1' && savedState.labId) {
+          selectLabLesson(savedState.labId);
+        } else if (savedState.type === 'module') {
+          selectModule(savedState.cat, savedState.lvl, savedState.mod, savedState.title);
+        } else {
+          selectLabLesson(1);
+        }
+      } else {
+        // Default to Lesson 1
+        selectLabLesson(1);
+      }
+    }
+
+    // Run initialization
+    initPortal();
+  </script>
+</body>
+
+</html>

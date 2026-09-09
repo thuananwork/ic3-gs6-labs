@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>THCS Level 2 - GM1: Mô Phỏng Thực Hành IC3 GS6 (Chủ Đề 43: Mã Hoá)</title>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-subtle: #eff6ff;
+      --success: #10b981;
+      --success-hover: #059669;
+      --success-subtle: #f0fdf4;
+      --danger: #ef4444;
+      --danger-hover: #dc2626;
+      --danger-subtle: #fef2f2;
+      --warning: #f59e0b;
+      --warning-subtle: #fffbeb;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-focus: #93c5fd;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 13.5px;
+      scroll-behavior: smooth;
+    }
+
+    html, body {
+      height: auto !important;
+      min-height: 100vh !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      padding: 12px 14px 60px 14px !important;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Modern Clean Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+      border: 2px solid #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* 3 Main Interactive Simulation Steps */
+    .steps-nav {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .step-nav-btn {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+
+    .step-nav-btn:hover {
+      border-color: var(--border-focus);
+      background: var(--primary-subtle);
+    }
+
+    .step-nav-btn.active {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-nav-btn.completed {
+      border-color: #86efac;
+      background: var(--success-subtle);
+      color: var(--success);
+    }
+
+    .step-num-badge {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .step-nav-btn.active .step-num-badge {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .step-nav-btn.completed .step-num-badge {
+      background: var(--success);
+      color: white;
+      border-color: var(--success);
+    }
+
+    .step-btn-info h4 {
+      font-size: 0.86rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .step-btn-info p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* Simulation Card */
+    .sim-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Step Panels */
+    .step-content {
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .step-content.active {
+      display: flex;
+    }
+
+    /* OS Simulation Window Frame */
+    .os-window {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+    }
+
+    .os-titlebar {
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--border);
+      padding: 8px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .os-controls {
+      display: flex;
+      gap: 5px;
+    }
+
+    .os-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .os-dot.red { background: #ef4444; }
+    .os-dot.yellow { background: #f59e0b; }
+    .os-dot.green { background: #10b981; }
+
+    .os-body {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Interactive File Card */
+    .file-interactive-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border);
+      background: var(--bg);
+      transition: all 0.25s ease;
+    }
+
+    .file-interactive-card.locked {
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
+    .file-card-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .file-icon-box.plain {
+      background: #eff6ff;
+      color: #2563eb;
+    }
+
+    .file-icon-box.encrypted {
+      background: #fee2e2;
+      color: #dc2626;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+
+    .file-meta h4 {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .file-meta p {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    /* File Content Preview Box */
+    .content-box {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      min-height: 75px;
+      background: #fafafa;
+      word-break: break-all;
+    }
+
+    .content-box.clear {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      color: #166534;
+    }
+
+    .content-box.scrambled {
+      background: #1e293b;
+      border-color: #334155;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+    }
+
+    /* Password Input Row */
+    .pass-input-row {
+      display: flex;
+      align-items: center;
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0 10px;
+      height: 38px;
+    }
+
+    .pass-input-row input {
+      border: none;
+      outline: none;
+      width: 100%;
+      padding: 6px 8px;
+      font-size: 0.85rem;
+      color: var(--text-main);
+    }
+
+    /* Action Buttons */
+    .btn-action {
+      padding: 8px 18px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-action:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+
+    .btn-red { background: var(--danger); }
+    .btn-green { background: var(--success); }
+    .btn-blue { background: var(--primary); }
+    .btn-slate { background: #64748b; }
+
+    /* Feature Highlight Box */
+    .feature-highlight-box {
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.84rem;
+    }
+
+    .feature-highlight-box.info {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+    }
+
+    .feature-highlight-box.success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+
+    .feature-highlight-box.danger {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+
+    /* Custom In-App Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-width: 440px;
+      width: 100%;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-icon-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .modal-icon-badge.danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .modal-header h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .modal-body {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- 3 Simulation Step Tabs -->
+    <div class="steps-nav">
+      <button class="step-nav-btn active" id="btn-step-1" onclick="goToStep(1)">
+        <div class="step-num-badge">1</div>
+        <div class="step-btn-info">
+          <h4>Bước 1: Khóa Mã Hóa</h4>
+          <p>Đặt mật khẩu & xáo trộn file</p>
+        </div>
+      </button>
+
+      <button class="step-nav-btn" id="btn-step-2" onclick="goToStep(2)">
+        <div class="step-num-badge">2</div>
+        <div class="step-btn-info">
+          <h4>Bước 2: Kẻ Gian Mở File</h4>
+          <p>Không thể xem trực tiếp</p>
+        </div>
+      </button>
+
+      <button class="step-nav-btn" id="btn-step-3" onclick="goToStep(3)">
+        <div class="step-num-badge">3</div>
+        <div class="step-btn-info">
+          <h4>Bước 3: Mở Khóa Giải Mã</h4>
+          <p>Nhập mật khẩu / Khóa số</p>
+        </div>
+      </button>
+    </div>
+
+    <!-- MAIN SIMULATION STAGE -->
+    <div class="sim-card">
+
+      <!-- ==================== BƯỚC 1 ==================== -->
+      <div class="step-content active" id="panel-step-1">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary);">
+              <i class="fa-solid fa-file-pen"></i> Bước 1: Thiết Lập Mật Khẩu & Bật Mã Hóa
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Tập tin ban đầu ở dạng văn bản rõ (Plaintext). Hãy đặt mật khẩu để khóa bảo vệ dữ liệu.
+            </p>
+          </div>
+          <span class="badge-status" id="status-step-1" style="background:#fef2f2; color:#dc2626; border:1px solid #fca5a5; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
+            <i class="fa-solid fa-lock-open"></i> Chưa Mã Hóa
+          </span>
+        </div>
+
+        <!-- File Window -->
+        <div class="os-window">
+          <div class="os-titlebar">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-file-word" style="color: #2563eb;"></i>
+              <span id="p1-window-title">BangDiem_HocSinh.docx - Microsoft Word</span>
+            </div>
+            <div class="os-controls">
+              <div class="os-dot red"></div>
+              <div class="os-dot yellow"></div>
+              <div class="os-dot green"></div>
+            </div>
+          </div>
+
+          <div class="os-body">
+            <div class="file-interactive-card" id="p1-file-card">
+              <div class="file-card-left">
+                <div class="file-icon-box plain" id="p1-file-icon">
+                  <i class="fa-solid fa-file-lines"></i>
+                </div>
+                <div class="file-meta">
+                  <h4 id="p1-file-name">BangDiem_HocSinh.docx</h4>
+                  <p id="p1-file-status"><i class="fa-solid fa-circle" style="color: #10b981; font-size: 0.55rem;"></i> Trạng thái: Văn bản gốc đọc được bình thường</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content Area -->
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
+                Nội dung tập tin đang mở:
+              </label>
+              <div class="content-box clear" id="p1-content-display">
+                <strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br>
+                <strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1
+              </div>
+            </div>
+
+            <!-- Set Password & Action -->
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+              <div class="pass-input-row" style="flex: 1;">
+                <i class="fa-solid fa-key" style="color: var(--warning);"></i>
+                <input type="text" id="p1-password-input" value="Lop7@2026" placeholder="Nhập mật khẩu mã hóa...">
+              </div>
+
+              <!-- Button: Red when not encrypted, Green when encrypted -->
+              <button class="btn-action btn-red" id="btn-p1-encrypt" onclick="p1ToggleEncryption()">
+                <i class="fa-solid fa-lock"></i>
+                <span id="btn-p1-text">Bật Mã Hóa Tập Tin</span>
+              </button>
+            </div>
+
+            <!-- Feature Highlight -->
+            <div class="feature-highlight-box info" id="p1-feature-box" style="display: none;">
+              <i class="fa-solid fa-circle-check" style="font-size: 1.1rem; margin-top: 1px; color: var(--primary);"></i>
+              <div>
+                <strong>Đặc điểm 1: Không thể xem trực tiếp!</strong>
+                <div>Toàn bộ văn bản đã bị thuật toán mã hóa AES xáo trộn thành chuỗi ký tự rác.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
+          <button class="btn-action btn-blue" onclick="goToStep(2)">
+            <span>Sang Bước 2: Kẻ Gian Đánh Cắp File</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== BƯỚC 2 ==================== -->
+      <div class="step-content" id="panel-step-2">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #dc2626;">
+              <i class="fa-solid fa-user-secret"></i> Bước 2: Kẻ Gian Đánh Cắp & Cố Mở Tập Tin
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Người ngoài hoặc hacker cố tình xem lén thông tin mà không có Khóa mã hóa (Key).
+            </p>
+          </div>
+          <span style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
+            <i class="fa-solid fa-triangle-exclamation"></i> TRUY CẬP TRÁI PHÉP
+          </span>
+        </div>
+
+        <!-- Hacker OS Window -->
+        <div class="os-window" style="border-color: #fca5a5;">
+          <div class="os-titlebar" style="background: #fef2f2;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-skull-crossbones" style="color: #dc2626;"></i>
+              <span>Hacker_PC - Trình Xem File Hex/Text</span>
+            </div>
+          </div>
+
+          <div class="os-body">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div>
+                <h4 style="font-size: 0.9rem; font-weight: 700; color: #991b1b;">
+                  <i class="fa-solid fa-file-shield"></i> Tập tin: BangDiem_HocSinh.docx.enc
+                </h4>
+                <p style="font-size: 0.76rem; color: var(--text-muted);">Kẻ gian không có mật khẩu/khóa giải mã</p>
+              </div>
+
+              <!-- Button: Red action -->
+              <button class="btn-action btn-red" onclick="p2HackerAttempt()">
+                <i class="fa-solid fa-eye-slash"></i>
+                <span>Thử Đọc Nội Dung</span>
+              </button>
+            </div>
+
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
+                Kết quả hiển thị trên màn hình kẻ gian:
+              </label>
+              <div class="content-box scrambled" id="p2-scrambled-screen">
+                [Nhấn nút "Thử Đọc Nội Dung" để kiểm tra phản ứng của tập tin mã hóa]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+          <button class="btn-action btn-slate" onclick="goToStep(1)">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại Bước 1
+          </button>
+          <button class="btn-action btn-blue" onclick="goToStep(3)">
+            <span>Sang Bước 3: Người Có Khóa Giải Mã</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ==================== BƯỚC 3 ==================== -->
+      <div class="step-content" id="panel-step-3">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #16a34a;">
+              <i class="fa-solid fa-key"></i> Bước 3: Mở Khóa Giải Mã (Decryption)
+            </h3>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              Chỉ người sở hữu Mật khẩu / Khóa kỹ thuật số hợp lệ mới có thể khôi phục lại dữ liệu gốc.
+            </p>
+          </div>
+          <span style="background:#f0fdf4; color:#16a34a; border:1px solid #86efac; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
+            <i class="fa-solid fa-shield-check"></i> NGƯỜI CÓ KHÓA
+          </span>
+        </div>
+
+        <!-- Decrypt Window -->
+        <div class="os-window">
+          <div class="os-titlebar">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-lock" style="color: #16a34a;"></i>
+              <span>Hộp Thoại Yêu Cầu Khóa Giải Mã</span>
+            </div>
+          </div>
+
+          <div class="os-body">
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div class="pass-input-row" style="flex: 1;">
+                <i class="fa-solid fa-unlock-keyhole" style="color: #10b981;"></i>
+                <input type="text" id="p3-decrypt-pass" placeholder="Nhập mật khẩu giải mã..." value="">
+              </div>
+
+              <button class="btn-action btn-green" onclick="p3AttemptDecrypt()">
+                <i class="fa-solid fa-unlock"></i>
+                <span>Giải Mã & Mở Tập Tin</span>
+              </button>
+
+              <button class="btn-action btn-slate" onclick="p3TestWrongPass()">
+                <span>Thử Nhập Sai Pass</span>
+              </button>
+            </div>
+
+            <div id="p3-alert-box" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 0.84rem;"></div>
+
+            <div>
+              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
+                Văn bản sau khi giải mã:
+              </label>
+              <div class="content-box scrambled" id="p3-result-display">
+                [Chưa nhập đúng mật khẩu để giải mã]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
+          <button class="btn-action btn-slate" onclick="goToStep(2)">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại Bước 2
+          </button>
+          <button class="btn-action btn-blue" onclick="goToStep(1)">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Thực Hành Lại Từ Đầu</span>
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Custom In-App Modal Dialog -->
+  <div id="custom-modal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-icon-badge danger" id="modal-icon-badge">
+          <i class="fa-solid fa-user-secret" id="modal-icon"></i>
+        </div>
+        <h3 id="modal-title">Cảnh Báo Quyền Truy Cập</h3>
+      </div>
+      <div class="modal-body" id="modal-content">
+        <!-- Content injected here -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-action btn-blue" id="modal-btn" onclick="closeCustomModal()">
+          <span>Đã Hiểu</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // State
+    let isP1Encrypted = false;
+    let correctPassword = "Lop7@2026";
+
+    // Navigation
+    function goToStep(stepNum) {
+      document.querySelectorAll('.step-nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.step-content').forEach(p => p.classList.remove('active'));
+
+      document.getElementById(`btn-step-` + stepNum).classList.add('active');
+      document.getElementById(`panel-step-` + stepNum).classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Step 1: Toggle Encryption
+    function p1ToggleEncryption() {
+      const pass = document.getElementById('p1-password-input').value.trim();
+      const btn = document.getElementById('btn-p1-encrypt');
+      const btnText = document.getElementById('btn-p1-text');
+      const statusBadge = document.getElementById('status-step-1');
+      const fileCard = document.getElementById('p1-file-card');
+      const fileIcon = document.getElementById('p1-file-icon');
+      const fileName = document.getElementById('p1-file-name');
+      const fileStatus = document.getElementById('p1-file-status');
+      const contentDisplay = document.getElementById('p1-content-display');
+      const windowTitle = document.getElementById('p1-window-title');
+      const featureBox = document.getElementById('p1-feature-box');
+
+      if (!pass) {
+        showCustomModal({
+          title: "Thiếu Mật Khẩu",
+          icon: "fa-solid fa-triangle-exclamation",
+          type: "danger",
+          content: "Vui lòng nhập mật khẩu mã hóa để thực hiện khóa tập tin!",
+          btnText: "Đồng Ý"
+        });
+        return;
+      }
+
+      isP1Encrypted = !isP1Encrypted;
+
+      if (isP1Encrypted) {
+        correctPassword = pass;
+        btn.className = "btn-action btn-green";
+        btn.querySelector('i').className = "fa-solid fa-lock-open";
+        btnText.innerText = "Tắt Mã Hóa (Mở lại)";
+
+        statusBadge.style.background = "#f0fdf4";
+        statusBadge.style.color = "#16a34a";
+        statusBadge.style.borderColor = "#86efac";
+        statusBadge.innerHTML = '<i class="fa-solid fa-lock"></i> Đã Khóa Mã Hóa';
+
+        fileCard.className = "file-interactive-card locked";
+        fileIcon.className = "file-icon-box encrypted";
+        fileIcon.innerHTML = '<i class="fa-solid fa-file-shield"></i>';
+        fileName.innerText = "BangDiem_HocSinh.docx.enc";
+        fileStatus.innerHTML = '<i class="fa-solid fa-lock" style="color: #dc2626;"></i> Tập tin đã bị mã hóa bảo vệ (AES-256)';
+
+        contentDisplay.className = "content-box scrambled";
+        contentDisplay.innerText = "9F8A#d291!e38b*82e98fa9012a9e8d7c6b5a4@32187#8192a83e01b92";
+
+        windowTitle.innerText = "BangDiem_HocSinh.docx.enc (Encrypted - Read Only)";
+        featureBox.style.display = "flex";
+        document.getElementById('btn-step-1').classList.add('completed');
+      } else {
+        btn.className = "btn-action btn-red";
+        btn.querySelector('i').className = "fa-solid fa-lock";
+        btnText.innerText = "Bật Mã Hóa Tập Tin";
+
+        statusBadge.style.background = "#fef2f2";
+        statusBadge.style.color = "#dc2626";
+        statusBadge.style.borderColor = "#fca5a5";
+        statusBadge.innerHTML = '<i class="fa-solid fa-lock-open"></i> Chưa Mã Hóa';
+
+        fileCard.className = "file-interactive-card";
+        fileIcon.className = "file-icon-box plain";
+        fileIcon.innerHTML = '<i class="fa-solid fa-file-lines"></i>';
+        fileName.innerText = "BangDiem_HocSinh.docx";
+        fileStatus.innerHTML = '<i class="fa-solid fa-circle" style="color: #10b981; font-size: 0.55rem;"></i> Trạng thái: Văn bản gốc đọc được bình thường';
+
+        contentDisplay.className = "content-box clear";
+        contentDisplay.innerHTML = '<strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br><strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1';
+
+        windowTitle.innerText = "BangDiem_HocSinh.docx - Microsoft Word";
+        featureBox.style.display = "none";
+      }
+    }
+
+    // Step 2: Hacker Attempt
+    function p2HackerAttempt() {
+      const screen = document.getElementById('p2-scrambled-screen');
+      screen.innerText = "0x7F 0x45 0x4C 0x46 ... [DỮ LIỆU ĐÃ BỊ MÃ HOÁ - KHÔNG THỂ HIỂN THỊ NỘI DUNG GỐC]";
+      
+      showCustomModal({
+        title: "Cảnh Báo Quyền Truy Cập",
+        icon: "fa-solid fa-user-secret",
+        type: "danger",
+        content: "🕵️ <strong>Kẻ gian không có mật khẩu/khóa!</strong><br><br>Nội dung hoàn toàn vô nghĩa và không thể đọc được nếu không có khóa mã hóa hợp lệ.",
+        btnText: "Tôi Đã Hiểu"
+      });
+
+      document.getElementById('btn-step-2').classList.add('completed');
+    }
+
+    // Step 3: Decrypt Attempt
+    function p3AttemptDecrypt() {
+      const pass = document.getElementById('p3-decrypt-pass').value.trim();
+      const alertBox = document.getElementById('p3-alert-box');
+      const resultBox = document.getElementById('p3-result-display');
+      const step3Nav = document.getElementById('btn-step-3');
+
+      if (pass === correctPassword) {
+        alertBox.style.display = "block";
+        alertBox.style.background = "#f0fdf4";
+        alertBox.style.color = "#166534";
+        alertBox.style.border = "1px solid #86efac";
+        alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Chính xác!</strong> Mật khẩu hợp lệ. Tập tin đã được giải mã nguyên vẹn.';
+
+        resultBox.className = "content-box clear";
+        resultBox.innerHTML = '<strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br><strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1';
+
+        step3Nav.classList.add('completed');
+      } else {
+        alertBox.style.display = "block";
+        alertBox.style.background = "#fef2f2";
+        alertBox.style.color = "#991b1b";
+        alertBox.style.border = "1px solid #fca5a5";
+        alertBox.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> <strong>Sai mật khẩu!</strong> Không thể giải mã tập tin nếu không có khóa chính xác.';
+
+        resultBox.className = "content-box scrambled";
+        resultBox.innerText = "[Mật khẩu sai - Không thể đọc nội dung]";
+      }
+    }
+
+    function p3TestWrongPass() {
+      document.getElementById('p3-decrypt-pass').value = "SaiMatKhau123";
+      p3AttemptDecrypt();
+    }
+
+    // Modal Functions
+    function showCustomModal(config) {
+      const modal = document.getElementById('custom-modal');
+      const title = document.getElementById('modal-title');
+      const content = document.getElementById('modal-content');
+      const icon = document.getElementById('modal-icon');
+      const iconBadge = document.getElementById('modal-icon-badge');
+      const btn = document.getElementById('modal-btn');
+
+      title.innerText = config.title || "Thông Báo";
+      content.innerHTML = config.content || "";
+      icon.className = config.icon || "fa-solid fa-circle-info";
+      iconBadge.className = `modal-icon-badge ${config.type || 'info'}`;
+      btn.querySelector('span').innerText = config.btnText || "Đã Hiểu";
+
+      modal.style.display = "flex";
+    }
+
+    function closeCustomModal() {
+      document.getElementById('custom-modal').style.display = "none";
+    }
+
+    // Support external setLab
+    window.setLab = function(id) {
+      console.log("Set Lab in Level 2 GM1:", id);
+      goToStep(1);
+    };
+  </script>
+</body>
+
+</html>

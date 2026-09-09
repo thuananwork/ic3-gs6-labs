@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THCS Level 1 - GM1: Bộ 25 Bài Lab Thực Hành Chuẩn IC3 GS6</title>
+    <link rel="stylesheet" href="./assets/index-DlGLBXc9.css">
+    <style>
+      /* Hide redundant hero banner header */
+      header {
+        display: none !important;
+      }
+
+      /* 1. Harmonious Typography & Base Scale */
+      html {
+        font-size: 14px;
+        scroll-behavior: smooth;
+      }
+
+      html, body {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow-x: hidden !important;
+        overflow-y: auto !important;
+      }
+
+      body {
+        margin: 0;
+        padding: 10px 16px 60px 16px !important;
+        background-color: #f8fafc !important;
+        color: #1e293b !important;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* 2. Modern, Clean & Visible Scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+        border: 2px solid #f1f5f9;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+
+      /* 3. Flexible Container Layout */
+      .min-h-screen {
+        min-height: auto !important;
+        padding-top: 0 !important;
+        padding-bottom: 1.5rem !important;
+        background-color: transparent !important;
+      }
+
+      main {
+        padding-top: 0.25rem !important;
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+        max-width: 100% !important;
+      }
+
+      .max-w-7xl, .max-w-6xl, .max-w-5xl, .max-w-4xl {
+        max-width: 100% !important;
+        padding-left: 0.25rem !important;
+        padding-right: 0.25rem !important;
+      }
+
+      /* 4. Top Goal & Overview Banners */
+      section.rounded-2xl.bg-blue-50\/75,
+      div.space-y-6 > div:first-child,
+      div.space-y-4 > div:first-child {
+        padding: 0.65rem 1rem !important;
+        margin-bottom: 0.65rem !important;
+        border-radius: 10px !important;
+        border-color: #e2e8f0 !important;
+      }
+
+      /* ========================================================================= */
+      /* 5. PERFECT 2-COLUMN SPLIT: BALANCED INSTRUCTIONS & WIDE DEMO STAGE        */
+      /* ========================================================================= */
+      .grid.lg\:grid-cols-12 {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 1.15rem !important;
+        align-items: flex-start !important;
+      }
+
+      /* Left Side: Instructions & Concept Explanation (Comfortable 330px width) */
+      .grid.lg\:grid-cols-12 > .lg\:col-span-4,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-5,
+      .grid.lg\:grid-cols-12 > div:first-child:not(.lg\:col-span-12):not(.lg\:col-span-8):not(.lg\:col-span-7) {
+        flex: 0 0 330px !important;
+        width: 330px !important;
+        max-width: 340px !important;
+        min-width: 300px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+      }
+
+      /* Left Side Card Styling */
+      .grid.lg\:grid-cols-12 > .lg\:col-span-4 .rounded-3xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-4 .rounded-2xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-5 .rounded-3xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-5 .rounded-2xl,
+      .grid.lg\:grid-cols-12 > div:first-child .rounded-2xl,
+      .grid.lg\:grid-cols-12 > div:first-child .rounded-3xl {
+        padding: 0.85rem 1rem !important;
+        border-radius: 12px !important;
+      }
+
+      /* High-readability Typography for Explanations (NOT targeting buttons) */
+      .grid.lg\:grid-cols-12 > div:first-child p,
+      .space-y-4 > div:not(button) p,
+      .space-y-6 > div:not(button) p {
+        font-size: 0.92rem !important;
+        line-height: 1.55 !important;
+        color: #334155;
+      }
+
+      p strong, strong {
+        font-size: 0.94rem !important;
+        color: #0f172a;
+      }
+
+      .grid.lg\:grid-cols-12 > div:first-child h4,
+      .grid.lg\:grid-cols-12 > div:first-child h5,
+      .grid.lg\:grid-cols-12 > div:first-child h6 {
+        font-size: 0.98rem !important;
+        font-weight: 700 !important;
+        color: #0f172a !important;
+        margin-top: 0.25rem !important;
+      }
+
+      /* Right Side: Interactive Simulation (Expansive ~70% area) */
+      .grid.lg\:grid-cols-12 > .lg\:col-span-8,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-7,
+      .grid.lg\:grid-cols-12 > div:last-child:not(.lg\:col-span-12) {
+        flex: 1 1 auto !important;
+        min-width: 0 !important;
+        max-width: calc(100% - 345px) !important;
+      }
+
+      /* Right Side Interactive Cards */
+      .grid.lg\:grid-cols-12 > .lg\:col-span-8 .rounded-3xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-8 .rounded-2xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-7 .rounded-3xl,
+      .grid.lg\:grid-cols-12 > .lg\:col-span-7 .rounded-2xl {
+        border-radius: 12px !important;
+        padding: 0.9rem 1.15rem !important;
+        border-color: #e2e8f0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+      }
+
+      /* 6. Concept & Tab Buttons (Lab 2, 3, etc.) */
+      .grid-cols-5, .grid.grid-cols-2.sm\:grid-cols-3.lg\:grid-cols-5,
+      .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-5,
+      .grid-cols-2.sm\:grid-cols-4 {
+        gap: 0.55rem !important;
+      }
+
+      button.group,
+      .grid-cols-5 > button,
+      .grid-cols-2.sm\:grid-cols-4 > button,
+      .grid > button.rounded-2xl,
+      .grid > button.rounded-xl,
+      .grid > button.rounded-3xl {
+        padding: 0.55rem 0.75rem !important;
+        border-radius: 10px !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      }
+
+      button.group h6,
+      button.group .font-bold {
+        font-size: 0.88rem !important;
+        line-height: 1.25 !important;
+      }
+
+      button.group p,
+      button.group span {
+        font-size: 0.78rem !important;
+        line-height: 1.3 !important;
+      }
+
+      /* ========================================================================= */
+      /* 7. ACTIVE / SELECTED BUTTONS: CRISP PURE WHITE TEXT & ICON HIGH CONTRAST */
+      /* ========================================================================= */
+      button[class*="bg-emerald-600"],
+      button[class*="bg-emerald-500"],
+      button[class*="bg-blue-600"],
+      button[class*="bg-blue-500"],
+      button[class*="bg-indigo-600"],
+      button[class*="bg-indigo-500"],
+      button[class*="bg-purple-600"],
+      button[class*="bg-purple-500"],
+      button[class*="bg-rose-600"],
+      button[class*="bg-rose-500"],
+      button[class*="bg-sky-600"],
+      button[class*="bg-sky-500"] {
+        color: #ffffff !important;
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25) !important;
+      }
+
+      button[class*="bg-emerald-600"] *,
+      button[class*="bg-emerald-500"] *,
+      button[class*="bg-blue-600"] *,
+      button[class*="bg-blue-500"] *,
+      button[class*="bg-indigo-600"] *,
+      button[class*="bg-indigo-500"] *,
+      button[class*="bg-purple-600"] *,
+      button[class*="bg-purple-500"] *,
+      button[class*="bg-rose-600"] *,
+      button[class*="bg-rose-500"] *,
+      button[class*="bg-sky-600"] *,
+      button[class*="bg-sky-500"] * {
+        color: #ffffff !important;
+        fill: #ffffff !important;
+      }
+
+      /* Force White color for text inside active concept buttons */
+      button[class*="bg-emerald"] p,
+      button[class*="bg-blue"] p,
+      button[class*="bg-indigo"] p,
+      button[class*="bg-purple"] p,
+      button[class*="bg-rose"] p,
+      button[class*="bg-sky"] p {
+        color: #ffffff !important;
+        opacity: 1 !important;
+        font-weight: 700 !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15) !important;
+      }
+
+      button[class*="bg-emerald"] span,
+      button[class*="bg-blue"] span,
+      button[class*="bg-indigo"] span,
+      button[class*="bg-purple"] span,
+      button[class*="bg-rose"] span,
+      button[class*="bg-sky"] span {
+        color: #ffffff !important;
+        opacity: 1 !important;
+      }
+
+      button[class*="bg-emerald"] svg,
+      button[class*="bg-blue"] svg,
+      button[class*="bg-indigo"] svg,
+      button[class*="bg-purple"] svg,
+      button[class*="bg-rose"] svg,
+      button[class*="bg-sky"] svg {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+      }
+
+      /* 8. Simulation Windows & Log Panels (Scrollable & Clean) */
+      pre, code, .font-mono {
+        font-size: 0.84rem !important;
+        line-height: 1.45 !important;
+      }
+
+      .bg-slate-900.rounded-xl,
+      .bg-slate-900.rounded-2xl,
+      .bg-slate-950.rounded-xl,
+      div[class*="overflow-y-auto"] {
+        max-height: 280px !important;
+        overflow-y: auto !important;
+        border-radius: 8px !important;
+      }
+
+      /* 9. Interactive Action Buttons */
+      button.rounded-2xl,
+      button.rounded-xl,
+      button.rounded-lg {
+        border-radius: 8px !important;
+        padding: 0.5rem 0.9rem !important;
+        font-size: 0.86rem !important;
+        font-weight: 700 !important;
+        transition: all 0.15s ease !important;
+      }
+
+      button:active {
+        transform: scale(0.98);
+      }
+
+      /* 10. Quiz & Selection Buttons */
+      button.w-full.text-left {
+        padding: 0.65rem 0.9rem !important;
+        font-size: 0.86rem !important;
+        border-radius: 8px !important;
+        margin-bottom: 0.4rem !important;
+      }
+
+      /* 11. Headings */
+      h1 { font-size: 1.25rem !important; line-height: 1.25 !important; color: #0f172a !important; }
+      h2 { font-size: 1.15rem !important; line-height: 1.25 !important; color: #0f172a !important; }
+      h3 { font-size: 1.05rem !important; line-height: 1.25 !important; color: #1e293b !important; font-weight: 700 !important; }
+      h4, h5, h6 { font-size: 0.95rem !important; color: #1e293b !important; font-weight: 700 !important; }
+
+      /* ========================================================================= */
+      /* 12. UNIVERSAL HIGH-CONTRAST ALERTS & STATUS BANNERS                       */
+      /* ========================================================================= */
+      /* Red / Rose / Danger Alert (Offline, Warning, Malware alerts) */
+      [class*="bg-rose-950"],
+      [class*="bg-red-950"] {
+        background-color: #fef2f2 !important;
+        border: 1.5px solid #fca5a5 !important;
+        color: #991b1b !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-rose-950"] p,
+      [class*="bg-red-950"] p,
+      [class*="text-rose-400"],
+      [class*="text-red-400"] {
+        color: #b91c1c !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-rose-950"] svg,
+      [class*="bg-red-950"] svg {
+        color: #dc2626 !important;
+        opacity: 1 !important;
+      }
+
+      /* Amber / Orange Alerts */
+      [class*="bg-amber-950"],
+      [class*="bg-yellow-950"] {
+        background-color: #fffbeb !important;
+        border: 1.5px solid #fde68a !important;
+        color: #92400e !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-amber-950"] p,
+      [class*="bg-yellow-950"] p,
+      [class*="text-amber-400"] {
+        color: #b45309 !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-amber-950"] svg,
+      [class*="bg-yellow-950"] svg {
+        color: #d97706 !important;
+      }
+
+      /* Emerald / Green Success Alerts */
+      [class*="bg-emerald-950"],
+      [class*="bg-green-950"] {
+        background-color: #f0fdf4 !important;
+        border: 1.5px solid #86efac !important;
+        color: #166534 !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-emerald-950"] p,
+      [class*="bg-green-950"] p,
+      [class*="text-emerald-400"] {
+        color: #15803d !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-emerald-950"] svg,
+      [class*="bg-green-950"] svg {
+        color: #16a34a !important;
+      }
+
+      /* Blue / Sky Info Alerts */
+      [class*="bg-blue-950"],
+      [class*="bg-sky-950"],
+      [class*="bg-indigo-950"] {
+        background-color: #eff6ff !important;
+        border: 1.5px solid #bfdbfe !important;
+        color: #1e40af !important;
+        opacity: 1 !important;
+      }
+
+      [class*="bg-blue-950"] p,
+      [class*="bg-sky-950"] p,
+      [class*="bg-indigo-950"] p,
+      [class*="text-blue-400"],
+      [class*="text-sky-400"] {
+        color: #1d4ed8 !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+      }
+
+      /* Stop annoying pulse opacity on alert boxes */
+      .animate-pulse {
+        animation: none !important;
+      }
+
+      /* Spacing between vertical blocks */
+      .space-y-6 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.75rem !important;
+      }
+      .space-y-4 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.55rem !important;
+      }
+      .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+        margin-top: 0.4rem !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="./assets/index-DURFEJ-r.js"></script>
+  </body>
+</html>
