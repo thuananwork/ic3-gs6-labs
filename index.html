@@ -801,10 +801,10 @@
   <script>
     // 25 Lessons Data for THCS Level 1 - GM1
     const gm1Lessons = [
-      { id: 1, name: "Sự cố kết nối Internet" },
-      { id: 2, name: "Thuật ngữ Hệ điều hành" },
-      { id: 3, name: "Phân loại Ứng dụng & App" },
-      { id: 4, name: "Phân loại Phản hồi Email" },
+      { id: 1, name: "Các khái niệm cơ bản của máy tính" },
+      { id: 2, name: "Sự cố kết nối Internet" },
+      { id: 3, name: "Phân loại Phản hồi Email" },
+      { id: 4, name: "Phân loại Application & App" },
       { id: 5, name: "Nhận diện & Mô phỏng Mã độc" },
       { id: 6, name: "Giấy phép Creative Commons (CC)" },
       { id: 7, name: "Sử dụng Hợp lý (Fair Use)" },
@@ -912,7 +912,10 @@
       // Update sidebar active lesson
       document.querySelectorAll('.lesson-link').forEach(el => el.classList.remove('active'));
       const activeBtn = document.getElementById(`lesson-btn-${labId}`);
-      if (activeBtn) activeBtn.classList.add('active');
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
 
       // Expand necessary parent tree nodes
       document.getElementById('sec-thcs')?.classList.add('expanded');
@@ -1035,7 +1038,10 @@
       const modBtn = document.getElementById('btn-mod-thcs-lv2-gm1');
       if (modBtn) modBtn.classList.add('active');
       const labBtn = document.getElementById('lesson-btn-lv2-43');
-      if (labBtn) labBtn.classList.add('active');
+      if (labBtn) {
+        labBtn.classList.add('active');
+        labBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
 
       let iframe = document.getElementById('lab-iframe');
       if (!iframe || !iframe.src.includes('lab2_thcs_lv2_gm1.html')) {
