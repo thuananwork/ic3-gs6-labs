@@ -1,12 +1,4 @@
-<!doctype html>
-<html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>THCS Level 1 - GM1: Bộ 25 Bài Lab Thực Hành Chuẩn IC3 GS6</title>
-    <link rel="stylesheet" href="./assets/index-DlGLBXc9.css">
-    <style>
-      /* Hide redundant hero banner header */
+/* Hide redundant hero banner header */
       header {
         display: none !important;
       }
@@ -434,20 +426,241 @@
         line-height: 1.25 !important;
       }
 
-      button.group p,
-      button.group span {
-        font-size: 0.78rem !important;
-        line-height: 1.3 !important;
+      /* ========================================================================= */
+      /* 7. SOOTHING, HUMAN-FRIENDLY PALETTE (STANDARD BLUE TONES)                 */
+      /* ========================================================================= */
+      /* Unselected Concept Cards: Xanh Thường Nhạt Dịu Mắt (Standard Blue-100) */
+      body button.step-card:not(.active),
+      body .step-card-inactive,
+      .step-card:not(.active),
+      .step-card-inactive,
+      .grid-cols-5 > button:not(.active) {
+        background-color: #eff6ff !important;
+        background-image: none !important;
+        border: 1.5px solid #bfdbfe !important;
+        box-shadow: 0 1px 3px rgba(37, 99, 235, 0.08) !important;
       }
 
-      /* Unselected Concept Cards: Crisp, Clean & Legible */
-      .grid-cols-5 > button:not([class*="bg-indigo"]):not([class*="bg-blue"]):not([class*="bg-emerald"]):not([class*="bg-purple"]):not([class*="bg-rose"]) {
-        background-color: #ffffff !important;
-        border: 1.5px solid #e2e8f0 !important;
-        color: #334155 !important;
+      body button.step-card:not(.active):hover,
+      body .step-card-inactive:hover,
+      .step-card:not(.active):hover,
+      .grid-cols-5 > button:not(.active):hover {
+        background-color: #dbeafe !important;
+        border-color: #93c5fd !important;
       }
-      .grid-cols-5 > button:not([class*="bg-indigo"]):not([class*="bg-blue"]):not([class*="bg-emerald"]):not([class*="bg-purple"]):not([class*="bg-rose"]) p {
-        color: #334155 !important;
+
+      body button.step-card:not(.active) p,
+      body .step-card-inactive p,
+      .step-card:not(.active) p,
+      .step-card-inactive p {
+        color: #1e40af !important;
+        -webkit-text-fill-color: #1e40af !important;
+      }
+
+      body button.step-card:not(.active) p:first-child,
+      body .step-card-inactive p:first-child,
+      .step-card:not(.active) p:first-child,
+      .grid-cols-5 > button:not(.active) p:first-child {
+        color: #2563eb !important;
+        -webkit-text-fill-color: #2563eb !important;
+        font-weight: 800 !important;
+      }
+
+      body button.step-card:not(.active) p:last-child,
+      body .step-card-inactive p:last-child,
+      .step-card:not(.active) p:last-child,
+      .step-card:not(.active) h6,
+      .step-card:not(.active) .font-bold,
+      .step-card:not(.active) .font-black,
+      .grid-cols-5 > button:not(.active) .font-bold,
+      .grid-cols-5 > button:not(.active) .font-black {
+        color: #1e3a8a !important;
+        -webkit-text-fill-color: #1e3a8a !important;
+        font-weight: 900 !important;
+      }
+
+      body button.step-card:not(.active) svg,
+      body button.step-card:not(.active) span,
+      .step-card:not(.active) svg,
+      .step-card:not(.active) span {
+        color: #2563eb !important;
+      }
+
+      /* Active Concept Card: Xanh Dương Chuẩn Nhạt Hơn Button (Blue-500) */
+      body :not(.dark) button.step-card.active,
+      body :not(.dark) button.step-card-active,
+      body :not(.dark) .step-card-active,
+      body button.step-card.active,
+      body button.step-card-active,
+      .step-card.active,
+      .step-card-active,
+      .grid-cols-5 > button.active {
+        background-color: #3b82f6 !important;
+        background-image: none !important;
+        border: 2px solid #1d4ed8 !important;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3) !important;
+      }
+
+      body button.step-card.active *,
+      body button.step-card-active *,
+      .step-card.active *,
+      .step-card-active *,
+      .grid-cols-5 > button.active * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      body button.step-card.active p:first-child,
+      body button.step-card-active p:first-child,
+      .step-card.active p:first-child,
+      .step-card-active p:first-child {
+        color: #dbeafe !important;
+        -webkit-text-fill-color: #dbeafe !important;
+        font-weight: 800 !important;
+      }
+
+      body button.step-card.active p:last-child,
+      body button.step-card-active p:last-child,
+      .step-card.active p:last-child,
+      .step-card-active p:last-child {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 900 !important;
+      }
+
+      body button.step-card.active svg,
+      .step-card.active svg {
+        color: #ffffff !important;
+      }
+
+      .step-card.active .rounded-xl,
+      .step-card.active .rounded-2xl,
+      .step-card-active .rounded-xl,
+      .step-card-active .rounded-2xl {
+        background-color: rgba(255, 255, 255, 0.25) !important;
+      }
+
+      /* Vibrant High-Contrast Action Buttons (Blue, Green, Red) */
+      /* Fresh Blue Buttons */
+      button.bg-blue-600,
+      button[class*="bg-blue-600"] {
+        background-color: #2563eb !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25) !important;
+      }
+      button.bg-blue-600:hover,
+      button[class*="bg-blue-600"]:hover {
+        background-color: #1d4ed8 !important;
+      }
+
+      /* Fresh Red / Rose Buttons (Rút chuột / Tắt nguồn / Reset) */
+      button.bg-rose-600,
+      button[class*="bg-rose-600"],
+      button.bg-rose-500,
+      button[class*="bg-rose-500"],
+      button.bg-red-600 {
+        background-color: #ef4444 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25) !important;
+      }
+      button.bg-rose-600:hover,
+      button[class*="bg-rose-600"]:hover,
+      button.bg-rose-500:hover,
+      button.bg-red-600:hover {
+        background-color: #dc2626 !important;
+      }
+
+      /* Fresh Emerald Green Buttons (Cài đặt Driver / Xác nhận thành công) */
+      button.bg-emerald-600,
+      button[class*="bg-emerald-600"],
+      button.bg-emerald-500 {
+        background-color: #10b981 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25) !important;
+      }
+      button.bg-emerald-600:hover,
+      button[class*="bg-emerald-600"]:hover {
+        background-color: #059669 !important;
+      }
+
+      /* Fresh Indigo Buttons (Gửi lệnh in A) */
+      button.bg-indigo-600,
+      button[class*="bg-indigo-600"] {
+        background-color: #6366f1 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 2px 8px rgba(99, 102, 241, 0.25) !important;
+      }
+      button.bg-indigo-600:hover,
+      button[class*="bg-indigo-600"]:hover {
+        background-color: #4f46e5 !important;
+      }
+
+      /* Fresh Amber Buttons (Gửi lệnh in B) */
+      button.bg-amber-600,
+      button[class*="bg-amber-600"] {
+        background-color: #f59e0b !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 800 !important;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25) !important;
+      }
+      button.bg-amber-600:hover,
+      button[class*="bg-amber-600"]:hover {
+        background-color: #d97706 !important;
+      }
+
+      /* Daemon Logs alternating zebra shapes (1 dòng trắng, 1 dòng xanh nhẹ pha trắng) */
+      div[class*="bg-[#f0f7ff]"] {
+        background-color: #f0f7ff !important;
+        border: 1px solid #dbeafe !important;
+        color: #1e293b !important;
+      }
+
+      /* Driver Installed Soft Green State */
+      button.bg-emerald-100,
+      button[class*="bg-emerald-100"],
+      button.bg-emerald-100 *,
+      button[class*="bg-emerald-100"] * {
+        background-color: #dcfce7 !important;
+        color: #15803d !important;
+        -webkit-text-fill-color: #15803d !important;
+        border-color: #86efac !important;
+        font-weight: 800 !important;
+      }
+
+      /* High Contrast Case USB Port When Plugged In */
+      .port-plugged,
+      [class*="port-plugged"],
+      div.bg-emerald-600 {
+        background-color: #16a34a !important;
+        border: 2px solid #15803d !important;
+        box-shadow: 0 0 10px rgba(22, 163, 74, 0.4) !important;
+      }
+      .port-plugged span,
+      [class*="port-plugged"] span,
+      div.bg-emerald-600 span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        font-weight: 900 !important;
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px !important;
+      }
+
+      /* Soothing Mint & Teal Badges */
+      .bg-teal-50,
+      [class*="bg-teal-50"] {
+        background-color: #f0fdfa !important;
+        border: 1px solid #99f6e4 !important;
+        color: #115e59 !important;
+        -webkit-text-fill-color: #115e59 !important;
       }
 
       /* Specific Case Ports Box Alignment */
@@ -655,10 +868,3 @@
       .space-y-3 > :not([hidden]) ~ :not([hidden]) {
         margin-top: 0.4rem !important;
       }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script src="./assets/index-DURFEJ-r.js"></script>
-  </body>
-</html>

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
               title: '🚀 GM1: Quy Trình Xử Lý Sự Cố Kết Nối Internet',
               desc: '18 Bài thực hành mô phỏng chuẩn quốc tế IC3 GS6 Level 1 (Khắc phục sự cố mạng, thuật ngữ HĐH, thiết bị, bảo mật...)',
               isClonedLab: true,
-              src: './lab1_thcs_lv1_gm1.html'
+              src: './thcs_lv1_gm1.html'
             },
             GM2: {
               title: '🎮 GM2: Trò Chơi Ôn Tập & Thách Thức Kiến Thức LV1',
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentState.level === 'thcs_lv1' && currentState.module === 'GM1') {
       // Render Cloned Lab SPA inside Iframe
       viewerContainer.innerHTML = `
-        <iframe src="./lab1_thcs_lv1_gm1.html" class="lab-iframe" title="THCS Level 1 GM1 Lab" style="zoom: ${currentState.zoomLevel / 100}"></iframe>
+        <iframe src="./thcs_lv1_gm1.html" class="lab-iframe" title="THCS Level 1 GM1 Lab" style="zoom: ${currentState.zoomLevel / 100}"></iframe>
       `;
     } else {
       // Render Dashboard Grid for Other Courses
