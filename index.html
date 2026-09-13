@@ -568,13 +568,15 @@
       <button class="btn-icon" id="btn-toggle-sidebar" title="Ẩn/Hiện Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
-      <div class="brand-logo">
-        <i class="fa-solid fa-graduation-cap"></i>
-      </div>
-      <div class="brand-title">
-        <h1>LAB TIN HỌC & IC3 GS6</h1>
-        <p>Cổng Giảng Dạy Học Sinh</p>
-      </div>
+      <a href="https://thuananwork.github.io/ic3-gs6-labs" title="Về trang chủ" style="display: flex; align-items: center; gap: 14px; text-decoration: none; color: inherit; cursor: pointer;">
+        <div class="brand-logo">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="brand-title">
+          <h1>LAB TIN HỌC & IC3 GS6</h1>
+          <p>Cổng Giảng Dạy Học Sinh</p>
+        </div>
+      </a>
     </div>
 
     <div class="header-actions">
@@ -792,7 +794,7 @@
     <main class="main-stage">
       <div class="viewer-container" id="viewer-container">
         <div class="lab-frame-wrapper">
-          <iframe src="./thcs_lv1_gm1.html" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab"></iframe>
+          <iframe src="./thcs_lv1_gm1.html?v=2" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab" onload="onIframeLoaded(this)"></iframe>
         </div>
       </div>
     </main>
@@ -928,28 +930,39 @@
 
       // Check if iframe exists in viewerContainer
       let iframe = document.getElementById('lab-iframe');
+      const targetSrc = `./thcs_lv1_gm1.html?v=2#lab-${labId}`;
       if (!iframe || !iframe.src.includes('thcs_lv1_gm1.html')) {
         viewerContainer.innerHTML = `
           <div class="lab-frame-wrapper">
-            <iframe src="./thcs_lv1_gm1.html" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab"></iframe>
+            <iframe src="${targetSrc}" class="lab-iframe" id="lab-iframe" title="THCS Level 1 GM1 Lab" onload="onIframeLoaded(this)"></iframe>
           </div>
         `;
         iframe = document.getElementById('lab-iframe');
-        iframe.onload = () => {
-          applyIframeLab(iframe, labId);
-          applyZoomToIframe();
-        };
       } else {
+        try {
+          if (iframe.contentWindow && iframe.contentWindow.location) {
+            iframe.contentWindow.location.hash = `#lab-${labId}`;
+          }
+        } catch(e) {}
         applyIframeLab(iframe, labId);
       }
     }
 
+    function onIframeLoaded(iframe) {
+      applyIframeLab(iframe, currentLabId);
+      applyZoomToIframe();
+    }
+
     function applyIframeLab(iframe, labId) {
+      if (!iframe) iframe = document.getElementById('lab-iframe');
+      if (!iframe) return;
+
       function send() {
         try {
-          if (iframe.contentWindow && typeof iframe.contentWindow.setLab === 'function') {
-            iframe.contentWindow.setLab(labId);
-          } else if (iframe.contentWindow) {
+          if (iframe.contentWindow) {
+            if (typeof iframe.contentWindow.setLab === 'function') {
+              iframe.contentWindow.setLab(labId);
+            }
             iframe.contentWindow.postMessage({ type: 'SET_LAB', labId: labId }, '*');
           }
         } catch (e) {
@@ -959,9 +972,16 @@
         }
       }
       send();
-      setTimeout(send, 80);
-      setTimeout(send, 250);
+      [60, 150, 300, 600, 1000, 1800, 2500].forEach(t => setTimeout(send, t));
     }
+
+    // Listen for readiness from child iframe
+    window.addEventListener('message', (e) => {
+      if (e.data && e.data.type === 'LAB_READY') {
+        const iframe = document.getElementById('lab-iframe');
+        if (iframe) applyIframeLab(iframe, currentLabId);
+      }
+    });
 
     // Toggle Section
     function toggleSection(secId) {
