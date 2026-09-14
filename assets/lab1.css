@@ -6,7 +6,6 @@
       /* 1. Harmonious Typography & Base Scale */
       html {
         font-size: 14px;
-        scroll-behavior: smooth;
       }
 
       html, body {
@@ -210,6 +209,175 @@
       button[class*="bg-emerald-"] svg {
         color: #ffffff !important;
         stroke: #ffffff !important;
+      }
+
+      /* Dark Action Buttons (slate-950, slate-900, slate-850, bg-black) */
+      button.bg-slate-950,
+      button.bg-slate-900,
+      button.bg-slate-850,
+      button.bg-slate-800,
+      button.bg-black,
+      :not(.dark) main button.bg-slate-950,
+      :not(.dark) main button.bg-slate-900,
+      :not(.dark) main button.bg-slate-850,
+      :not(.dark) main button.bg-slate-800,
+      :not(.dark) main button.bg-black {
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border: 1px solid #1e293b !important;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+      }
+
+      button.bg-slate-950:hover,
+      button.bg-slate-900:hover,
+      button.bg-slate-850:hover,
+      button.bg-slate-800:hover,
+      button.bg-black:hover,
+      :not(.dark) main button.bg-slate-950:hover,
+      :not(.dark) main button.bg-slate-900:hover {
+        background-color: #1e293b !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      button.bg-slate-950 *,
+      button.bg-slate-900 *,
+      button.bg-slate-850 *,
+      button.bg-slate-800 *,
+      button.bg-black *,
+      :not(.dark) main button.bg-slate-950 *,
+      :not(.dark) main button.bg-slate-900 * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      button.bg-slate-950 svg.text-emerald-400,
+      button.bg-slate-900 svg.text-emerald-400,
+      button.bg-slate-950 svg[class*="text-emerald"],
+      button.bg-slate-900 svg[class*="text-emerald"],
+      :not(.dark) main button.bg-slate-950 svg.text-emerald-400,
+      :not(.dark) main button.bg-slate-900 svg.text-emerald-400 {
+        color: #34d399 !important;
+        fill: #34d399 !important;
+        -webkit-text-fill-color: #34d399 !important;
+      }
+
+      /* Step Card Buttons on Left */
+      .step-card:not(.active) {
+        background-color: #ffffff !important;
+        color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
+        border: 1px solid #e2e8f0 !important;
+      }
+      .step-card:not(.active) span,
+      .step-card:not(.active) div,
+      .step-card:not(.active) p {
+        color: #1e293b !important;
+        -webkit-text-fill-color: #1e293b !important;
+      }
+      .step-card:not(.active):hover {
+        background-color: #f8fafc !important;
+        border-color: #cbd5e1 !important;
+      }
+      .step-card.active {
+        background-color: #2563eb !important;
+        border-color: #2563eb !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.25) !important;
+      }
+      .step-card.active * {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+      }
+
+      /* Navigation Buttons (Trước đó, Tiếp theo) */
+      button.bg-slate-200 {
+        background-color: #e2e8f0 !important;
+        color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
+        border: 1px solid #cbd5e1 !important;
+        font-weight: 700 !important;
+      }
+      button.bg-slate-200:hover:not(:disabled) {
+        background-color: #cbd5e1 !important;
+        color: #0f172a !important;
+        -webkit-text-fill-color: #0f172a !important;
+      }
+      button:disabled {
+        background-color: #f1f5f9 !important;
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+        border-color: #e2e8f0 !important;
+        cursor: not-allowed !important;
+        opacity: 0.65 !important;
+      }
+
+      /* Authentic High-Contrast Terminal Windows (Command Prompt / Powershell / Bash) */
+      :not(.dark) main div.bg-black,
+      :not(.dark) main div[class*="bg-black"],
+      :not(.dark) main div.font-mono.bg-black,
+      .dark main div.bg-black,
+      .bg-black,
+      [class*="bg-black"],
+      div[class*="font-mono"].bg-black {
+        background-color: #0c0f17 !important;
+        color: #f8fafc !important;
+        border: 2px solid #334155 !important;
+        box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6) !important;
+      }
+      
+      :not(.dark) main div.bg-black *,
+      .bg-black * {
+        box-sizing: border-box;
+      }
+
+      /* Command Prompt Top Bar & Header */
+      .bg-black .border-emerald-900,
+      .bg-black .border-b {
+        border-color: #1e293b !important;
+      }
+      .bg-black .text-emerald-500,
+      .bg-black .text-emerald-400,
+      .bg-black .text-emerald-600,
+      .bg-black .text-emerald-700 {
+        color: #4ade80 !important;
+        -webkit-text-fill-color: #4ade80 !important;
+        font-weight: 800 !important;
+      }
+
+      /* Terminal Inner Text Output (High contrast white / silver on black) */
+      .bg-black p,
+      .bg-black p.font-bold,
+      .bg-black p.whitespace-pre-wrap,
+      .bg-black span:not([class*="bg-"]),
+      .bg-black code,
+      .bg-black pre {
+        color: #f8fafc !important;
+        -webkit-text-fill-color: #f8fafc !important;
+        font-family: 'Consolas', 'Courier New', monospace !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+      }
+
+      /* Placeholder / Waiting message */
+      .bg-black .animate-pulse,
+      .bg-black p.font-extrabold {
+        color: #6ee7b7 !important;
+        -webkit-text-fill-color: #6ee7b7 !important;
+      }
+
+      /* Terminal Status text */
+      .bg-black .text-rose-400,
+      .bg-black .text-rose-500 {
+        color: #f87171 !important;
+        -webkit-text-fill-color: #f87171 !important;
+      }
+      .bg-black .text-amber-400,
+      .bg-black .text-amber-500 {
+        color: #fbbf24 !important;
+        -webkit-text-fill-color: #fbbf24 !important;
       }
 
       /* ========================================================================= */
@@ -867,4 +1035,166 @@
       }
       .space-y-3 > :not([hidden]) ~ :not([hidden]) {
         margin-top: 0.4rem !important;
+      }
+
+      /* ========================================================================= */
+      /* LAB 19 (MALWARE SIMULATION): COMFORTABLE SOFT CONTRAST                    */
+      /* ========================================================================= */
+      .bg-red-950,
+      div.rounded-3xl.bg-red-950 {
+        background-color: #1e1316 !important;
+        border: 1.5px solid rgba(239, 68, 68, 0.45) !important;
+      }
+
+      .bg-red-950 div[class*="bg-black"],
+      .bg-red-950 .bg-black\/40 {
+        background-color: #161c28 !important;
+        border-color: rgba(239, 68, 68, 0.25) !important;
+      }
+
+      .bg-red-950 .text-slate-300 {
+        color: #93c5fd !important;
+        font-weight: 600 !important;
+      }
+
+      .bg-red-950 div:nth-child(2) .text-slate-300 {
+        color: #a7f3d0 !important;
+        font-weight: 600 !important;
+      }
+
+      .bg-red-950 p[class*="text-slate-400"] {
+        color: #fde047 !important;
+        font-weight: 600 !important;
+      }
+
+      .bg-red-950 h4 + p.text-slate-400 {
+        color: #e2e8f0 !important;
+      }
+
+      .bg-red-950 .bg-black\/25,
+      .bg-red-950 div[class*="bg-black/25"] {
+        background-color: #172033 !important;
+        border: 1px solid rgba(248, 113, 113, 0.3) !important;
+        color: #cbd5e1 !important;
+      }
+
+      .bg-red-950 .bg-black\/25 strong,
+      .bg-red-950 div[class*="bg-black/25"] strong {
+        color: #fbbf24 !important;
+      }
+
+      /* General dark container typography */
+      .bg-slate-950 {
+        background-color: #0f172a !important;
+      }
+      .text-slate-300 {
+        color: #cbd5e1 !important;
+      }
+      .text-slate-400 {
+        color: #94a3b8 !important;
+      }
+
+
+      /* Lab 19: Ergonomic Soft-Contrast Spyware Dashboard & Simulation */
+      .spyware-hacker-dashboard {
+        background-color: #141a29 !important;
+        border: 1px solid rgba(244, 63, 94, 0.35) !important;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4) !important;
+      }
+      .spyware-terminal-comment {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+      }
+      .spyware-box {
+        background-color: #1c2538 !important;
+        border: 1px solid rgba(148, 163, 184, 0.25) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+      }
+      .spyware-box * {
+        box-sizing: border-box;
+      }
+      .spyware-box .spyware-label {
+        color: #cbd5e1 !important;
+        -webkit-text-fill-color: #cbd5e1 !important;
+        font-weight: 700 !important;
+      }
+      .spyware-box .spyware-empty {
+        color: #94a3b8 !important;
+        -webkit-text-fill-color: #94a3b8 !important;
+        font-style: italic !important;
+        font-weight: 400 !important;
+      }
+      .spyware-box .spyware-account {
+        color: #fde047 !important;
+        -webkit-text-fill-color: #fde047 !important;
+        font-weight: 800 !important;
+      }
+      .spyware-box .spyware-password {
+        color: #fb7185 !important;
+        -webkit-text-fill-color: #fb7185 !important;
+        font-weight: 800 !important;
+      }
+      .spyware-hijack-card {
+        background-color: #171a26 !important;
+        border: 1px solid rgba(244, 63, 94, 0.3) !important;
+      }
+      .spyware-hijack-card h6 {
+        color: #fb7185 !important;
+        -webkit-text-fill-color: #fb7185 !important;
+      }
+      .spyware-hijack-card p {
+        color: #cbd5e1 !important;
+        -webkit-text-fill-color: #cbd5e1 !important;
+      }
+      .spyware-url-item {
+        background-color: #202637 !important;
+        border: 1px solid rgba(244, 63, 94, 0.25) !important;
+      }
+      .spyware-url-item span {
+        color: #93c5fd !important;
+        -webkit-text-fill-color: #93c5fd !important;
+      }
+      .spyware-altered-card {
+        background-color: #1b1922 !important;
+        border: 1px solid rgba(251, 146, 60, 0.3) !important;
+      }
+      .spyware-altered-card h6 {
+        color: #fb923c !important;
+        -webkit-text-fill-color: #fb923c !important;
+      }
+      .spyware-altered-card p {
+        color: #cbd5e1 !important;
+        -webkit-text-fill-color: #cbd5e1 !important;
+      }
+      .spyware-altered-card li {
+        color: #fdba74 !important;
+        -webkit-text-fill-color: #fdba74 !important;
+      }
+      .spyware-altered-card li span {
+        color: #fde047 !important;
+        -webkit-text-fill-color: #fde047 !important;
+        font-weight: 700 !important;
+      }
+
+      .spyware-hacker-dashboard h5,
+      .spyware-hacker-dashboard h4,
+      .spyware-hacker-dashboard h6 {
+        color: #fb7185 !important;
+        -webkit-text-fill-color: #fb7185 !important;
+      }
+      .spyware-hijack-card h6,
+      .spyware-hijack-card h5 {
+        color: #fb7185 !important;
+        -webkit-text-fill-color: #fb7185 !important;
+      }
+      .spyware-altered-card h6,
+      .spyware-altered-card h5 {
+        color: #fb923c !important;
+        -webkit-text-fill-color: #fb923c !important;
+      }
+      .bg-red-950 h4,
+      .bg-red-950 h5,
+      .bg-red-950 h6 {
+        color: #f87171 !important;
+        -webkit-text-fill-color: #f87171 !important;
       }

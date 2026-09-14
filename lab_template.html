@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mẫu Bài Lab Thực Hành Chuẩn IC3 GS6 - Tin Học Đại Dương</title>
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* ========================================================================= */
+    /* 1. HỆ THỐNG BIẾN MÀU SẮC & GIAO DIỆN TƯƠNG PHẢN CAO                      */
+    /* ========================================================================= */
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --primary-subtle: #eff6ff;
+      --primary-border: #bfdbfe;
+
+      --dark-btn: #0f172a;
+      --dark-btn-hover: #1e293b;
+
+      --success: #16a34a;
+      --success-hover: #15803d;
+      --success-subtle: #f0fdf4;
+      --success-border: #bbf7d0;
+
+      --danger: #e11d48;
+      --danger-hover: #be123c;
+      --danger-subtle: #fff1f2;
+      --danger-border: #fecdd3;
+
+      --warning: #d97706;
+      --warning-hover: #b45309;
+      --warning-subtle: #fffbeb;
+      --warning-border: #fde68a;
+
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-subtle: #f1f5f9;
+      --text-main: #0f172a;
+      --text-body: #334155;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 14px;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-body);
+      padding: 16px 20px 60px 20px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; border: 2px solid #f1f5f9; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    .lab-container {
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* ========================================================================= */
+    /* 2. HEADER MỤC TIÊU BÀI LAB (GOAL BANNER)                                   */
+    /* ========================================================================= */
+    .lab-goal-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .lab-goal-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .lab-goal-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    }
+
+    .lab-goal-text h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 2px;
+    }
+
+    .lab-goal-text p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .lab-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 700;
+      background: var(--primary-subtle);
+      border: 1px solid var(--primary-border);
+      color: var(--primary);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .lab-status-badge.completed {
+      background: var(--success-subtle);
+      border-color: var(--success-border);
+      color: var(--success);
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+      display: inline-block;
+      animation: pulse 1.8s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    /* ========================================================================= */
+    /* 3. KHUNG BỐ CỤC CHÍNH (2 CỘT: DANH SÁCH BƯỚC & KHÔNG GIAN THỰC HÀNH)      */
+    /* ========================================================================= */
+    .lab-main-layout {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) {
+      .lab-main-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Cột trái: Danh sách các bước */
+    .steps-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .step-item-btn {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      color: var(--text-main);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      text-align: left;
+      transition: all 0.2s ease;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .step-item-btn:hover {
+      border-color: var(--primary-border);
+      background: var(--primary-subtle);
+      transform: translateY(-1px);
+    }
+
+    .step-item-btn.active {
+      background: var(--primary) !important;
+      border-color: var(--primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .step-item-btn.active * {
+      color: #ffffff !important;
+    }
+
+    .step-left-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+      flex-1;
+    }
+
+    .step-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--surface-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      color: var(--text-body);
+    }
+
+    .step-item-btn.active .step-icon-box {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .step-title-text {
+      font-weight: 700;
+      font-size: 0.92rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step-tag-badge {
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: var(--surface-subtle);
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .step-item-btn.active .step-tag-badge {
+      background: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+    }
+
+    .step-item-btn.done .step-tag-badge {
+      background: var(--success-subtle);
+      color: var(--success);
+    }
+
+    /* ========================================================================= */
+    /* 4. KHU VỰC THỰC HÀNH TƯƠNG TÁC (INTERACTIVE STAGE)                       */
+    /* ========================================================================= */
+    .stage-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: var(--shadow-sm);
+      min-height: 480px;
+    }
+
+    .stage-header {
+      border-bottom: 1.5px solid var(--border);
+      padding-bottom: 14px;
+    }
+
+    .stage-header .stage-sub {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--primary);
+      letter-spacing: 0.05em;
+    }
+
+    .stage-header h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-top: 4px;
+    }
+
+    .stage-header p {
+      font-size: 0.94rem;
+      color: var(--text-body);
+      margin-top: 4px;
+    }
+
+    /* Khung Tình Huống Thực Tế */
+    .scenario-box {
+      background: #fffbeb;
+      border: 1.5px solid #fde68a;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .scenario-box i {
+      color: #d97706;
+      font-size: 1.15rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .scenario-box h5 {
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: #92400e;
+    }
+
+    .scenario-box p {
+      font-size: 0.9rem;
+      color: #78350f;
+      margin-top: 3px;
+      line-height: 1.5;
+    }
+
+    /* ========================================================================= */
+    /* 5. CÁC KIỂU MÔ PHỎNG TƯƠNG TÁC (SIMULATION TYPES)                        */
+    /* ========================================================================= */
+
+    /* Type A: Thiết bị vật lý & Thao tác cắm/bật */
+    .devices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .device-card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+      transition: all 0.2s;
+    }
+
+    .device-card.on {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .device-card.off {
+      border-color: #fecdd3;
+      background: #fff1f2;
+    }
+
+    .device-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .device-header i {
+      font-size: 1.5rem;
+    }
+
+    .device-card.on .device-header i { color: var(--success); }
+    .device-card.off .device-header i { color: var(--danger); }
+
+    .device-status-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .device-card.on .device-status-dot { background: var(--success); }
+    .device-card.off .device-status-dot { background: var(--danger); }
+
+    .device-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .device-desc {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-top: 2px;
+    }
+
+    /* Type B: Cửa sổ Giả lập Terminal / Command Prompt */
+    .terminal-window {
+      background: #090d16;
+      border: 2px solid #1e293b;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-family: 'Consolas', 'Courier New', monospace;
+      color: #e2e8f0;
+      box-shadow: var(--shadow-md);
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 8px;
+    }
+
+    .terminal-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .terminal-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .terminal-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #4ade80;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .terminal-body {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      overflow-y: auto;
+      max-height: 220px;
+      white-space: pre-wrap;
+    }
+
+    .terminal-prompt {
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    /* Type C: Ghép nối thuật ngữ (Matching Cards) */
+    .matching-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 650px) {
+      .matching-container { grid-template-columns: 1fr; }
+    }
+
+    .match-card {
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+    }
+
+    .match-card:hover {
+      border-color: var(--primary);
+      background: var(--primary-subtle);
+    }
+
+    .match-card.selected {
+      background: var(--primary-subtle);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .match-card.matched {
+      background: var(--success-subtle);
+      border-color: var(--success);
+      color: var(--success);
+      cursor: default;
+    }
+
+    /* ========================================================================= */
+    /* 6. HỆ THỐNG NÚT HÀNH ĐỘNG TƯƠNG PHẢN CỰC CAO (WCAG AAA)                   */
+    /* ========================================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn:active {
+      transform: scale(0.97);
+    }
+
+    /* Nút Đen Xanh Đậm (Dark Action Button - cho chạy chẩn đoán / thực thi) */
+    .btn-dark {
+      background: var(--dark-btn) !important;
+      color: #ffffff !important;
+      border: 1px solid #1e293b !important;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-dark:hover {
+      background: var(--dark-btn-hover) !important;
+    }
+
+    .btn-dark i {
+      color: #34d399; /* Icon xanh ngọc sáng */
+    }
+
+    /* Nút Xanh Dương (Primary Button) */
+    .btn-primary {
+      background: var(--primary) !important;
+      color: #ffffff !important;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-hover) !important;
+    }
+
+    /* Nút Xanh Lá (Success Button) */
+    .btn-success {
+      background: var(--success) !important;
+      color: #ffffff !important;
+    }
+
+    .btn-success:hover {
+      background: var(--success-hover) !important;
+    }
+
+    /* Nút Đỏ (Danger Button) */
+    .btn-danger {
+      background: var(--danger) !important;
+      color: #ffffff !important;
+    }
+
+    .btn-danger:hover {
+      background: var(--danger-hover) !important;
+    }
+
+    /* Nút Vàng Cam (Warning Button) */
+    .btn-warning {
+      background: var(--warning) !important;
+      color: #ffffff !important;
+    }
+
+    .btn-warning:hover {
+      background: var(--warning-hover) !important;
+    }
+
+    /* Nút Thứ Cấp (Secondary Button) */
+    .btn-secondary {
+      background: var(--surface-subtle) !important;
+      color: var(--text-main) !important;
+      border: 1px solid var(--border-strong) !important;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #e2e8f0 !important;
+    }
+
+    .btn:disabled {
+      background: #f1f5f9 !important;
+      color: #94a3b8 !important;
+      border: 1px solid #e2e8f0 !important;
+      cursor: not-allowed !important;
+      opacity: 0.65;
+      transform: none !important;
+    }
+
+    /* Khung điều khiển hành động */
+    .actions-panel {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feedback-text {
+      font-size: 0.92rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .feedback-text.success { color: var(--success); }
+    .feedback-text.danger { color: var(--danger); }
+    .feedback-text.info { color: var(--text-muted); }
+
+    /* ========================================================================= */
+    /* 7. THANH ĐIỀU HƯỚNG CUỐI TRANG (BOTTOM NAV)                                */
+    /* ========================================================================= */
+    .stage-footer {
+      border-top: 1.5px solid var(--border);
+      padding-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .footer-lab-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .nav-buttons-group {
+      display: flex;
+      gap: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="lab-container">
+
+    <!-- 1. MỤC TIÊU BÀI LAB -->
+    <header class="lab-goal-card">
+      <div class="lab-goal-info">
+        <div class="lab-goal-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="lab-goal-text">
+          <h2 id="labTitleDisplay">Mục Tiêu Lab: [Tên Bài Lab Mới]</h2>
+          <p id="labDescDisplay">Hoàn thành đầy đủ các hoạt động thực hành dưới đây để nắm vững kỹ năng chuẩn quốc tế IC3 GS6.</p>
+        </div>
+      </div>
+      <div class="lab-status-badge" id="labStatusBadge">
+        <span class="pulse-dot"></span>
+        <span id="labStatusText">Đang thực hành</span>
+      </div>
+    </header>
+
+    <!-- 2. KHUNG BỐ CỤC CHÍNH -->
+    <main class="lab-main-layout">
+
+      <!-- CỘT TRÁI: CÁC BƯỚC THỰC HÀNH -->
+      <aside class="steps-sidebar" id="stepsContainer">
+        <!-- ĐƯỢC SINH TỰ ĐỘNG BẰNG JAVASCRIPT TỪ MẢNG DỮ LIỆU BÊN DƯỚI -->
+      </aside>
+
+      <!-- CỘT PHẢI: KHÔNG GIAN THỰC HÀNH TƯƠNG TÁC -->
+      <section class="stage-card">
+
+        <!-- TIÊU ĐỀ BƯỚC HIỆN TẠI -->
+        <div class="stage-header">
+          <span class="stage-sub" id="currentStepSub">BƯỚC THỰC HÀNH #01</span>
+          <h3 id="currentStepTitle">Tiêu đề bước thực hành</h3>
+          <p id="currentStepDesc">Mô tả hướng dẫn học sinh thao tác trực quan.</p>
+        </div>
+
+        <!-- TÌNH HUỐNG THỰC TẾ -->
+        <div class="scenario-box" id="scenarioBox">
+          <i class="fa-solid fa-lightbulb"></i>
+          <div>
+            <h5 id="scenarioTitle">Tình huống thực tế:</h5>
+            <p id="scenarioText">Mô tả tình huống công việc hoặc sự cố thực tế để học sinh tìm hướng giải quyết.</p>
+          </div>
+        </div>
+
+        <!-- KHUNG CHỨA GIAO DIỆN TƯƠNG TÁC ĐỘNG -->
+        <div id="interactiveWorkspace">
+          <!-- Nội dung mô phỏng (Thiết bị, Terminal, hoặc Ghép nối) sẽ được render ở đây -->
+        </div>
+
+        <!-- BẢNG ĐIỀU KHIỂN HÀNH ĐỘNG & BÁO KẾT QUẢ -->
+        <div class="actions-panel">
+          <div id="actionButtonsContainer">
+            <!-- Nút hành động chính (Ví dụ: Chạy kiểm tra, Thực thi lệnh...) -->
+            <button class="btn btn-dark" id="btnRunAction" onclick="executeCurrentStepAction()">
+              <i class="fa-solid fa-play"></i>
+              <span id="btnRunActionText">Chạy Kiểm Tra Thực Tế</span>
+            </button>
+          </div>
+
+          <div class="feedback-text info" id="feedbackText">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>Nhấp nút để thực hiện thao tác đo kiểm.</span>
+          </div>
+        </div>
+
+        <!-- THANH ĐIỀU HƯỚNG BƯỚC DƯỚI CÙNG -->
+        <footer class="stage-footer">
+          <span class="footer-lab-title" id="footerLabTitle">Chương trình chuẩn IC3 GS6</span>
+          <div class="nav-buttons-group">
+            <button class="btn btn-secondary" id="btnPrevStep" onclick="navigateStep(-1)" disabled>
+              <i class="fa-solid fa-chevron-left"></i> Trước đó
+            </button>
+            <button class="btn btn-secondary" id="btnNextStep" onclick="navigateStep(1)">
+              Tiếp theo <i class="fa-solid fa-chevron-right"></i>
+            </button>
+          </div>
+        </footer>
+
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 8. TOÀN BỘ LOGIC JAVASCRIPT THUẦN SẠCH & DỄ TÙY BIẾN                    -->
+  <!-- ========================================================================= */ -->
+  <script>
+    /* =========================================================================
+       1. CẤU HÌNH DỮ LIỆU BÀI LAB (DỄ DÀNG CHỈNH SỬA CHO MỌI LAB MỚI)
+       ========================================================================= */
+    const labConfig = {
+      id: 26,
+      title: "Lab 26 - Cấu hình & Quản trị Mạng Không Dây Chuẩn IC3 GS6",
+      desc: "Thực hành chẩn đoán, thiết lập mã hoá WiFi WPA3 và bảo mật mạng gia đình.",
+      steps: [
+        {
+          id: 1,
+          tag: "#01",
+          icon: "fa-solid fa-wifi",
+          sub: "KẾT NỐI VẬT LÝ & TẦNG SÓNG",
+          title: "Kiểm tra Băng tần WiFi (2.4GHz & 5GHz)",
+          desc: "Phân biệt ưu nhược điểm giữa băng tần 2.4GHz (sóng xa, xuyên tường) và 5GHz (tốc độ cao, tầm gần).",
+          scenario: {
+            title: "Tình huống thực tế:",
+            text: "Phòng học ở tầng 2 bị chập chờn khi kết nối mạng 5GHz do cách xa Router và qua 2 lớp tường bê tông dày."
+          },
+          type: "devices", // 'devices', 'terminal', hoặc 'matching'
+          deviceStates: {
+            band24: true,
+            band5: false,
+            wpa3: true
+          }
+        },
+        {
+          id: 2,
+          tag: "#02",
+          icon: "fa-solid fa-terminal",
+          sub: "CÔNG CỤ HỆ THỐNG",
+          title: "Sử dụng lệnh netsh wlan show interfaces",
+          desc: "Đo lường cường độ tín hiệu sóng WiFi (Signal Strength %) và loại mã hoá bảo mật đang sử dụng.",
+          scenario: {
+            title: "Yêu cầu kỹ thuật:",
+            text: "Cần kiểm tra xem máy tính học sinh đang bắt sóng ở chuẩn WiFi nào (802.11ax hay 802.11ac) và cường độ đạt bao nhiêu %."
+          },
+          type: "terminal"
+        },
+        {
+          id: 3,
+          tag: "#03",
+          icon: "fa-solid fa-shield-halved",
+          sub: "BẢO MẬT KHÔNG DÂY",
+          title: "Ghép nối các Chuẩn Bảo mật WiFi",
+          desc: "Ghép đúng 4 chuẩn bảo mật WiFi (WEP, WPA, WPA2, WPA3) với mức độ an toàn tương ứng chuẩn đề thi.",
+          scenario: {
+            title: "Cảnh báo an toàn số:",
+            text: "Một số thiết bị cũ vẫn đặt mật khẩu dạng WEP rất dễ bị phần mềm dò quét bẻ khoá chỉ trong 3 phút!"
+          },
+          type: "matching"
+        }
+      ]
+    };
+
+    /* =========================================================================
+       2. BIẾN QUẢN LÝ TRẠNG THÁI HIỆN TẠI (STATE)
+       ========================================================================= */
+    let currentStepIndex = 0;
+    const completedSteps = new Set();
+
+    /* =========================================================================
+       3. KHỞI TẠO BÀI LAB (INIT)
+       ========================================================================= */
+    function initLab() {
+      // 1. Cập nhật tiêu đề & mô tả bài Lab
+      document.getElementById('labTitleDisplay').innerText = labConfig.title;
+      document.getElementById('labDescDisplay').innerText = labConfig.desc;
+      document.getElementById('footerLabTitle').innerText = labConfig.title;
+
+      // 2. Render danh sách các bước ở cột trái
+      renderStepsList();
+
+      // 3. Hiển thị nội dung bước đầu tiên
+      loadStep(0);
+
+      // 4. Báo cho cửa sổ cha (Portal index.html) biết Lab đã sẵn sàng
+      try {
+        if (window.parent && window.parent !== window) {
+          window.parent.postMessage({ type: 'LAB_READY', labId: labConfig.id }, '*');
+        }
+      } catch (e) {}
+    }
+
+    /* =========================================================================
+       4. RENDER DANH SÁCH BƯỚC BÊN TRÁI
+       ========================================================================= */
+    function renderStepsList() {
+      const container = document.getElementById('stepsContainer');
+      container.innerHTML = '';
+
+      labConfig.steps.forEach((step, index) => {
+        const btn = document.createElement('button');
+        btn.className = `step-item-btn ${index === currentStepIndex ? 'active' : ''} ${completedSteps.has(step.id) ? 'done' : ''}`;
+        btn.id = `step-btn-${step.id}`;
+        btn.onclick = () => loadStep(index);
+
+        btn.innerHTML = `
+          <div class="step-left-info">
+            <div class="step-icon-box">
+              <i class="${step.icon}"></i>
+            </div>
+            <span class="step-title-text">${step.title}</span>
+          </div>
+          <span class="step-tag-badge">${completedSteps.has(step.id) ? '<i class="fa-solid fa-check"></i>' : step.tag}</span>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    /* =========================================================================
+       5. NẠP NỘI DUNG TỪNG BƯỚC (LOAD STEP)
+       ========================================================================= */
+    function loadStep(index) {
+      currentStepIndex = index;
+      const step = labConfig.steps[index];
+
+      // Cập nhật nút active ở sidebar
+      document.querySelectorAll('.step-item-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', idx === index);
+      });
+
+      // Cập nhật thông tin Header bước
+      document.getElementById('currentStepSub').innerText = step.sub;
+      document.getElementById('currentStepTitle').innerText = step.title;
+      document.getElementById('currentStepDesc').innerText = step.desc;
+
+      // Cập nhật Tình huống
+      document.getElementById('scenarioTitle').innerText = step.scenario.title;
+      document.getElementById('scenarioText').innerText = step.scenario.text;
+
+      // Cập nhật các nút Trước đó / Tiếp theo
+      document.getElementById('btnPrevStep').disabled = (index === 0);
+      document.getElementById('btnNextStep').disabled = (index === labConfig.steps.length - 1);
+
+      // Render không gian thực hành theo kiểu (Type)
+      const workspace = document.getElementById('interactiveWorkspace');
+      const feedback = document.getElementById('feedbackText');
+      feedback.className = 'feedback-text info';
+      feedback.innerHTML = '<i class="fa-solid fa-circle-info"></i><span>Nhấp nút để thực hiện thao tác đo kiểm.</span>';
+
+      if (step.type === 'devices') {
+        renderDeviceWorkspace(workspace);
+      } else if (step.type === 'terminal') {
+        renderTerminalWorkspace(workspace);
+      } else if (step.type === 'matching') {
+        renderMatchingWorkspace(workspace);
+      }
+    }
+
+    /* =========================================================================
+       6. CÁC HÀM RENDER KHÔNG GIAN THỰC HÀNH (WORKSPACES)
+       ========================================================================= */
+
+    // Kiểu A: Mô phỏng Thiết bị & Nút Bật/Tắt
+    function renderDeviceWorkspace(container) {
+      container.innerHTML = `
+        <div class="devices-grid">
+          <div class="device-card on" id="card-band24">
+            <div class="device-header">
+              <i class="fa-solid fa-tower-broadcast"></i>
+              <span class="device-status-dot"></span>
+            </div>
+            <div>
+              <div class="device-title">1. Băng Tần 2.4GHz</div>
+              <div class="device-desc" id="text-band24">Đang phát (Phủ xa, ổn định)</div>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleDevice('band24')">Chuyển Trạng Thái</button>
+          </div>
+
+          <div class="device-card off" id="card-band5">
+            <div class="device-header">
+              <i class="fa-solid fa-bolt"></i>
+              <span class="device-status-dot"></span>
+            </div>
+            <div>
+              <div class="device-title">2. Băng Tần 5GHz (Tốc Độ Cao)</div>
+              <div class="device-desc" id="text-band5">Đang tắt (Cần bật cho phòng gần)</div>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleDevice('band5')">Bật Băng Tần 5GHz</button>
+          </div>
+
+          <div class="device-card on" id="card-wpa3">
+            <div class="device-header">
+              <i class="fa-solid fa-lock"></i>
+              <span class="device-status-dot"></span>
+            </div>
+            <div>
+              <div class="device-title">3. Chuẩn Mã Hoá WiFi</div>
+              <div class="device-desc" id="text-wpa3">WPA3-Personal (Cực kỳ an toàn)</div>
+            </div>
+            <button class="btn btn-secondary" onclick="toggleDevice('wpa3')">Đổi Mã Hoá</button>
+          </div>
+        </div>
+      `;
+
+      // Cập nhật nút Chạy
+      document.getElementById('btnRunActionText').innerText = "Chẩn Đoán Kết Nối WiFi";
+    }
+
+    function toggleDevice(key) {
+      const card = document.getElementById(`card-${key}`);
+      const isCurrentlyOn = card.classList.contains('on');
+      card.classList.toggle('on', !isCurrentlyOn);
+      card.classList.toggle('off', isCurrentlyOn);
+
+      const desc = document.getElementById(`text-${key}`);
+      if (key === 'band5') {
+        desc.innerText = !isCurrentlyOn ? "Đang phát (Tốc độ lên tới 1200 Mbps)" : "Đang tắt";
+      }
+    }
+
+    // Kiểu B: Cửa sổ Giả lập Command Prompt
+    function renderTerminalWorkspace(container) {
+      container.innerHTML = `
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <div class="terminal-dots">
+              <span class="terminal-dot" style="background:#ef4444;"></span>
+              <span class="terminal-dot" style="background:#f59e0b;"></span>
+              <span class="terminal-dot" style="background:#10b981;"></span>
+            </div>
+            <span class="terminal-title">Windows PowerShell / Command Prompt (Admin)</span>
+            <span style="width: 40px;"></span>
+          </div>
+          <div class="terminal-body" id="terminalOutput">
+<span class="terminal-prompt">PS C:\\Users\\Student></span> Nhấp nút bên dưới để thực thi lệnh chẩn đoán WiFi...
+          </div>
+        </div>
+      `;
+
+      // Cập nhật nút Chạy
+      document.getElementById('btnRunActionText').innerText = "Chạy lệnh: netsh wlan show interfaces";
+    }
+
+    // Kiểu C: Ghép nối thuật ngữ
+    function renderMatchingWorkspace(container) {
+      container.innerHTML = `
+        <div class="matching-container">
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <h5 style="font-weight:700; color:var(--text-main); margin-bottom:4px;">Thuật Ngữ:</h5>
+            <div class="match-card" onclick="selectMatch(this, 'WEP')">1. WEP (Wired Equivalent Privacy)</div>
+            <div class="match-card" onclick="selectMatch(this, 'WPA')">2. WPA (Wi-Fi Protected Access)</div>
+            <div class="match-card" onclick="selectMatch(this, 'WPA2')">3. WPA2 (AES Encryption)</div>
+            <div class="match-card" onclick="selectMatch(this, 'WPA3')">4. WPA3 (SAE - Chuẩn Mới Nhất)</div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <h5 style="font-weight:700; color:var(--text-main); margin-bottom:4px;">Đặc Điểm & Định Nghĩa:</h5>
+            <div class="match-card" onclick="selectMatch(this, 'DEF_WPA3')">Chuẩn bảo mật hiện đại nhất, chống tấn công từ điển ngoại tuyến.</div>
+            <div class="match-card" onclick="selectMatch(this, 'DEF_WEP')">Chuẩn lỗi thời từ 1999, thuật toán RC4 bảo mật rất kém, tuyệt đối không dùng.</div>
+            <div class="match-card" onclick="selectMatch(this, 'DEF_WPA2')">Chuẩn phổ biến nhất hiện nay trên hầu hết gia đình, sử dụng mã hóa AES.</div>
+            <div class="match-card" onclick="selectMatch(this, 'DEF_WPA')">Chuẩn tạm thời ra đời năm 2003 để thay thế WEP, sử dụng giao thức TKIP.</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('btnRunActionText').innerText = "Kiểm Tra Ghép Nối";
+    }
+
+    let selectedTerm = null;
+    function selectMatch(el, code) {
+      if (el.classList.contains('matched')) return;
+
+      document.querySelectorAll('.match-card').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      selectedTerm = code;
+    }
+
+    /* =========================================================================
+       7. XỬ LÝ KHI BẤM NÚT HÀNH ĐỘNG (ACTION BUTTON)
+       ========================================================================= */
+    function executeCurrentStepAction() {
+      const step = labConfig.steps[currentStepIndex];
+      const feedback = document.getElementById('feedbackText');
+
+      if (step.type === 'devices') {
+        const isBand5On = document.getElementById('card-band5')?.classList.contains('on');
+        if (isBand5On) {
+          feedback.className = 'feedback-text success';
+          feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Tuyệt vời! Băng tần 5GHz đã kích hoạt, mạng phòng học đạt tốc độ tối đa!</span>';
+          markStepDone(step.id);
+        } else {
+          feedback.className = 'feedback-text danger';
+          feedback.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i><span>Băng tần 5GHz vẫn đang tắt! Hãy nhấp nút Bật để đạt tốc độ cao.</span>';
+        }
+      } else if (step.type === 'terminal') {
+        const terminal = document.getElementById('terminalOutput');
+        terminal.innerHTML = `
+<span class="terminal-prompt">PS C:\\Users\\Student> netsh wlan show interfaces</span>
+
+    There is 1 interface on the system:
+    Name                   : Wi-Fi (Intel Wi-Fi 6 AX200 160MHz)
+    Description            : Intel(R) Wi-Fi 6 AX200
+    State                  : connected
+    SSID                   : TinHocDaiDuong_5G
+    Radio type             : 802.11ax (Wi-Fi 6)
+    Authentication         : WPA3-Personal
+    Cipher                 : CCMP
+    Receive rate (Mbps)    : 1201
+    Transmit rate (Mbps)   : 1201
+    Signal                 : 98% (Rất mạnh)
+        `;
+        feedback.className = 'feedback-text success';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Lệnh thực thi thành công! Cường độ sóng đạt 98%, chuẩn WPA3 an toàn tuyệt đối.</span>';
+        markStepDone(step.id);
+      } else if (step.type === 'matching') {
+        feedback.className = 'feedback-text success';
+        feedback.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Chính xác 100%! Bạn đã nắm vững thứ tự bảo mật WEP < WPA < WPA2 < WPA3.</span>';
+        markStepDone(step.id);
+      }
+    }
+
+    function markStepDone(stepId) {
+      completedSteps.add(stepId);
+      renderStepsList();
+
+      if (completedSteps.size === labConfig.steps.length) {
+        const badge = document.getElementById('labStatusBadge');
+        badge.className = 'lab-status-badge completed';
+        badge.innerHTML = '<i class="fa-solid fa-circle-check"></i><span>Hoàn thành 100%</span>';
+
+        try {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'LAB_COMPLETED', labId: labConfig.id }, '*');
+          }
+        } catch (e) {}
+      }
+    }
+
+    /* =========================================================================
+       8. ĐIỀU HƯỚNG TRƯỚC ĐÓ / TIẾP THEO
+       ========================================================================= */
+    function navigateStep(offset) {
+      const nextIndex = currentStepIndex + offset;
+      if (nextIndex >= 0 && nextIndex < labConfig.steps.length) {
+        loadStep(nextIndex);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', initLab);
+  </script>
+</body>
+
+</html>

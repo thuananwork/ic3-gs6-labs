@@ -1,6 +1,6 @@
 /**
  * Lab 11: Phân loại Tương tác Số
- * Modular standalone component decoupled from main bundle.
+ * Modular standalone lab decoupled from main bundle.
  */
 (function () {
   window.AGY_LABS = window.AGY_LABS || {};
@@ -56,12 +56,14 @@
       Eraser,
       Eye,
       EyeOff,
+      FileCode,
       FileText,
       FileWarning,
       Film,
       Flag,
       Flame,
       Folder,
+      FolderLock,
       FolderOpen,
       FolderTree,
       Gamepad2,
@@ -76,6 +78,7 @@
       Image,
       Info,
       Key,
+      KeyRound,
       Keyboard,
       Laptop,
       Layers,
@@ -107,6 +110,7 @@
       PhoneOff,
       Play,
       Plus,
+      Power,
       Printer,
       Radio,
       React,
@@ -169,969 +173,1588 @@
       reactExports,
     } = env;
 
-    function Lab13({ onSuccess: a }) {
-      const [n, i] = reactExports.useState(0),
+    function Lab11({ onSuccess: a }) {
+      const [n, i] = reactExports.useState(1),
         [l, c] = reactExports.useState([]),
         [d, m] = reactExports.useState(!1),
-        [u, g] = reactExports.useState(!1),
-        [p, f] = reactExports.useState(!1),
-        [b, k] = reactExports.useState("mobility"),
-        [N, M] = reactExports.useState([
-          { name: "Bai_Thuyet_Trinh_Nhom.pptx", type: "doc", size: "12 MB" },
-        ]),
-        [y, I] = reactExports.useState(null),
-        [R, z] = reactExports.useState(!1),
-        [A, O] = reactExports.useState(0),
-        [L, le] = reactExports.useState(""),
-        [P, G] = reactExports.useState("doc"),
-        [ee, ce] = reactExports.useState(!0),
-        [V, pe] = reactExports.useState(!0),
-        [Ie, se] = reactExports.useState([
-          "Bao_Cao_IC3_GS6.docx",
-          "Hinh_Ky_Niem_Lop.png",
-          "Bai_Toan_Cuoi_Ky.xlsx",
-        ]),
-        [de, _] = reactExports.useState([]),
-        [U, Z] = reactExports.useState(null),
-        [be, he] = reactExports.useState(!1),
-        [E, v] = reactExports.useState(100),
-        [K, te] = reactExports.useState([]),
-        [je, Se] = reactExports.useState(!1),
-        [He, Xe] = reactExports.useState(!1),
-        [Qe, qe] = reactExports.useState(!1),
-        [at, ze] = reactExports.useState("conn"),
-        [De, tt] = reactExports.useState(!0),
-        [it, oe] = reactExports.useState(!1),
-        [ie, ge] = reactExports.useState([
-          "[Hệ thống] Internet đang hoạt động bình thường.",
-          "[Đồng bộ] Đang kết nối ổn định đến Cloud...",
-        ]),
-        [ae, Ae] = reactExports.useState("123456"),
-        [Q, Te] = reactExports.useState(!1),
-        [$e, _e] = reactExports.useState(!1),
-        [Ue, Ke] = reactExports.useState("idle"),
-        [ot, w] = reactExports.useState([
-          "[Bảo mật] Nhập mật khẩu để cấu hình bảo vệ tài khoản Cloud.",
-        ]),
-        [C, Ee] = reactExports.useState("cloud"),
-        [ke, We] = reactExports.useState("idle"),
-        [ht, lt] = reactExports.useState(60),
-        [Fe, rt] = reactExports.useState([
-          "[Hệ thống] Trình duyệt Web và Môi trường Cục bộ đã sẵn sàng.",
-          "[Hướng dẫn] Hãy chọn phiên bản chạy ứng dụng phía dưới để bắt đầu so sánh.",
-        ]),
-        [yt, xt] = reactExports.useState("idle"),
-        ve = (W) => {
-          if ((W.preventDefault(), R || !L.trim())) return;
-          (z(!0), O(0));
-          let Me = 0;
-          const et = setInterval(() => {
-            ((Me += 20),
-              Me >= 100
-                ? (clearInterval(et),
-                  O(100),
-                  z(!1),
-                  M((Je) => {
-                    const Et = P === "doc" ? ".docx" : ".png",
-                      ft = L.endsWith(Et) ? L : `${L}${Et}`;
-                    return Je.some((Mt) => Mt.name === ft)
-                      ? Je
-                      : [
-                          ...Je,
-                          {
-                            name: ft,
-                            type: P,
-                            size: `${Math.floor(Math.random() * 20 + 1)} MB`,
-                          },
-                        ];
-                  }),
-                  le(""))
-                : O(Me));
-          }, 150);
+        u = (F) => {
+          if (!l.includes(F)) {
+            const Be = [...l, F];
+            (c(Be), Be.length >= 3 && !d && (m(!0), a()));
+          }
         },
-        Ye = () => {
-          (pe(!1), Z(ee ? "success" : "fail"));
-        },
-        mt = () => {
-          (pe(!0), _([]), Z(null), he(!1));
-        },
-        Dt = () => {
-          (he(!0),
+        [g, p] = reactExports.useState("doitac.duan@company-tech.com"),
+        [f, b] = reactExports.useState(
+          "Tài liệu hướng dẫn triển khai Dự án Khoa học lớp 7",
+        ),
+        [k, N] = reactExports.useState(`Chào Anh/Chị đối tác,
+
+Chúng tôi xin gửi tài liệu hướng dẫn các bước chi tiết để thực hiện dự án sắp tới:
+1. Nghiên cứu tài liệu lý thuyết và công nghệ cốt lõi.
+2. Triển khai thu thập dữ liệu thử nghiệm tại phòng lab.
+3. Phân tích kết quả, lập báo cáo tóm tắt tiến độ.
+
+Vui lòng xem chi tiết trong tệp đính kèm bên dưới. Trân trọng cảm ơn!
+
+--
+NGUYEN VAN A (Mr.)
+IT Manager - GLOBAL DIGITAL ACADEMY
+Phone: +84 908 123 456 | Fax: +84 24 3776 5678
+Email: nva@globaltech.edu.vn | Web: http://www.globaltech.edu.vn
+Address: 123 Lang Street, Dong Da Dist., Hanoi, Vietnam`),
+        [M, y] = reactExports.useState(null),
+        [I, R] = reactExports.useState(!1),
+        [z, A] = reactExports.useState("idle"),
+        [O, L] = reactExports.useState("NGUYEN VAN A (Mr.)"),
+        [le, P] = reactExports.useState("+84 908 123 456"),
+        [G, ee] = reactExports.useState("IT Manager"),
+        [ce, V] = reactExports.useState("nva@globaltech.edu.vn"),
+        [pe, Ie] = reactExports.useState("GLOBAL DIGITAL ACADEMY"),
+        [se, de] = reactExports.useState(
+          "123 Lang Street, Dong Da Dist., Hanoi, Vietnam",
+        ),
+        [_, U] = reactExports.useState("http://www.globaltech.edu.vn"),
+        [Z, be] = reactExports.useState(!1),
+        he = [
+          { name: "De_xuat_Du_an_Moi.pdf", size: "1.2 MB" },
+          { name: "Ke_hoach_Chi_tiet_Lab11.pdf", size: "950 KB" },
+          { name: "Bao_cao_Khao_sat_Thuc_dia.pdf", size: "2.4 MB" },
+        ],
+        E = () => {
+          z === "idle" &&
+            (A("sending"),
             setTimeout(() => {
-              (_([...Ie]), he(!1), Z("restored"));
+              (A("sent"), u(1));
             }, 1500));
         },
-        ye = { hardware: 4500, aircon: 1200, itSupport: 1500 },
-        H = (W) => Math.round(5 + W * 0.05),
-        me = (W) => {
-          const Me = ye.hardware + ye.aircon + ye.itSupport * W,
-            et = H(E) * W;
-          return { localTotal: Me, cloudTotal: et, saved: Me - et };
+        [v, K] = reactExports.useState(""),
+        [te, je] = reactExports.useState([
+          {
+            sender: "friend",
+            text: "Mọi người đang đợi ở quán cà phê học nhóm đó nha! Cậu đi tới đâu rồi?",
+            time: "20:41",
+          },
+        ]),
+        [Se, He] = reactExports.useState(!1),
+        Xe = (F) => {
+          const Be = F || v;
+          if (!Be.trim()) return;
+          const S = {
+            sender: "me",
+            text: Be,
+            time: new Date().toLocaleTimeString("vi-VN", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          (je((J) => [...J, S]),
+            K(""),
+            He(!0),
+            u(2),
+            setTimeout(() => {
+              He(!1);
+              let J =
+                "Đã nhận nha! Tụi mình đang chuẩn bị slide, cứ đi cẩn thận an toàn nhé.";
+              ((Be.includes("muộn") || Be.includes("trễ")) &&
+                (J =
+                  "Không sao đâu cậu! Bọn mình đang bàn phần 1 trước, đi thong thả thôi."),
+                je((pt) => [
+                  ...pt,
+                  {
+                    sender: "friend",
+                    text: J,
+                    time: new Date().toLocaleTimeString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                  },
+                ]));
+            }, 1200));
         },
-        Le = me(6),
-        Pe = me(12);
+        [Qe, qe] = reactExports.useState(""),
+        [at, ze] = reactExports.useState([
+          {
+            sender: "other",
+            author: "Khánh Mai",
+            text: "Chào mọi người, dự án tuần này làm tới đâu rồi nhỉ?",
+            time: "14:02",
+            avatarBg: "bg-indigo-600",
+          },
+          {
+            sender: "other",
+            author: "Minh An",
+            text: "Tớ vừa hoàn thành xong slide 1-5 rồi đó",
+            time: "14:05",
+            avatarBg: "bg-rose-600",
+          },
+        ]),
+        [De, tt] = reactExports.useState(!1),
+        [it, oe] = reactExports.useState("Khánh Mai, Minh An đang online"),
+        ie = (F) => {
+          const Be = F || Qe;
+          if (!Be.trim()) return;
+          const S = {
+            sender: "me",
+            author: "Tôi",
+            text: Be,
+            time: new Date().toLocaleTimeString("vi-VN", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            avatarBg: "bg-emerald-600",
+          };
+          (ze((J) => [...J, S]),
+            qe(""),
+            tt(!0),
+            oe("Khánh Mai đang soạn tin nhắn..."),
+            u(3),
+            setTimeout(() => {
+              (tt(!1), oe("Minh An đang online"));
+              const J = [
+                  "Quá đỉnh luôn cậu ơi! 😍",
+                  "Để tớ vào xem rồi bổ sung thêm phần biểu đồ nhé!",
+                  "Lát bọn mình rảnh gọi cuộc gọi nhóm (IM Video) duyệt qua luôn đi.",
+                ],
+                pt = J[Math.floor(Math.random() * J.length)];
+              ze((nt) => [
+                ...nt,
+                {
+                  sender: "other",
+                  author: Math.random() > 0.5 ? "Khánh Mai" : "Minh An",
+                  text: pt,
+                  time: new Date().toLocaleTimeString("vi-VN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }),
+                  avatarBg:
+                    Math.random() > 0.5 ? "bg-indigo-600" : "bg-rose-600",
+                },
+              ]);
+            }, 1500));
+        },
+        [ge, ae] = reactExports.useState([
+          {
+            sender: "agent",
+            text: "Xin chào! Tôi là Linh - trợ giúp viên của SmartTech Academy. Tôi có thể hỗ trợ gì cho em hôm nay?",
+            time: "20:42",
+          },
+        ]),
+        [Ae, Q] = reactExports.useState(""),
+        [Te, $e] = reactExports.useState(!1),
+        [_e, Ue] = reactExports.useState(!0),
+        Ke = (F) => {
+          if (!F.trim()) return;
+          const Be = {
+            sender: "user",
+            text: F,
+            time: new Date().toLocaleTimeString("vi-VN", {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          };
+          (ae((S) => [...S, Be]),
+            Q(""),
+            $e(!0),
+            u(4),
+            setTimeout(() => {
+              $e(!1);
+              let S =
+                "Dạ hệ thống đã ghi nhận yêu cầu của em. Hỗ trợ viên Linh đang kiểm tra hồ sơ, vui lòng chờ trong giây lát nha.";
+              (F.toLowerCase().includes("mạng") ||
+              F.toLowerCase().includes("wifi")
+                ? (S =
+                    "Để khắc phục sự cố mạng tạm thời, em thử khởi động lại modem hoặc kiểm tra dây cáp nhé! Nếu cần hỗ trợ thêm, chị luôn ở đây.")
+                : (F.toLowerCase().includes("học") ||
+                    F.toLowerCase().includes("đăng ký") ||
+                    F.toLowerCase().includes("ưu đãi")) &&
+                  (S =
+                    "Đăng ký học trực tuyến IC3 GS6 đang được ưu đãi 30% đó em! Em cho chị xin số điện thoại để chị làm thủ tục giữ chỗ nha."),
+                ae((J) => [
+                  ...J,
+                  {
+                    sender: "agent",
+                    text: S,
+                    time: new Date().toLocaleTimeString("vi-VN", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }),
+                  },
+                ]));
+            }, 1500));
+        },
+        [ot, w] = reactExports.useState(!0),
+        [C, Ee] = reactExports.useState(!0),
+        [ke, We] = reactExports.useState([
+          {
+            id: "me",
+            name: "Tôi (Chủ phòng)",
+            activeSpeaker: !1,
+            audioLevel: 20,
+          },
+          {
+            id: "p1",
+            name: "Trần Minh (Hà Nội)",
+            activeSpeaker: !0,
+            audioLevel: 85,
+            avatarBg: "bg-indigo-600",
+          },
+          {
+            id: "p2",
+            name: "John Smith (London)",
+            activeSpeaker: !1,
+            audioLevel: 10,
+            avatarBg: "bg-teal-600",
+          },
+          {
+            id: "p3",
+            name: "Linh Chi (Đà Nẵng)",
+            activeSpeaker: !1,
+            audioLevel: 0,
+            avatarBg: "bg-rose-600",
+          },
+        ]);
+      reactExports.useEffect(() => {
+        const F = setInterval(() => {
+          We((Be) =>
+            Be.map((S) => {
+              if (S.id === "me" && !ot)
+                return { ...S, audioLevel: 0, activeSpeaker: !1 };
+              if (S.id === "p1") {
+                const pt = Math.floor(Math.random() * 95);
+                return { ...S, audioLevel: pt, activeSpeaker: pt > 40 };
+              }
+              if (S.id === "p2") {
+                const pt = Math.floor(Math.random() * 45);
+                return { ...S, audioLevel: pt, activeSpeaker: pt > 30 };
+              }
+              if (S.id === "p3")
+                return { ...S, audioLevel: 0, activeSpeaker: !1 };
+              const J = Math.floor(Math.random() * 35);
+              return { ...S, audioLevel: J, activeSpeaker: J > 20 };
+            }),
+          );
+        }, 1e3);
+        return () => clearInterval(F);
+      }, [ot]);
+      const [ht, lt] = reactExports.useState([
+          {
+            id: 1,
+            title: "Học tập hiệu quả với phương pháp mô phỏng trực quan",
+            category: "Kinh nghiệm học tập",
+            body: "Hôm nay mình trải nghiệm phần mềm mô phỏng các công cụ mạng xã hội và truyền thông số của IC3 GS6. Việc tương tác trực quan như thế này giúp mình ghi nhớ sự khác biệt giữa Email, SMS, IM và Forum cực nhanh mà không cần học vẹt!",
+            date: "19/07/2026",
+            author: "Nguyễn Hải Đăng",
+            likes: 12,
+          },
+          {
+            id: 2,
+            title: "Tại sao nên dùng Email thay vì SMS cho công việc?",
+            category: "Kiến thức số",
+            body: "Email cho phép gửi kèm tệp tin dung lượng lớn như tài liệu PDF, bản thảo thiết kế và có lưu vết trao đổi rõ ràng, trang trọng. Trái lại, SMS chỉ phù hợp cho tin nhắn khẩn cấp, ngắn hạn.",
+            date: "18/07/2026",
+            author: "Phan Hoài Nam",
+            likes: 8,
+          },
+        ]),
+        [Fe, rt] = reactExports.useState(""),
+        [yt, xt] = reactExports.useState("Chia sẻ hằng ngày"),
+        [ve, Ye] = reactExports.useState(""),
+        mt = (F) => {
+          if ((F.preventDefault(), !Fe.trim() || !ve.trim())) return;
+          const Be = {
+            id: Date.now(),
+            title: Fe,
+            category: yt,
+            body: ve,
+            date: new Date().toLocaleDateString("vi-VN"),
+            author: "Tôi (Học viên)",
+            likes: 0,
+          };
+          (lt([Be, ...ht]), rt(""), Ye(""), u(6));
+        },
+        Dt = (F) => {
+          lt((Be) =>
+            Be.map((S) => (S.id === F ? { ...S, likes: S.likes + 1 } : S)),
+          );
+        },
+        [ye, H] = reactExports.useState([
+          {
+            id: 1,
+            title:
+              "Sự khác biệt thực chất giữa SMS và IM (Instant Messaging) là gì?",
+            author: "Tuan_Minh_9x",
+            votes: 15,
+            repliesCount: 2,
+            time: "2 giờ trước",
+            content:
+              "Mình đang học môn Công nghệ số nhưng vẫn hơi rối giữa SMS truyền thống và các phần mềm nhắn tin tức thời IM như Messenger, Zalo. Hai cái này đều để chat thì khác gì nhau về mặt hạ tầng kỹ thuật?",
+            replies: [
+              {
+                author: "Linh_Tech_GS6",
+                time: "1.5 giờ trước",
+                text: "SMS chạy trên mạng di động viễn thông (Cellular Network), không cần Internet vẫn gửi được, nhưng bị giới hạn 160 ký tự và mất phí cho nhà mạng. Còn IM chạy trên nền Internet (TCP/IP), hoàn toàn miễn phí nếu có Wi-Fi/4G, hỗ trợ gửi tệp, emoji, ảnh và không giới hạn ký tự nha bạn!",
+                avatarBg: "bg-indigo-600",
+              },
+              {
+                author: "Thay_Giao_Nam",
+                time: "1 giờ trước",
+                text: "Chính xác! Ghi nhớ thêm: SMS là giao tiếp điểm-điểm truyền thống, còn IM hỗ trợ hiển thị trạng thái hoạt động trực tuyến (Online, Typing, Read receipt) thời gian thực.",
+                avatarBg: "bg-amber-600",
+              },
+            ],
+          },
+          {
+            id: 2,
+            title:
+              "Có nên dùng Messenger/Zalo để gửi tài liệu hợp đồng mật không?",
+            author: "Kế_Toán_Vui_Vẻ",
+            votes: 9,
+            repliesCount: 1,
+            time: "5 giờ trước",
+            content:
+              "Công ty mình sếp hay yêu cầu gửi hợp đồng bản quét qua chat cho nhanh. Mình thấy lo ngại về tính lưu trữ và bảo mật. Mọi người cho ý kiến với ạ?",
+            replies: [
+              {
+                author: "Chuyên_Gia_An_Ninh_Số",
+                time: "4 giờ trước",
+                text: "Không nên nhé! Hợp đồng quan trọng bắt buộc phải gửi qua Email chính thống của công ty để lưu vết pháp lý chặt chẽ, dễ tìm kiếm, đính kèm tệp PDF bảo mật, và có thể mã hóa đầu cuối. Tránh gửi qua ứng dụng chat cá nhân dễ bị trôi và rò rỉ.",
+                avatarBg: "bg-teal-600",
+              },
+            ],
+          },
+        ]),
+        [me, Le] = reactExports.useState(1),
+        [Pe, W] = reactExports.useState(""),
+        [Me, et] = reactExports.useState(""),
+        [Je, Et] = reactExports.useState(""),
+        [ft, Mt] = reactExports.useState(!1),
+        D = (F) => {
+          if ((F.preventDefault(), !Pe.trim() || !Me.trim())) return;
+          const Be = {
+            id: Date.now(),
+            title: Pe,
+            author: "Học_Viên_Chăm_Chỉ",
+            votes: 1,
+            repliesCount: 0,
+            time: "Vừa xong",
+            content: Me,
+            replies: [],
+          };
+          (H([Be, ...ye]), Le(Be.id), W(""), et(""), Mt(!1), u(7));
+        },
+        Re = (F) => {
+          (F.preventDefault(),
+            !(!Je.trim() || me === null) &&
+              (H((Be) =>
+                Be.map((S) =>
+                  S.id === me
+                    ? {
+                        ...S,
+                        repliesCount: S.repliesCount + 1,
+                        replies: [
+                          ...S.replies,
+                          {
+                            author: "Tôi (Học viên)",
+                            time: "Vừa xong",
+                            text: Je,
+                            avatarBg: "bg-emerald-600",
+                          },
+                        ],
+                      }
+                    : S,
+                ),
+              ),
+              Et(""),
+              u(7)));
+        },
+        Ve = (F, Be) => {
+          (Be.stopPropagation(),
+            H((S) =>
+              S.map((J) => (J.id === F ? { ...J, votes: J.votes + 1 } : J)),
+            ));
+        },
+        [Ge, Ze] = reactExports.useState(""),
+        [Nt, Kt] = reactExports.useState("idle"),
+        [It, wt] = reactExports.useState(0),
+        [Ls, Ot] = reactExports.useState(!1),
+        [Ce, st] = reactExports.useState(!1),
+        [At, Lt] = reactExports.useState(""),
+        [Zt, Vt] = reactExports.useState(""),
+        [Ut, hs] = reactExports.useState("");
+      reactExports.useEffect(() => {
+        let F;
+        return (
+          Nt === "connected"
+            ? (F = setInterval(() => {
+                wt((Be) => Be + 1);
+              }, 1e3))
+            : wt(0),
+          () => clearInterval(F)
+        );
+      }, [Nt]);
+      const Xs = (F) => {
+        const Be = F.replace(/[\s\-\(\)]/g, "");
+        if (!Be)
+          return {
+            exists: !1,
+            error: "Vui lòng gõ số điện thoại trước khi bấm gọi.",
+          };
+        if (["113", "114", "115", "111", "112"].includes(Be)) {
+          let S = "Số khẩn cấp";
+          return (
+            Be === "113" && (S = "Cảnh sát phản ứng nhanh 113"),
+            Be === "114" && (S = "Cứu hỏa & Cứu hộ 114"),
+            Be === "115" && (S = "Tổng đài khẩn cấp 115"),
+            Be === "111" && (S = "Đường dây bảo vệ trẻ em 111"),
+            Be === "112" && (S = "Cứu nạn cứu hộ quốc gia 112"),
+            { exists: !0, name: S }
+          );
+        }
+        return Be === "0912888999"
+          ? { exists: !0, name: "Nhóm trưởng Khánh Nam" }
+          : Be === "0903456789"
+            ? { exists: !0, name: "Cô giáo Thảo Vy" }
+            : /^0\d{8,10}$/.test(Be)
+              ? { exists: !0, name: `Thuê bao di động (${F})` }
+              : {
+                  exists: !1,
+                  error: `⚠️ Số máy "${F}" không tồn tại trên hệ thống PSTN di động! Vui lòng thử gọi 113, 114, 115 hoặc số điện thoại di động bắt đầu bằng 0 (có 9-11 số).`,
+                };
+      };
+      reactExports.useEffect(() => {
+        if (Nt === "connected") {
+          const F = {
+              "Tổng đài khẩn cấp 115": [
+                {
+                  time: 0,
+                  text: "Tổng đài 115: Tổng đài 115 xin nghe, xin hỏi đầu dây có sự cố y tế khẩn cấp gì ạ?",
+                },
+                {
+                  time: 4,
+                  text: "Học viên: Dạ em đang làm bài thực hành mô phỏng kỹ năng gọi cứu hộ...",
+                },
+                {
+                  time: 8,
+                  text: "Tổng đài 115: À tốt lắm! Em đang liên lạc qua đường dây điện thoại mạng PSTN truyền thống.",
+                },
+                {
+                  time: 13,
+                  text: "Tổng đài 115: Nhớ nhé, cuộc gọi thoại PSTN có độ trễ cực thấp, không cần Internet.",
+                },
+                {
+                  time: 18,
+                  text: "Học viên: Dạ vâng em hiểu rồi, em cảm ơn tổng đài nhiều ạ!",
+                },
+                {
+                  time: 22,
+                  text: "Tổng đài 115: Chúc em hoàn thành tốt bài học tương tác này nhé!",
+                },
+              ],
+              "Cảnh sát phản ứng nhanh 113": [
+                {
+                  time: 0,
+                  text: "Cảnh sát 113: Cảnh sát 113 xin nghe! Có sự cố an ninh trật tự hay tình huống nguy cấp nào cần hỗ trợ khẩn cấp không?",
+                },
+                {
+                  time: 5,
+                  text: "Học viên: Dạ không ạ, em đang thực hành kỹ năng gọi cứu nạn khẩn cấp trên mô phỏng mạng thoại.",
+                },
+                {
+                  time: 10,
+                  text: "Cảnh sát 113: Tốt lắm, hãy nhớ đường dây 113 luôn sẵn sàng kết nối trực tiếp, có tính tin cậy cao nhất kể cả khi mất Internet.",
+                },
+                {
+                  time: 15,
+                  text: "Học viên: Dạ vâng em ghi nhớ rồi ạ. Em cảm ơn chú cảnh sát nhiều!",
+                },
+                {
+                  time: 19,
+                  text: "Cảnh sát 113: Chúc cháu hoàn thành tốt bài thực hành tương tác này nhé!",
+                },
+              ],
+              "Cứu hỏa & Cứu hộ 114": [
+                {
+                  time: 0,
+                  text: "Cứu hỏa 114: Phòng Cảnh sát Phòng cháy chữa cháy và Cứu nạn cứu hộ xin nghe! Có sự cố hỏa hoạn gì báo tin khẩn cấp ạ?",
+                },
+                {
+                  time: 5,
+                  text: "Học viên: Dạ em đang thực hiện bài học mô phỏng liên lạc khẩn cấp di động.",
+                },
+                {
+                  time: 9,
+                  text: "Cứu hỏa 114: Hoan nghênh tinh thần thực hành của em! Nhớ luôn sử dụng số 114 khi có cháy nổ hoặc tai nạn nguy hiểm nhé.",
+                },
+                {
+                  time: 14,
+                  text: "Học viên: Dạ vâng em hiểu rồi ạ. Em chúc các anh luôn mạnh khỏe!",
+                },
+                {
+                  time: 18,
+                  text: "Cứu hỏa 114: Cảm ơn em, chúc em học thật tốt!",
+                },
+              ],
+              "Đường dây bảo vệ trẻ em 111": [
+                {
+                  time: 0,
+                  text: "Tổng đài 111: Tổng đài điện thoại quốc gia bảo vệ trẻ em xin nghe.",
+                },
+                {
+                  time: 4,
+                  text: "Học viên: Dạ em đang làm bài học tương tác công cụ truyền thông trực tiếp.",
+                },
+                {
+                  time: 8,
+                  text: "Tổng đài 111: Rất tốt, đường dây 111 luôn hoạt động 24/7 hoàn toàn miễn phí để tiếp nhận mọi thông tin khẩn cấp bảo vệ trẻ em.",
+                },
+                { time: 13, text: "Học viên: Dạ em cảm ơn tổng đài nhiều ạ!" },
+              ],
+              "Cứu nạn cứu hộ quốc gia 112": [
+                {
+                  time: 0,
+                  text: "Tổng đài 112: Trung tâm thông tin tìm kiếm cứu nạn quốc gia xin nghe.",
+                },
+                {
+                  time: 4,
+                  text: "Học viên: Dạ em đang thực hành tìm hiểu các đầu số liên lạc khẩn cấp di động.",
+                },
+                {
+                  time: 8,
+                  text: "Tổng đài 112: Hãy luôn nhớ số 112 khi gặp thiên tai bão lũ nguy hiểm cần cứu nạn cứu hộ khẩn cấp nhé!",
+                },
+                {
+                  time: 13,
+                  text: "Học viên: Dạ em ghi nhớ rồi, em cảm ơn tổng đài nhiều ạ!",
+                },
+              ],
+              "Nhóm trưởng Khánh Nam": [
+                {
+                  time: 0,
+                  text: "Khánh Nam: Alo tớ Nam nghe đây cậu ơi, cậu tới quán chưa?",
+                },
+                {
+                  time: 4,
+                  text: "Học viên: Tớ đang trên đường qua nè, bị kẹt xe chút xíu.",
+                },
+                {
+                  time: 8,
+                  text: "Khánh Nam: Ok ok, cứ đi cẩn thận nha. Bọn tớ đang xem lại slide.",
+                },
+                {
+                  time: 12,
+                  text: "Học viên: Cậu mở sẵn file thuyết trình lên máy chiếu trước nha.",
+                },
+                {
+                  time: 16,
+                  text: "Khánh Nam: Nhất trí! Gặp lại cậu sau vài phút nữa nha.",
+                },
+              ],
+              "Cô giáo Thảo Vy": [
+                {
+                  time: 0,
+                  text: "Cô Thảo Vy: Chào em, cô Vy nghe đây. Em cần hỗ trợ gì không?",
+                },
+                {
+                  time: 5,
+                  text: "Học viên: Dạ thưa cô, cho em hỏi thời gian thi chứng chỉ tuần này ạ.",
+                },
+                {
+                  time: 10,
+                  text: "Cô Thảo Vy: Sáng Thứ Bảy lúc 8:00 tại phòng máy số 3 nhé em.",
+                },
+                {
+                  time: 14,
+                  text: "Cô Thảo Vy: Nhớ mang theo thẻ căn cước công dân và thẻ học sinh đầy đủ nha.",
+                },
+                {
+                  time: 19,
+                  text: "Học viên: Dạ em nhớ rồi, em cảm ơn cô nhiều ạ!",
+                },
+              ],
+              "Số máy tự gõ": [
+                {
+                  time: 0,
+                  text: "Hệ thống: Thuê bao quý khách vừa gọi hiện chưa thể kết nối.",
+                },
+                {
+                  time: 4,
+                  text: "Hệ thống: Vui lòng kiểm tra lại số điện thoại và thực hiện cuộc gọi sau.",
+                },
+              ],
+            },
+            Be = At || "Số máy tự gõ";
+          let S = F[Be];
+          S ||
+            (Be.startsWith("Thuê bao di động") || Be.includes("(")
+              ? (S = [
+                  {
+                    time: 0,
+                    text: "Thuê bao nhận cuộc gọi: Alo, ai đầu dây đấy ạ? Tôi đang nghe.",
+                  },
+                  {
+                    time: 4,
+                    text: "Học viên: Dạ xin chào, em đang thực hành cuộc gọi thoại thử nghiệm.",
+                  },
+                  {
+                    time: 8,
+                    text: "Thuê bao nhận cuộc gọi: À, âm thanh cuộc gọi thoại GSM/PSTN nghe rõ ràng, ổn định và không bị giật lag nhỉ!",
+                  },
+                  {
+                    time: 13,
+                    text: "Học viên: Dạ đúng rồi ạ, không phụ thuộc vào Internet. Em chúc anh/chị học tập và làm việc vui vẻ nhé!",
+                  },
+                  {
+                    time: 18,
+                    text: "Thuê bao nhận cuộc gọi: Cảm ơn em nhiều nha! Chúc em đạt kết quả cao chứng chỉ IC3 GS6.",
+                  },
+                ])
+              : (S = F["Số máy tự gõ"]));
+          const J = It,
+            pt = S.find(
+              (nt) =>
+                J >= nt.time &&
+                J < nt.time + (nt.time === S[S.length - 1].time ? 5 : 4),
+            );
+          pt
+            ? Vt(pt.text)
+            : J >= S[S.length - 1].time + 4
+              ? (Vt("--- Cuộc gọi tự động kết thúc thành công ---"),
+                setTimeout(() => {
+                  Kt("ended");
+                }, 1500))
+              : Vt("");
+        } else Vt("");
+      }, [It, Nt, At]);
+      const ws = (F, Be) => {
+          const S = F.trim() || "0903 456 789",
+            J = Xs(S);
+          if (!J.exists) {
+            hs(J.error || "Số điện thoại không hợp lệ!");
+            return;
+          }
+          (hs(""),
+            Lt(J.name),
+            Kt("calling"),
+            Ot(!1),
+            st(!1),
+            u(8),
+            setTimeout(() => {
+              Kt("connected");
+            }, 2e3));
+        },
+        fs = () => {
+          (Kt("ended"),
+            setTimeout(() => {
+              Kt("idle");
+            }, 1500));
+        },
+        Bs = [
+          {
+            id: 1,
+            name: "Thư điện tử (Email)",
+            icon: Mail,
+            desc: "Gửi thư chính thức, có cấu trúc, cho phép đính kèm tệp tin như tài liệu PDF cho công ty, đối tác.",
+          },
+          {
+            id: 2,
+            name: "Tin nhắn ngắn (SMS)",
+            icon: Smartphone,
+            desc: "Tin nhắn văn bản siêu ngắn gửi qua sóng di động viễn thông (không cần mạng Internet), phù hợp báo khẩn cấp.",
+          },
+          {
+            id: 3,
+            name: "Tin nhắn tức thời (IM)",
+            icon: MessageSquare,
+            desc: "Trò chuyện nhóm hoặc cá nhân thời gian thực qua Internet (Messenger/Zalo), hỗ trợ đa phương tiện dồi dào.",
+          },
+          {
+            id: 4,
+            name: "Trò chuyện Web (Live Chat)",
+            icon: MessageCircle,
+            desc: "Khung hỗ trợ trực tuyến tích hợp trực tiếp trên trang web để tương tác phản hồi khách hàng ngay tức thì.",
+          },
+          {
+            id: 5,
+            name: "Hội nghị truyền hình",
+            icon: Video,
+            desc: "Họp trực tiếp từ xa bằng âm thanh và hình ảnh của nhiều người ở các điểm địa lý khác nhau.",
+          },
+          {
+            id: 6,
+            name: "Nhật ký trực tuyến (Blog)",
+            icon: BookOpen,
+            desc: "Trang web cá nhân dùng để đăng tải bài viết chia sẻ suy nghĩ, quan điểm hằng ngày theo trình tự thời gian.",
+          },
+          {
+            id: 7,
+            name: "Diễn đàn (Forum)",
+            icon: Globe,
+            desc: "Cộng đồng thảo luận công khai trực tuyến, nơi mọi người đặt câu hỏi, phản hồi thảo luận tự do.",
+          },
+          {
+            id: 8,
+            name: "Cuộc gọi thoại (Phone Call)",
+            icon: PhoneCall,
+            desc: "Giao tiếp thoại trực tiếp thời gian thực, kết nối qua hạ tầng di động hoặc điện thoại truyền thống (PSTN), độ ổn định cao và trễ thấp.",
+          },
+        ].find((F) => F.id === n) || {
+          name: "Thư điện tử (Email)",
+          icon: Mail,
+          desc: "",
+        };
       return jsxRuntimeExports.jsxs("div", {
+        id: "lab-11-section",
         className: "space-y-6",
-        id: "lab-13-root",
         children: [
           jsxRuntimeExports.jsxs("div", {
             className:
-              "flex flex-col sm:flex-row border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-t-2xl p-1 shadow-sm gap-2",
+              "flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4",
             children: [
-              jsxRuntimeExports.jsxs("button", {
-                onClick: () => i(0),
-                className: `flex-1 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center justify-center gap-2 cursor-pointer ${n === 0 ? "bg-blue-600 text-white dark:bg-blue-600 shadow-md" : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-850"}`,
+              jsxRuntimeExports.jsxs("div", {
+                className: "text-left",
                 children: [
-                  jsxRuntimeExports.jsx(Info, { className: "h-4 w-4" }),
                   jsxRuntimeExports.jsx("span", {
-                    children: "Khái Niệm Điện Toán Đám Mây",
+                    className:
+                      "text-sm sm:text-base font-semibold bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300 px-2.5 py-1 rounded-md font-extrabold uppercase tracking-wider",
+                    children: "Bài thi IC3 GS6 // Phương tiện kỹ thuật số",
+                  }),
+                  jsxRuntimeExports.jsx("h2", {
+                    className:
+                      "text-lg font-black text-slate-900 dark:text-white mt-1.5",
+                    children: "Bản đồ Mô phỏng các Công cụ Giao tiếp Số",
+                  }),
+                  jsxRuntimeExports.jsx("p", {
+                    className:
+                      "text-sm sm:text-base font-medium text-slate-500 mt-1",
+                    children:
+                      "Mục tiêu: Tìm hiểu và phân biệt 8 loại hình truyền thông kỹ thuật số phổ biến bằng trải nghiệm tương tác trực tiếp.",
                   }),
                 ],
               }),
-              jsxRuntimeExports.jsxs("button", {
-                onClick: () => i(1),
-                className: `flex-1 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center justify-center gap-2 cursor-pointer ${n === 1 ? "bg-blue-600 text-white dark:bg-blue-600 shadow-md" : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-850"}`,
+              jsxRuntimeExports.jsxs("div", {
+                className:
+                  "bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 sm:p-5 px-5 sm:px-6 flex items-center gap-3.5 shrink-0 text-left",
                 children: [
-                  jsxRuntimeExports.jsx(Cloud, {
-                    className: "h-4 w-4 animate-pulse",
+                  jsxRuntimeExports.jsxs("div", {
+                    className: "space-y-1",
+                    children: [
+                      jsxRuntimeExports.jsx("span", {
+                        className:
+                          "text-sm sm:text-base font-semibold text-slate-400 font-extrabold block uppercase",
+                        children: "Tiến độ thực hành",
+                      }),
+                      jsxRuntimeExports.jsxs("div", {
+                        className: "flex items-center gap-2",
+                        children: [
+                          jsxRuntimeExports.jsxs("span", {
+                            className:
+                              "text-base font-black text-indigo-600 dark:text-indigo-400",
+                            children: [l.length, " / 8"],
+                          }),
+                          jsxRuntimeExports.jsx("span", {
+                            className:
+                              "text-sm sm:text-base font-semibold text-slate-500 font-medium",
+                            children: "thiết bị ảo",
+                          }),
+                        ],
+                      }),
+                    ],
                   }),
-                  jsxRuntimeExports.jsx("span", {
-                    children: "Ưu Điểm Của Điện Toán Đám Mây",
+                  jsxRuntimeExports.jsx("div", {
+                    className: "h-10 w-[1px] bg-slate-200 dark:bg-slate-800",
                   }),
-                ],
-              }),
-              jsxRuntimeExports.jsxs("button", {
-                onClick: () => i(2),
-                className: `flex-1 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center justify-center gap-2 cursor-pointer ${n === 2 ? "bg-amber-600 text-white dark:bg-amber-600 shadow-md" : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-850"}`,
-                children: [
-                  jsxRuntimeExports.jsx(ShieldAlert, { className: "h-4 w-4" }),
-                  jsxRuntimeExports.jsx("span", {
-                    children: "Nhược Điểm Của Điện Toán Đám Mây",
+                  jsxRuntimeExports.jsx("div", {
+                    children: d
+                      ? jsxRuntimeExports.jsxs("div", {
+                          className:
+                            "bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-5 sm:px-5 py-3 rounded-3xl flex items-center gap-1.5 font-bold text-sm sm:text-base font-medium animate-bounce",
+                          children: [
+                            jsxRuntimeExports.jsx(CircleCheck, {
+                              className: "h-4 w-4 shrink-0",
+                            }),
+                            jsxRuntimeExports.jsx("span", {
+                              children: "Hoàn thành xuất sắc!",
+                            }),
+                          ],
+                        })
+                      : jsxRuntimeExports.jsxs("span", {
+                          className:
+                            "text-[10.5px] text-slate-500 leading-normal font-medium block max-w-[140px]",
+                          children: [
+                            "👉 Hãy tương tác thử với ",
+                            jsxRuntimeExports.jsx("strong", {
+                              children: "ít nhất 3",
+                            }),
+                            " loại thiết bị để hoàn tất bài học!",
+                          ],
+                        }),
                   }),
                 ],
               }),
             ],
           }),
-          n === 0 &&
-            jsxRuntimeExports.jsxs("div", {
-              className:
-                "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-sm space-y-6 text-left",
-              children: [
-                jsxRuntimeExports.jsxs("div", {
-                  className:
-                    "border-l-4 border-blue-600 bg-blue-50/50 dark:bg-blue-950/20 p-5 sm:p-6 rounded-r-xl",
-                  children: [
-                    jsxRuntimeExports.jsx("span", {
-                      className:
-                        "text-sm sm:text-base font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400",
-                      children: "Kiến Thức Cốt Lõi IC3 GS6",
-                    }),
-                    jsxRuntimeExports.jsxs("h4", {
-                      className:
-                        "mt-1 text-xl font-extrabold text-slate-950 dark:text-white leading-relaxed flex items-center gap-2",
-                      children: [
-                        jsxRuntimeExports.jsx(Cloud, {
-                          className:
-                            "h-5 w-5 text-blue-600 dark:text-blue-400 animate-bounce",
-                        }),
-                        jsxRuntimeExports.jsx("span", {
-                          children:
-                            "Điện Toán Đám Mây Là Gì? (Cloud Computing)",
-                        }),
-                      ],
-                    }),
-                    jsxRuntimeExports.jsxs("p", {
-                      className:
-                        "mt-2 text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300 leading-relaxed font-medium",
-                      children: [
-                        "Hãy hiểu một cách đơn giản nhất: ",
-                        jsxRuntimeExports.jsx("strong", {
-                          children: "Điện toán đám mây",
-                        }),
-                        " là việc cung cấp các dịch vụ điện toán (bao gồm lưu trữ, máy chủ, cơ sở dữ liệu, phần mềm, mạng) qua ",
-                        jsxRuntimeExports.jsx("strong", {
-                          children: "mạng Internet",
-                        }),
-                        '. Thay vì lưu mọi thứ trên ổ cứng máy tính cá nhân (cục bộ), em gửi chúng lên các "đám mây" - thực chất là các trung tâm dữ liệu cực lớn được đặt ở khắp nơi trên toàn cầu.',
-                      ],
-                    }),
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "mt-4 pt-4 border-t border-blue-200/60 dark:border-blue-900/40 space-y-3",
-                      children: [
-                        jsxRuntimeExports.jsxs("span", {
-                          className:
-                            "text-sm sm:text-base font-semibold font-black uppercase tracking-wider text-emerald-600 dark:text-emerald-400 block flex items-center gap-1.5",
-                          children: [
-                            jsxRuntimeExports.jsx(CircleCheck, {
-                              className:
-                                "h-4 w-4 text-emerald-500 animate-pulse",
-                            }),
-                            " 2 Nguyên lý cốt lõi chính xác về Điện toán đám mây (IC3 GS6):",
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "grid grid-cols-1 sm:grid-cols-2 gap-3",
+          jsxRuntimeExports.jsxs("div", {
+            className: "grid grid-cols-1 lg:grid-cols-12 gap-6 items-start",
+            children: [
+              jsxRuntimeExports.jsxs("div", {
+                className: "lg:col-span-4 space-y-4 text-left",
+                children: [
+                  jsxRuntimeExports.jsx("span", {
+                    className:
+                      "text-[10.5px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest block",
+                    children: "Chọn thiết bị ảo cần thử nghiệm:",
+                  }),
+                  jsxRuntimeExports.jsx("div", {
+                    className: "flex flex-col items-stretch gap-3 w-full",
+                    children: [
+                      {
+                        id: 1,
+                        name: "Thư điện tử (Email)",
+                        icon: Mail,
+                        tag: "Đính kèm tệp PDF lớn",
+                        color: "text-blue-500",
+                      },
+                      {
+                        id: 2,
+                        name: "Tin nhắn văn bản (SMS)",
+                        icon: Smartphone,
+                        tag: "Mạng di động thô khẩn cấp",
+                        color: "text-emerald-500",
+                      },
+                      {
+                        id: 3,
+                        name: "Tin nhắn tức thời (IM)",
+                        icon: MessageSquare,
+                        tag: "Chat Internet, emoji, nhóm",
+                        color: "text-purple-500",
+                      },
+                      {
+                        id: 4,
+                        name: "Trò chuyện Web (Live Chat)",
+                        icon: MessageCircle,
+                        tag: "Hỗ trợ khách hàng portal",
+                        color: "text-amber-500",
+                      },
+                      {
+                        id: 5,
+                        name: "Hội nghị truyền hình (Video)",
+                        icon: Video,
+                        tag: "Họp webcam đa địa điểm",
+                        color: "text-fuchsia-500",
+                      },
+                      {
+                        id: 6,
+                        name: "Nhật ký trực tuyến (Blog)",
+                        icon: BookOpen,
+                        tag: "Đăng tải suy nghĩ cá nhân",
+                        color: "text-sky-500",
+                      },
+                      {
+                        id: 7,
+                        name: "Diễn đàn trực tuyến (Forum)",
+                        icon: Globe,
+                        tag: "Cộng đồng thảo luận hỏi đáp",
+                        color: "text-rose-500",
+                      },
+                      {
+                        id: 8,
+                        name: "Cuộc gọi thoại (Phone Call)",
+                        icon: Phone,
+                        tag: "Giao tiếp thoại PSTN trực tiếp",
+                        color: "text-teal-500",
+                      },
+                    ].map((F) => {
+                      const Be = F.icon,
+                        S = n === F.id,
+                        J = l.includes(F.id);
+                      return jsxRuntimeExports.jsxs(
+                        "button",
+                        {
+                          onClick: () => {
+                            i(F.id);
+                          },
+                          className: `w-full box-border px-4 py-3 min-h-[60px] text-left rounded-2xl border text-sm sm:text-base font-bold transition-all flex items-center justify-between cursor-pointer ${S ? "bg-indigo-600 text-white border-indigo-600 shadow-md scale-[1.01]" : "bg-white border-slate-200 text-slate-700 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-300 hover:bg-slate-50"}`,
                           children: [
                             jsxRuntimeExports.jsxs("div", {
                               className:
-                                "flex items-start gap-2.5 bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 p-8 sm:p-5 rounded-3xl hover:border-emerald-300 dark:hover:border-emerald-800 transition-all",
-                              children: [
-                                jsxRuntimeExports.jsx(Check, {
-                                  className:
-                                    "h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5 stroke-[3]",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-0.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-sm sm:text-base font-semibold font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block",
-                                      children: "Cách thức truy cập",
-                                    }),
-                                    jsxRuntimeExports.jsx("p", {
-                                      className:
-                                        "text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 font-bold leading-normal",
-                                      children:
-                                        "Máy chủ có thể được truy cập thông qua internet.",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "flex items-start gap-2.5 bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-100 dark:border-emerald-900/30 p-8 sm:p-5 rounded-3xl hover:border-emerald-300 dark:hover:border-emerald-800 transition-all",
-                              children: [
-                                jsxRuntimeExports.jsx(Check, {
-                                  className:
-                                    "h-4 w-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5 stroke-[3]",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-0.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-sm sm:text-base font-semibold font-black text-emerald-700 dark:text-emerald-400 uppercase tracking-wider block",
-                                      children: "Nơi lưu trữ dữ liệu",
-                                    }),
-                                    jsxRuntimeExports.jsx("p", {
-                                      className:
-                                        "text-sm sm:text-base font-medium text-slate-800 dark:text-slate-200 font-bold leading-normal",
-                                      children:
-                                        "Dữ liệu trong điện toán đám mây được lưu trữ trên một máy chủ từ xa.",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                jsxRuntimeExports.jsxs("div", {
-                  className: "grid grid-cols-1 md:grid-cols-2 gap-6",
-                  children: [
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "p-5 sm:p-6 bg-gradient-to-br from-blue-50/40 to-indigo-50/40 dark:from-slate-850/30 dark:to-slate-900 border border-slate-150 dark:border-slate-800 rounded-3xl flex flex-col justify-between space-y-3",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "inline-flex items-center gap-1.5 bg-blue-100 text-blue-800 dark:bg-blue-950/40 dark:text-blue-400 px-2.5 py-1 rounded-md text-sm sm:text-base font-bold uppercase tracking-wider",
-                              children: "💡 Ẩn dụ thực tế dễ hiểu",
-                            }),
-                            jsxRuntimeExports.jsx("h5", {
-                              className:
-                                "mt-2 text-sm sm:text-base font-bold text-slate-900 dark:text-white",
-                              children: 'Ẩn dụ "Dòng điện & Nước sạch"',
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "mt-1.5 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400 leading-relaxed font-medium",
-                              children:
-                                "Hãy tưởng tượng đám mây giống như dòng điện hay nước máy tại nhà em: Em không cần xây nhà máy phát điện hay đào giếng khoan riêng, cũng không cần bảo trì chúng. Chỉ cần cắm phích nước hoặc vặn vòi (kết nối Internet) là em có điện, nước để dùng ngay. Dùng bao nhiêu trả tiền bấy nhiêu!",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-wrap gap-x-4 gap-y-1.5 text-sm sm:text-base font-bold text-slate-500",
-                          children: [
-                            jsxRuntimeExports.jsxs("span", {
-                              className: "flex items-center gap-1",
-                              children: [
-                                jsxRuntimeExports.jsx(Check, {
-                                  className: "h-3.5 w-3.5 text-blue-500",
-                                }),
-                                " Không tốn chi phí mua thiết bị",
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("span", {
-                              className: "flex items-center gap-1",
-                              children: [
-                                jsxRuntimeExports.jsx(Check, {
-                                  className: "h-3.5 w-3.5 text-blue-500",
-                                }),
-                                " Dùng bao nhiêu trả bấy nhiêu",
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "p-5 sm:p-6 bg-gradient-to-br from-indigo-50/40 to-purple-50/40 dark:from-slate-850/30 dark:to-slate-900 border border-slate-150 dark:border-slate-800 rounded-3xl flex flex-col justify-between space-y-3",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "inline-flex items-center gap-1.5 bg-indigo-100 text-indigo-800 dark:bg-indigo-950/40 dark:text-indigo-400 px-2.5 py-1 rounded-md text-sm sm:text-base font-bold uppercase tracking-wider",
-                              children: "📂 So sánh lưu trữ",
-                            }),
-                            jsxRuntimeExports.jsx("h5", {
-                              className:
-                                "mt-2 text-sm sm:text-base font-bold text-slate-900 dark:text-white",
-                              children: "Ổ cứng cá nhân vs. Điện toán đám mây",
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "mt-2 space-y-1.5 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "flex gap-2",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-red-500 font-bold shrink-0",
-                                      children: "✘ Cục bộ:",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      children:
-                                        "Lưu trên Laptop. Nếu máy hỏng, mất trộm hoặc quên mang máy là em hoàn toàn mất sạch dữ liệu.",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "flex gap-2",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-emerald-500 font-bold shrink-0",
-                                      children: "✔ Đám mây:",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      children:
-                                        "Lưu trực tuyến. Em chỉ cần mượn bất kỳ thiết bị nào, đăng nhập tài khoản là thấy lại dữ liệu tức thì.",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsx("div", {
-                          className:
-                            "pt-1.5 text-sm sm:text-base font-bold text-indigo-600 dark:text-indigo-400",
-                          children:
-                            "ℹ️ Tính cơ động và an toàn dữ liệu vượt trội!",
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-                jsxRuntimeExports.jsxs("div", {
-                  className: "space-y-2",
-                  children: [
-                    jsxRuntimeExports.jsx("span", {
-                      className:
-                        "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-wider",
-                      children: "Ảnh Minh Họa",
-                    }),
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "relative group overflow-hidden border border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-950 shadow-md",
-                      children: [
-                        jsxRuntimeExports.jsx("img", {
-                          src: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&h=550&q=80",
-                          alt: "Cloud Computing Data Center Servers",
-                          className:
-                            "w-full h-[240px] md:h-[280px] object-cover opacity-85 hover:opacity-100 transition-opacity duration-300",
-                          referrerPolicy: "no-referrer",
-                        }),
-                        jsxRuntimeExports.jsx("div", {
-                          className:
-                            "absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/25 to-transparent pointer-events-none",
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "absolute bottom-4 left-4 right-4 text-left",
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "inline-flex items-center gap-1 bg-blue-600 text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider mb-1",
-                              children: "Cloud Data Center",
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "text-sm sm:text-base font-medium md:text-sm sm:text-base font-bold text-white leading-tight",
-                              children:
-                                "Hạ tầng Trung tâm dữ liệu Đám mây với hàng triệu ổ cứng SSD và chip xử lý hoạt động liên tục 24/7/365",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                    jsxRuntimeExports.jsx("p", {
-                      className:
-                        "text-sm sm:text-base font-semibold text-slate-500 text-center font-medium italic",
-                      children:
-                        "Hình 13.1: Trung tâm dữ liệu (Data Center) khổng lồ của các nhà cung cấp đám mây như Google Cloud, Microsoft Azure, AWS.",
-                    }),
-                  ],
-                }),
-                jsxRuntimeExports.jsxs("div", {
-                  className:
-                    "p-5 sm:p-6 bg-slate-50 dark:bg-slate-950/40 border border-slate-200 dark:border-slate-800/80 rounded-3xl space-y-4",
-                  children: [
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "flex flex-col sm:flex-row sm:items-center justify-between gap-2",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "space-y-0.5",
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-sm sm:text-base font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider",
-                              children: "Mô Hình Trực Quan",
-                            }),
-                            jsxRuntimeExports.jsx("h5", {
-                              className:
-                                "text-sm sm:text-base font-bold text-slate-900 dark:text-white",
-                              children:
-                                "Sơ đồ luồng hoạt động của Điện toán đám mây",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsx("span", {
-                          className:
-                            "text-sm sm:text-base font-semibold text-slate-400",
-                          children:
-                            "Cách dữ liệu luân chuyển trực tuyến qua Internet",
-                        }),
-                      ],
-                    }),
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "py-6 px-5 sm:px-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-150 dark:border-slate-850 flex flex-col md:flex-row items-center justify-between gap-6 relative",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "flex flex-col gap-3 w-full md:w-1/3",
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-sm sm:text-base font-extrabold text-slate-400 text-center uppercase tracking-wider",
-                              children: "1. Thiết Thiết bị của em (Client)",
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className: "grid grid-cols-3 gap-2",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "p-8 sm:p-5 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-3xl flex flex-col items-center text-center justify-center space-y-1 hover:border-blue-500 transition-colors group",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Laptop, {
-                                      className:
-                                        "h-5 w-5 text-slate-600 dark:text-slate-300 group-hover:text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className: "text-[9px] font-bold",
-                                      children: "Laptop",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "p-8 sm:p-5 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-3xl flex flex-col items-center text-center justify-center space-y-1 hover:border-blue-500 transition-colors group",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Smartphone, {
-                                      className:
-                                        "h-5 w-5 text-slate-600 dark:text-slate-300 group-hover:text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className: "text-[9px] font-bold",
-                                      children: "Điện thoại",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "p-8 sm:p-5 bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-750 rounded-3xl flex flex-col items-center text-center justify-center space-y-1 hover:border-blue-500 transition-colors group",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Tablet, {
-                                      className:
-                                        "h-5 w-5 text-slate-600 dark:text-slate-300 group-hover:text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className: "text-[9px] font-bold",
-                                      children: "Tablet",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "flex flex-col items-center justify-center w-full md:w-1/4 space-y-2",
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-sm sm:text-base font-extrabold text-blue-600 uppercase tracking-wider",
-                              children: "2. Đường truyền mạng",
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "relative w-full flex items-center justify-center h-4",
+                                "flex items-center gap-3 min-w-0 flex-1",
                               children: [
                                 jsxRuntimeExports.jsx("div", {
-                                  className:
-                                    "absolute w-full h-[2px] bg-blue-100 dark:bg-blue-950/60 rounded",
+                                  className: `p-2 rounded-xl shrink-0 ${S ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-slate-800 " + F.color}`,
+                                  children: jsxRuntimeExports.jsx(Be, {
+                                    className: "h-4 w-4",
+                                  }),
                                 }),
-                                jsxRuntimeExports.jsx("div", {
-                                  className:
-                                    "absolute w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse rounded",
-                                }),
-                                jsxRuntimeExports.jsx(Wifi, {
-                                  className:
-                                    "h-4 w-4 text-blue-600 relative bg-white dark:bg-slate-900 px-1",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className: "truncate min-w-0 flex-1",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className: `block font-black text-sm ${S ? "text-white" : "text-slate-800 dark:text-white"}`,
+                                      children: F.name,
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className: `text-xs font-semibold block truncate ${S ? "text-white" : "text-slate-400 dark:text-slate-400"}`,
+                                      children: F.tag,
+                                    }),
+                                  ],
                                 }),
                               ],
-                            }),
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-[9px] text-slate-400 font-medium text-center",
-                              children: "Kết nối Internet siêu tốc",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "w-full md:w-1/3 p-5 sm:p-6 bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/30 dark:to-indigo-950/30 border border-blue-100 dark:border-blue-900/60 rounded-3xl space-y-3",
-                          children: [
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-sm sm:text-base font-extrabold text-blue-600 dark:text-blue-400 text-center block uppercase tracking-wider",
-                              children: "3. Máy chủ đám mây (Cloud Server)",
                             }),
                             jsxRuntimeExports.jsxs("div", {
                               className:
-                                "space-y-1.5 text-sm sm:text-base font-semibold",
+                                "flex items-center gap-1.5 shrink-0 ml-auto pl-2",
                               children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "flex items-center gap-1.5 bg-white dark:bg-slate-900 p-1.5 border border-blue-100/50 rounded shadow-sm font-semibold",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Server, {
-                                      className: "h-3.5 w-3.5 text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      children: "Bộ xử lý máy chủ khổng lồ",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "flex items-center gap-1.5 bg-white dark:bg-slate-900 p-1.5 border border-blue-100/50 rounded shadow-sm font-semibold",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Cloud, {
-                                      className: "h-3.5 w-3.5 text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      children: "Lưu trữ SSD tự động đồng bộ",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "flex items-center gap-1.5 bg-white dark:bg-slate-900 p-1.5 border border-blue-100/50 rounded shadow-sm font-semibold",
-                                  children: [
-                                    jsxRuntimeExports.jsx(Sparkles, {
-                                      className: "h-3.5 w-3.5 text-blue-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      children: "Hệ điều hành & Ứng dụng SaaS",
-                                    }),
-                                  ],
+                                J &&
+                                  jsxRuntimeExports.jsx("span", {
+                                    className: `text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${S ? "bg-white/20 text-white" : "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"}`,
+                                    children: "Đã thử",
+                                  }),
+                                jsxRuntimeExports.jsxs("span", {
+                                  className: `text-xs font-mono font-black px-2 py-0.5 rounded-full ${S ? "bg-white/20 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300"}`,
+                                  children: ["#0", F.id],
                                 }),
                               ],
                             }),
                           ],
-                        }),
-                      ],
+                        },
+                        F.id,
+                      );
                     }),
-                  ],
-                }),
-                jsxRuntimeExports.jsxs("div", {
-                  className: "space-y-3",
-                  children: [
-                    jsxRuntimeExports.jsx("span", {
-                      className:
-                        "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-wider block",
-                      children:
-                        "Các Ví Dụ Thực Tế Về Công Cụ & Phần Mềm Đám Mây",
-                    }),
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2 hover:shadow-md transition-all",
-                          children: [
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "h-8 w-8 rounded-3xl bg-blue-100 dark:bg-blue-950/40 flex items-center justify-center text-blue-600",
-                              children: jsxRuntimeExports.jsx(Cloud, {
-                                className: "h-4 w-4",
-                              }),
-                            }),
-                            jsxRuntimeExports.jsx("h6", {
-                              className:
-                                "font-extrabold text-sm sm:text-base font-medium text-slate-950 dark:text-white uppercase tracking-wide",
-                              children: "Lưu trữ & Chia sẻ file",
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "text-sm sm:text-base font-semibold text-slate-500 leading-relaxed font-semibold",
-                              children:
-                                "Google Drive, OneDrive, Dropbox, iCloud.",
-                            }),
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-[9px] block text-slate-400 italic",
-                              children:
-                                "Lưu tệp an toàn trực tuyến, không tốn ổ cứng cá nhân.",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2 hover:shadow-md transition-all",
-                          children: [
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "h-8 w-8 rounded-3xl bg-emerald-100 dark:bg-emerald-950/40 flex items-center justify-center text-emerald-600",
-                              children: jsxRuntimeExports.jsx(FileText, {
-                                className: "h-4 w-4",
-                              }),
-                            }),
-                            jsxRuntimeExports.jsx("h6", {
-                              className:
-                                "font-extrabold text-sm sm:text-base font-medium text-slate-950 dark:text-white uppercase tracking-wide",
-                              children: "Học Tập & Làm Việc",
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "text-sm sm:text-base font-semibold text-slate-500 leading-relaxed font-semibold",
-                              children: "Google Docs, Microsoft 365, Canva.",
-                            }),
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-[9px] block text-slate-400 italic",
-                              children:
-                                "Soạn thảo tài liệu, thiết kế trực tiếp trên trình duyệt.",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2 hover:shadow-md transition-all",
-                          children: [
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "h-8 w-8 rounded-3xl bg-purple-100 dark:bg-purple-950/40 flex items-center justify-center text-purple-600",
-                              children: jsxRuntimeExports.jsx(Sparkles, {
-                                className: "h-4 w-4",
-                              }),
-                            }),
-                            jsxRuntimeExports.jsx("h6", {
-                              className:
-                                "font-extrabold text-sm sm:text-base font-medium text-slate-950 dark:text-white uppercase tracking-wide",
-                              children: "Giải Trí & Stream",
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "text-sm sm:text-base font-semibold text-slate-500 leading-relaxed font-semibold",
-                              children: "YouTube, Netflix, Spotify, TikTok.",
-                            }),
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-[9px] block text-slate-400 italic",
-                              children:
-                                "Truyền phát phim ảnh, âm nhạc lưu trên đám mây khổng lồ.",
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl space-y-2 hover:shadow-md transition-all",
-                          children: [
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "h-8 w-8 rounded-3xl bg-indigo-100 dark:bg-indigo-950/40 flex items-center justify-center text-indigo-600",
-                              children: jsxRuntimeExports.jsx(Smartphone, {
-                                className: "h-4 w-4",
-                              }),
-                            }),
-                            jsxRuntimeExports.jsx("h6", {
-                              className:
-                                "font-extrabold text-sm sm:text-base font-medium text-slate-950 dark:text-white uppercase tracking-wide",
-                              children: "Liên Lạc & Giao Tiếp",
-                            }),
-                            jsxRuntimeExports.jsx("p", {
-                              className:
-                                "text-sm sm:text-base font-semibold text-slate-500 leading-relaxed font-semibold",
-                              children: "Zalo, Facebook, Gmail, Zoom.",
-                            }),
-                            jsxRuntimeExports.jsx("span", {
-                              className:
-                                "text-[9px] block text-slate-400 italic",
-                              children:
-                                "Mọi tin nhắn, hình ảnh trò chuyện được đồng bộ tự động.",
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  ],
-                }),
-              ],
-            }),
-          n === 1 &&
-            jsxRuntimeExports.jsx("div", {
-              className:
-                "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-sm space-y-6 text-left",
-              children: jsxRuntimeExports.jsxs("div", {
-                className: "space-y-6",
+                  }),
+                ],
+              }),
+              jsxRuntimeExports.jsxs("div", {
+                className:
+                  "lg:col-span-8 bg-slate-950 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-2xl relative text-left",
                 children: [
                   jsxRuntimeExports.jsxs("div", {
-                    className: "flex items-center gap-2",
+                    className:
+                      "flex items-center justify-between px-5 sm:px-5 pb-3 mb-4 border-b border-slate-800/80 text-slate-500 text-sm sm:text-base font-semibold font-mono font-bold uppercase tracking-wider",
                     children: [
-                      jsxRuntimeExports.jsx("span", {
-                        className:
-                          "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400 text-sm sm:text-base font-extrabold px-2.5 py-1 rounded-md uppercase tracking-wider",
-                        children: "Mô Phỏng Trực Quan Trải Nghiệm",
+                      jsxRuntimeExports.jsxs("div", {
+                        className: "flex items-center gap-1.5",
+                        children: [
+                          jsxRuntimeExports.jsx("span", {
+                            className:
+                              "h-2 w-2 rounded-full bg-emerald-500 animate-pulse",
+                          }),
+                          jsxRuntimeExports.jsxs("span", {
+                            children: [
+                              "Thiết bị ảo: #",
+                              n,
+                              " // Active SIMULATOR",
+                            ],
+                          }),
+                        ],
                       }),
-                      jsxRuntimeExports.jsx("span", {
-                        className:
-                          "text-sm sm:text-base font-medium text-slate-400 font-semibold",
-                        children:
-                          "Tự tay kiểm chứng các ưu điểm của điện toán đám mây qua công cụ mô phỏng",
+                      jsxRuntimeExports.jsxs("div", {
+                        className: "flex items-center gap-3",
+                        children: [
+                          jsxRuntimeExports.jsx("span", {
+                            children: "Đường truyền: Ổn định",
+                          }),
+                          jsxRuntimeExports.jsx("span", {
+                            children: "Wi-Fi & Di Động",
+                          }),
+                        ],
                       }),
                     ],
                   }),
                   jsxRuntimeExports.jsxs("div", {
                     className:
-                      "flex flex-wrap gap-2 border-b border-slate-100 dark:border-slate-800 pb-4",
+                      "mb-4 bg-slate-900 border border-slate-800/60 p-8 sm:p-5 rounded-3xl flex gap-3 items-start",
                     children: [
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => k("mobility"),
-                        className: `px-5 sm:px-6 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center gap-1.5 cursor-pointer ${b === "mobility" ? "bg-blue-100 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800" : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"}`,
-                        children: [
-                          jsxRuntimeExports.jsx(Smartphone, {
-                            className: "h-3.5 w-3.5",
-                          }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "1. Mô phỏng: Tính di động (Mobility)",
-                          }),
-                        ],
+                      jsxRuntimeExports.jsx("div", {
+                        className:
+                          "p-8 sm:p-5 bg-indigo-500/15 text-indigo-400 rounded-3xl shrink-0 mt-0.5",
+                        children: jsxRuntimeExports.jsx(Bs.icon, {
+                          className: "h-4 w-4",
+                        }),
                       }),
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => k("backup"),
-                        className: `px-5 sm:px-6 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center gap-1.5 cursor-pointer ${b === "backup" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800" : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"}`,
+                      jsxRuntimeExports.jsxs("div", {
+                        className: "space-y-0.5",
                         children: [
-                          jsxRuntimeExports.jsx(RefreshCw, {
-                            className: "h-3.5 w-3.5",
+                          jsxRuntimeExports.jsx("h4", {
+                            className: "text-[12px] font-bold text-white",
+                            children: Bs.name,
                           }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "2. Mô phỏng: Sao lưu & Khôi phục",
-                          }),
-                        ],
-                      }),
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => k("cost"),
-                        className: `px-5 sm:px-6 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center gap-1.5 cursor-pointer ${b === "cost" ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/40 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800" : "text-slate-600 hover:bg-slate-50 dark:text-slate-400 dark:hover:bg-slate-800"}`,
-                        children: [
-                          jsxRuntimeExports.jsx(DollarSign, {
-                            className: "h-3.5 w-3.5",
-                          }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "3. Mô phỏng: Tiết kiệm chi phí",
+                          jsxRuntimeExports.jsx("p", {
+                            className:
+                              "text-[10.5px] text-slate-400 leading-normal",
+                            children: Bs.desc,
                           }),
                         ],
                       }),
                     ],
                   }),
-                  b === "mobility" &&
+                  n === 1 &&
                     jsxRuntimeExports.jsxs("div", {
-                      className: "space-y-6",
+                      className: "space-y-4 animate-fadeIn",
                       children: [
                         jsxRuntimeExports.jsxs("div", {
                           className:
-                            "bg-slate-50 dark:bg-slate-850/20 p-5 sm:p-6 rounded-3xl border border-slate-150 dark:border-slate-800",
+                            "bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-inner flex flex-col",
                           children: [
-                            jsxRuntimeExports.jsxs("h5", {
+                            jsxRuntimeExports.jsxs("div", {
                               className:
-                                "font-bold text-sm sm:text-base font-medium text-slate-900 dark:text-white flex items-center gap-2",
+                                "p-8 sm:p-5 border-b border-slate-800 space-y-2.5 bg-slate-950",
                               children: [
-                                jsxRuntimeExports.jsx(Smartphone, {
-                                  className: "h-4 w-4 text-blue-500",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "grid grid-cols-12 gap-2 items-center text-sm sm:text-base font-medium",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "col-span-3 text-slate-400 font-bold",
+                                      children: "Người nhận (To):",
+                                    }),
+                                    jsxRuntimeExports.jsx("input", {
+                                      type: "text",
+                                      value: g,
+                                      onChange: (F) => p(F.target.value),
+                                      className:
+                                        "col-span-9 p-1.5 rounded-3xl bg-slate-900 border border-slate-800 text-slate-200 font-mono text-sm sm:text-base font-medium focus:outline-hidden focus:border-indigo-500",
+                                    }),
+                                  ],
                                 }),
-                                jsxRuntimeExports.jsx("span", {
-                                  children:
-                                    "Cách thức Đám mây hỗ trợ truy cập đa thiết bị mọi lúc mọi nơi",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "grid grid-cols-12 gap-2 items-center text-sm sm:text-base font-medium",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "col-span-3 text-slate-400 font-bold",
+                                      children: "Tiêu đề (Subject):",
+                                    }),
+                                    jsxRuntimeExports.jsx("input", {
+                                      type: "text",
+                                      value: f,
+                                      onChange: (F) => b(F.target.value),
+                                      className:
+                                        "col-span-9 p-1.5 rounded-3xl bg-slate-900 border border-slate-800 text-slate-200 text-sm sm:text-base font-medium focus:outline-hidden focus:border-indigo-500 font-bold",
+                                    }),
+                                  ],
+                                }),
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "grid grid-cols-12 gap-2 items-center text-sm sm:text-base font-medium",
+                                  children: [
+                                    jsxRuntimeExports.jsxs("span", {
+                                      className:
+                                        "col-span-3 text-slate-400 font-bold flex items-center gap-1",
+                                      children: [
+                                        jsxRuntimeExports.jsx(Paperclip, {
+                                          className: "h-3.5 w-3.5",
+                                        }),
+                                        " Đính kèm:",
+                                      ],
+                                    }),
+                                    jsxRuntimeExports.jsx("div", {
+                                      className:
+                                        "col-span-9 flex items-center gap-2",
+                                      children: M
+                                        ? jsxRuntimeExports.jsxs("div", {
+                                            className:
+                                              "bg-red-500/10 border border-red-500/20 text-red-400 px-2.5 py-1 rounded-3xl flex items-center gap-1.5 font-bold text-sm sm:text-base font-semibold animate-scaleUp",
+                                            children: [
+                                              jsxRuntimeExports.jsx(FileText, {
+                                                className:
+                                                  "h-3.5 w-3.5 shrink-0",
+                                              }),
+                                              jsxRuntimeExports.jsxs("span", {
+                                                className:
+                                                  "max-w-[320px] sm:max-w-md break-all",
+                                                children: [
+                                                  M.name,
+                                                  " (",
+                                                  M.size,
+                                                  ")",
+                                                ],
+                                              }),
+                                              jsxRuntimeExports.jsx("button", {
+                                                type: "button",
+                                                onClick: () => y(null),
+                                                className:
+                                                  "p-0.5 hover:bg-red-500/20 rounded-md cursor-pointer text-red-500 hover:text-red-400 shrink-0",
+                                                children: jsxRuntimeExports.jsx(
+                                                  X,
+                                                  { className: "h-3 w-3" },
+                                                ),
+                                              }),
+                                            ],
+                                          })
+                                        : jsxRuntimeExports.jsxs("div", {
+                                            className: "relative",
+                                            children: [
+                                              jsxRuntimeExports.jsxs("button", {
+                                                type: "button",
+                                                onClick: () => R(!I),
+                                                className:
+                                                  "no-override px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-xl text-xs sm:text-sm font-extrabold flex items-center gap-1 transition-colors cursor-pointer",
+                                                children: [
+                                                  jsxRuntimeExports.jsx(Plus, {
+                                                    className:
+                                                      "h-3 w-3 text-slate-400",
+                                                  }),
+                                                  " Chọn đính kèm tệp .pdf",
+                                                ],
+                                              }),
+                                              I &&
+                                                jsxRuntimeExports.jsxs("div", {
+                                                  className:
+                                                    "absolute left-0 mt-1.5 w-72 sm:w-96 bg-slate-900 border border-slate-800 rounded-3xl p-2 shadow-2xl z-20 space-y-1",
+                                                  children: [
+                                                    jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-[9px] font-bold text-slate-500 px-2 py-1 block uppercase tracking-wider",
+                                                        children:
+                                                          "Chọn tài liệu PDF đính kèm:",
+                                                      },
+                                                    ),
+                                                    he.map((F, Be) =>
+                                                      jsxRuntimeExports.jsxs(
+                                                        "button",
+                                                        {
+                                                          type: "button",
+                                                          onClick: () => {
+                                                            (y(F), R(!1));
+                                                          },
+                                                          className:
+                                                            "w-full text-left p-2.5 rounded-2xl hover:bg-slate-800 text-sm sm:text-base font-semibold text-slate-200 font-bold flex items-center justify-between gap-2 group cursor-pointer",
+                                                          children: [
+                                                            jsxRuntimeExports.jsxs(
+                                                              "span",
+                                                              {
+                                                                className:
+                                                                  "group-hover:text-red-400 flex items-center gap-1.5 break-all text-xs sm:text-sm",
+                                                                children: [
+                                                                  jsxRuntimeExports.jsx(
+                                                                    FileText,
+                                                                    {
+                                                                      className:
+                                                                        "h-3.5 w-3.5 text-red-500 shrink-0",
+                                                                    },
+                                                                  ),
+                                                                  " ",
+                                                                  F.name,
+                                                                ],
+                                                              },
+                                                            ),
+                                                            jsxRuntimeExports.jsx(
+                                                              "span",
+                                                              {
+                                                                className:
+                                                                  "text-[9px] text-slate-500 font-mono font-bold shrink-0",
+                                                                children:
+                                                                  F.size,
+                                                              },
+                                                            ),
+                                                          ],
+                                                        },
+                                                        Be,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                }),
+                                            ],
+                                          }),
+                                    }),
+                                  ],
                                 }),
                               ],
                             }),
-                            jsxRuntimeExports.jsxs("p", {
+                            jsxRuntimeExports.jsx("div", {
+                              className: "p-5 sm:p-6 bg-slate-900 space-y-3",
+                              children: jsxRuntimeExports.jsxs("div", {
+                                className:
+                                  "bg-slate-950 border border-slate-800 rounded-2xl p-4 text-left flex flex-col gap-2",
+                                children: [
+                                  jsxRuntimeExports.jsxs("label", {
+                                    className:
+                                      "text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center justify-between",
+                                    children: [
+                                      jsxRuntimeExports.jsx("span", {
+                                        children:
+                                          "NỘI DUNG THƯ & CHỮ KÝ (TỰ DO CHỈNH SỬA):",
+                                      }),
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "text-[10px] text-slate-500 font-normal",
+                                        children:
+                                          "Cho phép tự do chỉnh sửa nội dung và chữ ký bên dưới",
+                                      }),
+                                    ],
+                                  }),
+                                  jsxRuntimeExports.jsx("textarea", {
+                                    rows: 12,
+                                    value: k,
+                                    onChange: (F) => N(F.target.value),
+                                    className:
+                                      "w-full bg-slate-900/90 border border-slate-800 focus:border-indigo-500 rounded-xl p-3.5 text-slate-100 font-mono text-xs sm:text-sm font-medium leading-relaxed focus:outline-hidden resize-y min-h-[280px]",
+                                    placeholder:
+                                      "Nhập nội dung thư điện tử và chữ ký tại đây...",
+                                  }),
+                                ],
+                              }),
+                            }),
+                          ],
+                        }),
+                        jsxRuntimeExports.jsxs("div", {
+                          className: "flex items-center justify-end pt-1",
+                          children: [
+                            z === "idle" &&
+                              jsxRuntimeExports.jsxs("button", {
+                                onClick: E,
+                                className:
+                                  "px-5 sm:px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-3xl text-sm sm:text-base font-medium font-black shadow-lg flex items-center gap-1.5 transition-all cursor-pointer active:scale-95 hover:scale-103 transition-all",
+                                children: [
+                                  jsxRuntimeExports.jsx(Send, {
+                                    className: "h-3.5 w-3.5",
+                                  }),
+                                  " Gửi Email Chính Thức",
+                                ],
+                              }),
+                            z === "sending" &&
+                              jsxRuntimeExports.jsxs("button", {
+                                disabled: !0,
+                                className:
+                                  "px-5 sm:px-6 py-3 bg-slate-800 text-slate-400 rounded-3xl text-sm sm:text-base font-medium font-black flex items-center gap-1.5",
+                                children: [
+                                  jsxRuntimeExports.jsx(RefreshCw, {
+                                    className: "h-3.5 w-3.5 animate-spin",
+                                  }),
+                                  " Đang tải tệp & truyền thư...",
+                                ],
+                              }),
+                            z === "sent" &&
+                              jsxRuntimeExports.jsxs("div", {
+                                className: "flex flex-col items-end gap-1",
+                                children: [
+                                  jsxRuntimeExports.jsx("span", {
+                                    className:
+                                      "text-sm sm:text-base font-semibold font-black text-emerald-400 bg-emerald-950/30 border border-emerald-900/60 px-5 sm:px-5 py-3 rounded-3xl flex items-center gap-1.5 animate-scaleUp",
+                                    children:
+                                      "✓ Đã gửi Email kèm tệp PDF thành công!",
+                                  }),
+                                  jsxRuntimeExports.jsx("button", {
+                                    onClick: () => A("idle"),
+                                    className:
+                                      "text-sm sm:text-base font-semibold text-indigo-400 font-bold hover:underline cursor-pointer",
+                                    children: "[Soạn thư mới]",
+                                  }),
+                                ],
+                              }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  n === 2 &&
+                    jsxRuntimeExports.jsxs("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: [
+                        jsxRuntimeExports.jsxs("div", {
+                          className:
+                            "max-w-md mx-auto bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[400px]",
+                          children: [
+                            jsxRuntimeExports.jsxs("div", {
                               className:
-                                "mt-1 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400 leading-relaxed font-medium",
+                                "bg-slate-950 py-1.5 px-3 border-b border-slate-850 flex items-center justify-between text-[9px] font-mono text-slate-400",
                               children: [
-                                jsxRuntimeExports.jsx("strong", {
-                                  children: "Trải nghiệm thực tế:",
+                                jsxRuntimeExports.jsx("div", {
+                                  className:
+                                    "flex items-center gap-1 font-bold",
+                                  children: jsxRuntimeExports.jsx("span", {
+                                    children: "MẠNG DI ĐỘNG VIỄN THÔNG (GSM)",
+                                  }),
                                 }),
-                                " Thử tải tệp tin bài học của em từ chiếc Laptop cá nhân lên đám mây (Cloud), sau đó thử click vào các thiết bị di động ở xa để kiểm tra xem tài liệu đã tự động đồng bộ chưa nhé!",
+                                jsxRuntimeExports.jsx("span", {
+                                  children: "160 ký tự / SMS",
+                                }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsxs("div", {
+                              className:
+                                "p-2.5 px-3 bg-slate-900/95 border-b border-slate-850 flex items-center gap-2",
+                              children: [
+                                jsxRuntimeExports.jsx("div", {
+                                  className:
+                                    "h-7 w-7 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-sm sm:text-base font-medium",
+                                  children: "HS",
+                                }),
+                                jsxRuntimeExports.jsxs("div", {
+                                  className: "text-left",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "font-extrabold text-slate-200 block text-xs sm:text-sm",
+                                      children: "Nhóm Học Nhóm (SMS)",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "text-[9px] text-slate-500 font-bold block",
+                                      children:
+                                        "Không cần Internet // Chỉ nhắn tin ngắn thô",
+                                    }),
+                                  ],
+                                }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsxs("div", {
+                              className:
+                                "flex-1 p-3 overflow-y-auto space-y-2 bg-slate-950 flex flex-col justify-end",
+                              children: [
+                                te.map((F, Be) => {
+                                  const S = F.sender === "me";
+                                  return jsxRuntimeExports.jsxs(
+                                    "div",
+                                    {
+                                      className: `flex flex-col max-w-[75%] ${S ? "self-end items-end" : "self-start items-start"} animate-scaleUp`,
+                                      children: [
+                                        jsxRuntimeExports.jsx("div", {
+                                          className: `p-2 px-3 rounded-2xl text-xs sm:text-sm font-semibold leading-relaxed ${S ? "bg-emerald-600 text-white rounded-br-none" : "bg-slate-800 text-slate-250 rounded-bl-none"}`,
+                                          children: F.text,
+                                        }),
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "text-[8px] text-slate-500 mt-1 font-mono uppercase",
+                                          children: F.time,
+                                        }),
+                                      ],
+                                    },
+                                    Be,
+                                  );
+                                }),
+                                Se &&
+                                  jsxRuntimeExports.jsx("div", {
+                                    className:
+                                      "self-start flex flex-col items-start",
+                                    children: jsxRuntimeExports.jsxs("div", {
+                                      className:
+                                        "bg-slate-800 text-slate-400 p-2 px-3 rounded-2xl text-xs sm:text-sm font-medium flex items-center gap-1 font-bold",
+                                      children: [
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "h-1 w-1 bg-slate-400 rounded-full animate-bounce",
+                                        }),
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "h-1 w-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.2s]",
+                                        }),
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "h-1 w-1 bg-slate-400 rounded-full animate-bounce [animation-delay:0.4s]",
+                                        }),
+                                      ],
+                                    }),
+                                  }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsxs("div", {
+                              className:
+                                "p-2 bg-slate-900 border-t border-slate-850 flex gap-1.5 items-center",
+                              children: [
+                                jsxRuntimeExports.jsx("input", {
+                                  type: "text",
+                                  maxLength: 160,
+                                  placeholder: "Nhập tin nhắn SMS...",
+                                  value: v,
+                                  onChange: (F) => K(F.target.value),
+                                  onKeyDown: (F) => F.key === "Enter" && Xe(),
+                                  className:
+                                    "no-override flex-1 py-1.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 placeholder:text-slate-500 text-xs sm:text-sm font-medium focus:outline-hidden focus:border-emerald-500 h-9",
+                                }),
+                                jsxRuntimeExports.jsx("button", {
+                                  onClick: () => Xe(),
+                                  className:
+                                    "no-override h-9 w-9 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl cursor-pointer shrink-0 flex items-center justify-center",
+                                  children: jsxRuntimeExports.jsx(Send, {
+                                    className: "h-3.5 w-3.5",
+                                  }),
+                                }),
                               ],
                             }),
                           ],
                         }),
                         jsxRuntimeExports.jsxs("div", {
+                          className: "space-y-1.5",
+                          children: [
+                            jsxRuntimeExports.jsx("span", {
+                              className:
+                                "text-sm sm:text-base font-semibold text-slate-400 block font-bold uppercase tracking-wider",
+                              children: "Mẫu tin nhắn ngắn truyền thống (SMS):",
+                            }),
+                            jsxRuntimeExports.jsx("div", {
+                              className: "flex flex-wrap gap-2",
+                              children: [
+                                "Tớ bị kẹt xe nên tới trễ khoảng 10 phút nha, mọi người cứ bắt đầu trước!",
+                                "Có ai mang theo sách hướng dẫn IC3 không?",
+                                "Con đang trên đường về rồi nha mẹ ơi!",
+                              ].map((F, Be) =>
+                                jsxRuntimeExports.jsxs(
+                                  "button",
+                                  {
+                                    onClick: () => Xe(F),
+                                    className:
+                                      "px-2.5 py-3 bg-slate-900 hover:bg-slate-850 border border-slate-800 text-[10.5px] font-bold text-slate-350 rounded-3xl cursor-pointer transition-all active:scale-95 hover:scale-103 transition-all",
+                                    children: ['⚡ "', F, '"'],
+                                  },
+                                  Be,
+                                ),
+                              ),
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  n === 3 &&
+                    jsxRuntimeExports.jsxs("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: [
+                        jsxRuntimeExports.jsxs("div", {
                           className:
-                            "grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch",
+                            "bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[400px]",
                           children: [
                             jsxRuntimeExports.jsxs("div", {
                               className:
-                                "lg:col-span-5 bg-slate-50 dark:bg-slate-850/40 p-5 sm:p-6 rounded-3xl border border-slate-100 dark:border-slate-800 space-y-4",
+                                "bg-slate-950 py-1.5 px-3 border-b border-slate-850 flex items-center justify-between text-[9px] font-mono text-indigo-400",
                               children: [
-                                jsxRuntimeExports.jsx("span", {
+                                jsxRuntimeExports.jsxs("div", {
                                   className:
-                                    "text-sm sm:text-base font-extrabold text-blue-600 uppercase tracking-wider",
-                                  children: "Bước 1: Laptop cá nhân của em",
+                                    "flex items-center gap-1.5 font-bold",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "h-1.5 w-1.5 rounded-full bg-indigo-500 animate-ping",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      children:
+                                        "TIN NHẮN TỨC THỜI (IM) // QUA INTERNET (TCP/IP)",
+                                    }),
+                                  ],
                                 }),
-                                jsxRuntimeExports.jsxs("form", {
-                                  onSubmit: ve,
-                                  className: "space-y-4",
+                                jsxRuntimeExports.jsx("span", {
+                                  children:
+                                    "Không giới hạn độ dài // Hỗ trợ Emojis",
+                                }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsxs("div", {
+                              className:
+                                "p-2.5 px-3 bg-slate-900 border-b border-slate-850 flex items-center justify-between",
+                              children: [
+                                jsxRuntimeExports.jsxs("div", {
+                                  className: "flex items-center gap-2",
                                   children: [
                                     jsxRuntimeExports.jsxs("div", {
+                                      className: "flex shrink-0 -space-x-2",
                                       children: [
-                                        jsxRuntimeExports.jsx("label", {
+                                        jsxRuntimeExports.jsx("div", {
                                           className:
-                                            "block text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300 mb-1.5",
-                                          children: "Tên tệp tin muốn tải lên",
+                                            "h-7 w-7 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-sm sm:text-base font-semibold border border-slate-900",
+                                          children: "KM",
                                         }),
-                                        jsxRuntimeExports.jsx("input", {
-                                          type: "text",
-                                          value: L,
-                                          onChange: (W) => le(W.target.value),
-                                          placeholder:
-                                            "Ví dụ: Bai_Thuyet_Trinh_Lich_Su",
+                                        jsxRuntimeExports.jsx("div", {
                                           className:
-                                            "w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-3xl px-5 sm:px-5 py-3 text-sm sm:text-base font-medium focus:ring-2 focus:ring-blue-500 font-medium",
+                                            "h-7 w-7 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-sm sm:text-base font-semibold border border-slate-900",
+                                          children: "MA",
                                         }),
                                       ],
                                     }),
                                     jsxRuntimeExports.jsxs("div", {
+                                      className: "text-left",
                                       children: [
-                                        jsxRuntimeExports.jsx("label", {
+                                        jsxRuntimeExports.jsx("span", {
                                           className:
-                                            "block text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300 mb-1.5",
-                                          children: "Thể loại tệp",
-                                        }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className: "grid grid-cols-2 gap-3",
-                                          children: [
-                                            jsxRuntimeExports.jsxs("button", {
-                                              type: "button",
-                                              onClick: () => G("doc"),
-                                              className: `py-3 text-sm sm:text-base font-bold rounded-3xl border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${P === "doc" ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300" : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800"}`,
-                                              children: [
-                                                jsxRuntimeExports.jsx(
-                                                  FileText,
-                                                  { className: "h-3.5 w-3.5" },
-                                                ),
-                                                jsxRuntimeExports.jsx("span", {
-                                                  children: "Tài liệu (.docx)",
-                                                }),
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("button", {
-                                              type: "button",
-                                              onClick: () => G("image"),
-                                              className: `py-3 text-sm sm:text-base font-bold rounded-3xl border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${P === "image" ? "border-blue-500 bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-300" : "border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800"}`,
-                                              children: [
-                                                jsxRuntimeExports.jsx(Image, {
-                                                  className: "h-3.5 w-3.5",
-                                                }),
-                                                jsxRuntimeExports.jsx("span", {
-                                                  children: "Hình ảnh (.png)",
-                                                }),
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsxs("button", {
-                                      type: "submit",
-                                      disabled: R || !L.trim(),
-                                      className: `w-full py-3 text-sm sm:text-base font-bold rounded-3xl transition-all flex items-center justify-center gap-2 cursor-pointer ${!L.trim() || R ? "bg-slate-200 text-slate-400 dark:bg-slate-800 dark:text-slate-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white shadow-md"}`,
-                                      children: [
-                                        jsxRuntimeExports.jsx(Cloud, {
-                                          className: "h-4 w-4",
+                                            "font-extrabold text-slate-200 block text-xs sm:text-sm",
+                                          children:
+                                            "Nhóm Dự Án IC3 GS6 (IM Group)",
                                         }),
                                         jsxRuntimeExports.jsx("span", {
-                                          children: R
-                                            ? "Đang tải lên Đám Mây..."
-                                            : "Tải lên Đám Mây",
+                                          className:
+                                            "text-[9.5px] text-indigo-400 font-bold block",
+                                          children: it,
                                         }),
                                       ],
                                     }),
                                   ],
                                 }),
-                                R &&
+                                jsxRuntimeExports.jsx("span", {
+                                  className:
+                                    "text-[9.5px] text-slate-400 font-bold",
+                                  children: "Zalo / Messenger",
+                                }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsxs("div", {
+                              className:
+                                "flex-1 p-3 overflow-y-auto space-y-2 bg-slate-950 flex flex-col justify-end",
+                              children: [
+                                at.map((F, Be) => {
+                                  const S = F.sender === "me";
+                                  return jsxRuntimeExports.jsxs(
+                                    "div",
+                                    {
+                                      className: `flex gap-2 max-w-[80%] ${S ? "self-end flex-row-reverse" : "self-start flex-row"} items-end animate-scaleUp`,
+                                      children: [
+                                        !S &&
+                                          jsxRuntimeExports.jsx("div", {
+                                            className: `h-6 w-6 rounded-full ${F.avatarBg} text-white flex items-center justify-center font-bold text-[9px] shrink-0`,
+                                            children: F.author.charAt(0),
+                                          }),
+                                        jsxRuntimeExports.jsxs("div", {
+                                          className: "flex flex-col",
+                                          children: [
+                                            !S &&
+                                              jsxRuntimeExports.jsx("span", {
+                                                className:
+                                                  "text-[8.5px] text-slate-400 font-bold ml-1 mb-0.5",
+                                                children: F.author,
+                                              }),
+                                            jsxRuntimeExports.jsx("div", {
+                                              className: `p-2 px-3 rounded-2xl text-xs sm:text-sm font-semibold leading-relaxed ${S ? "bg-indigo-600 text-white rounded-br-none" : "bg-slate-850 text-slate-250 rounded-bl-none"}`,
+                                              children: F.text,
+                                            }),
+                                            jsxRuntimeExports.jsx("span", {
+                                              className:
+                                                "text-[8px] text-slate-500 mt-0.5 font-mono uppercase text-right",
+                                              children: F.time,
+                                            }),
+                                          ],
+                                        }),
+                                      ],
+                                    },
+                                    Be,
+                                  );
+                                }),
+                                De &&
                                   jsxRuntimeExports.jsxs("div", {
-                                    className: "space-y-1.5",
+                                    className:
+                                      "self-start flex gap-2 items-center",
                                     children: [
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "flex justify-between text-sm sm:text-base font-bold text-slate-500",
-                                        children: [
-                                          jsxRuntimeExports.jsx("span", {
-                                            children:
-                                              "Đang tải lên máy chủ đám mây...",
-                                          }),
-                                          jsxRuntimeExports.jsxs("span", {
-                                            children: [A, "%"],
-                                          }),
-                                        ],
-                                      }),
                                       jsxRuntimeExports.jsx("div", {
                                         className:
-                                          "h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden",
-                                        children: jsxRuntimeExports.jsx("div", {
-                                          className:
-                                            "h-full bg-blue-500 transition-all duration-150",
-                                          style: { width: `${A}%` },
-                                        }),
+                                          "h-6 w-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[9px] shrink-0",
+                                        children: "K",
+                                      }),
+                                      jsxRuntimeExports.jsxs("div", {
+                                        className:
+                                          "bg-slate-850 text-slate-400 p-2 px-3 rounded-2xl text-xs sm:text-sm font-medium flex items-center gap-1 font-bold",
+                                        children: [
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce",
+                                          }),
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce [animation-delay:0.2s]",
+                                          }),
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce [animation-delay:0.4s]",
+                                          }),
+                                        ],
                                       }),
                                     ],
                                   }),
@@ -1139,2734 +1762,1586 @@
                             }),
                             jsxRuntimeExports.jsxs("div", {
                               className:
-                                "lg:col-span-7 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 bg-white dark:bg-slate-900 flex flex-col justify-between",
+                                "p-2 bg-slate-900 border-t border-slate-850 flex gap-1.5 items-center",
                               children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-4",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "flex items-center justify-between",
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-sm sm:text-base font-extrabold text-indigo-600 uppercase tracking-wider",
-                                          children:
-                                            "Bước 2: Hệ thống đám mây (Cloud storage)",
-                                        }),
-                                        jsxRuntimeExports.jsxs("span", {
-                                          className:
-                                            "inline-flex items-center gap-1 text-sm sm:text-base font-semibold bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 px-2 py-0.5 rounded-full font-bold",
-                                          children: [
-                                            jsxRuntimeExports.jsx(Wifi, {
-                                              className: "h-3 w-3",
-                                            }),
-                                            " Đã kết nối mạng",
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "p-5 sm:p-6 bg-linear-to-br from-blue-500/10 to-indigo-500/10 dark:from-slate-850 dark:to-indigo-950/40 border border-blue-100 dark:border-slate-800 rounded-3xl space-y-3 relative overflow-hidden",
-                                      children: [
-                                        jsxRuntimeExports.jsx("div", {
-                                          className:
-                                            "absolute top-2 right-2 opacity-10",
-                                          children: jsxRuntimeExports.jsx(
-                                            Cloud,
-                                            {
-                                              className:
-                                                "h-40 w-24 text-blue-500 animate-pulse",
-                                            },
-                                          ),
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-sm sm:text-base font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest",
-                                          children:
-                                            "Các tệp tin hiện tại trên Mây:",
-                                        }),
-                                        jsxRuntimeExports.jsx("div", {
-                                          className:
-                                            "space-y-1.5 max-h-40 overflow-y-auto pr-1",
-                                          children: N.map((W, Me) =>
-                                            jsxRuntimeExports.jsxs(
-                                              "div",
-                                              {
-                                                className:
-                                                  "flex items-center justify-between bg-white dark:bg-slate-900 p-8 sm:p-5 rounded-3xl border border-slate-100 dark:border-slate-800 text-sm sm:text-base font-medium animate-fadeIn",
-                                                children: [
-                                                  jsxRuntimeExports.jsxs(
-                                                    "div",
-                                                    {
-                                                      className:
-                                                        "flex items-center gap-2",
-                                                      children: [
-                                                        W.type === "doc"
-                                                          ? jsxRuntimeExports.jsx(
-                                                              FileText,
-                                                              {
-                                                                className:
-                                                                  "h-3.5 w-3.5 text-blue-500",
-                                                              },
-                                                            )
-                                                          : jsxRuntimeExports.jsx(
-                                                              Image,
-                                                              {
-                                                                className:
-                                                                  "h-3.5 w-3.5 text-emerald-500",
-                                                              },
-                                                            ),
-                                                        jsxRuntimeExports.jsx(
-                                                          "span",
-                                                          {
-                                                            className:
-                                                              "text-slate-800 dark:text-slate-200 font-semibold",
-                                                            children: W.name,
-                                                          },
-                                                        ),
-                                                      ],
-                                                    },
-                                                  ),
-                                                  jsxRuntimeExports.jsx(
-                                                    "span",
-                                                    {
-                                                      className:
-                                                        "text-sm sm:text-base font-semibold text-slate-400 font-mono",
-                                                      children: W.size,
-                                                    },
-                                                  ),
-                                                ],
-                                              },
-                                              Me,
-                                            ),
-                                          ),
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className: "space-y-3",
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-sm sm:text-base font-extrabold text-amber-600 uppercase tracking-wider block",
-                                          children:
-                                            "Bước 3: Mô phỏng kết nối thiết bị từ các vị trí địa lý khác nhau",
-                                        }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "grid grid-cols-1 md:grid-cols-3 gap-3",
-                                          children: [
-                                            jsxRuntimeExports.jsxs("div", {
-                                              onClick: () => I("phone"),
-                                              className: `p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer relative overflow-hidden group ${y === "phone" ? "border-amber-500 bg-amber-50/40 dark:border-amber-500 dark:bg-amber-950/20 shadow-md scale-[1.02]" : "border-slate-200 dark:border-slate-800 bg-slate-50/30 hover:border-slate-350 dark:hover:border-slate-700"}`,
-                                              children: [
-                                                jsxRuntimeExports.jsx("div", {
-                                                  className:
-                                                    "absolute -right-3 -bottom-3 opacity-10 group-hover:scale-110 transition-transform",
-                                                  children:
-                                                    jsxRuntimeExports.jsx(
-                                                      Smartphone,
-                                                      {
-                                                        className:
-                                                          "h-16 w-16 text-amber-600",
-                                                      },
-                                                    ),
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "flex items-center gap-2 mb-2",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "div",
-                                                      {
-                                                        className:
-                                                          "p-8 sm:p-5 bg-amber-100 dark:bg-amber-950/40 rounded-3xl text-amber-600",
-                                                        children:
-                                                          jsxRuntimeExports.jsx(
-                                                            Smartphone,
-                                                            {
-                                                              className:
-                                                                "h-5 w-5",
-                                                            },
-                                                          ),
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsxs(
-                                                      "div",
-                                                      {
-                                                        children: [
-                                                          jsxRuntimeExports.jsx(
-                                                            "h6",
-                                                            {
-                                                              className:
-                                                                "text-sm sm:text-base font-extrabold text-slate-900 dark:text-white",
-                                                              children:
-                                                                "Điện thoại di động",
-                                                            },
-                                                          ),
-                                                          jsxRuntimeExports.jsx(
-                                                            "span",
-                                                            {
-                                                              className:
-                                                                "text-[9px] font-bold text-amber-600 dark:text-amber-400",
-                                                              children:
-                                                                "Cách xa 15 km",
-                                                            },
-                                                          ),
-                                                        ],
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className: "space-y-1",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-500 block",
-                                                        children:
-                                                          "Vị trí địa lý:",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                                        children:
-                                                          "🌳 Công viên Yên Sở",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "mt-3 pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className: `text-[9px] font-extrabold px-1.5 py-0.5 rounded ${y === "phone" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400" : "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`,
-                                                        children:
-                                                          y === "phone"
-                                                            ? "ĐANG ĐỒNG BỘ"
-                                                            : "CHƯA KẾT NỐI",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-[9px] font-bold text-blue-600 group-hover:translate-x-1 transition-transform",
-                                                        children: "Thử →",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("div", {
-                                              onClick: () => I("tablet"),
-                                              className: `p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer relative overflow-hidden group ${y === "tablet" ? "border-amber-500 bg-amber-50/40 dark:border-amber-500 dark:bg-amber-950/20 shadow-md scale-[1.02]" : "border-slate-200 dark:border-slate-800 bg-slate-50/30 hover:border-slate-350 dark:hover:border-slate-700"}`,
-                                              children: [
-                                                jsxRuntimeExports.jsx("div", {
-                                                  className:
-                                                    "absolute -right-3 -bottom-3 opacity-10 group-hover:scale-110 transition-transform",
-                                                  children:
-                                                    jsxRuntimeExports.jsx(
-                                                      Tablet,
-                                                      {
-                                                        className:
-                                                          "h-16 w-16 text-indigo-600",
-                                                      },
-                                                    ),
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "flex items-center gap-2 mb-2",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "div",
-                                                      {
-                                                        className:
-                                                          "p-8 sm:p-5 bg-indigo-100 dark:bg-indigo-950/40 rounded-3xl text-indigo-600",
-                                                        children:
-                                                          jsxRuntimeExports.jsx(
-                                                            Tablet,
-                                                            {
-                                                              className:
-                                                                "h-5 w-5",
-                                                            },
-                                                          ),
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsxs(
-                                                      "div",
-                                                      {
-                                                        children: [
-                                                          jsxRuntimeExports.jsx(
-                                                            "h6",
-                                                            {
-                                                              className:
-                                                                "text-sm sm:text-base font-extrabold text-slate-900 dark:text-white",
-                                                              children:
-                                                                "Máy tính bảng",
-                                                            },
-                                                          ),
-                                                          jsxRuntimeExports.jsx(
-                                                            "span",
-                                                            {
-                                                              className:
-                                                                "text-[9px] font-bold text-indigo-600 dark:text-indigo-400",
-                                                              children:
-                                                                "Cách xa 35 km",
-                                                            },
-                                                          ),
-                                                        ],
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className: "space-y-1",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-500 block",
-                                                        children:
-                                                          "Vị trí địa lý:",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                                        children:
-                                                          "✈️ Sân bay Nội Bài",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "mt-3 pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className: `text-[9px] font-extrabold px-1.5 py-0.5 rounded ${y === "tablet" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400" : "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`,
-                                                        children:
-                                                          y === "tablet"
-                                                            ? "ĐANG ĐỒNG BỘ"
-                                                            : "CHƯA KẾT NỐI",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-[9px] font-bold text-blue-600 group-hover:translate-x-1 transition-transform",
-                                                        children: "Thử →",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("div", {
-                                              onClick: () => I("desktop"),
-                                              className: `p-5 sm:p-6 rounded-3xl border-2 transition-all cursor-pointer relative overflow-hidden group ${y === "desktop" ? "border-amber-500 bg-amber-50/40 dark:border-amber-500 dark:bg-amber-950/20 shadow-md scale-[1.02]" : "border-slate-200 dark:border-slate-800 bg-slate-50/30 hover:border-slate-350 dark:hover:border-slate-700"}`,
-                                              children: [
-                                                jsxRuntimeExports.jsx("div", {
-                                                  className:
-                                                    "absolute -right-3 -bottom-3 opacity-10 group-hover:scale-110 transition-transform",
-                                                  children:
-                                                    jsxRuntimeExports.jsx(
-                                                      Monitor,
-                                                      {
-                                                        className:
-                                                          "h-16 w-16 text-emerald-600",
-                                                      },
-                                                    ),
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "flex items-center gap-2 mb-2",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "div",
-                                                      {
-                                                        className:
-                                                          "p-8 sm:p-5 bg-emerald-100 dark:bg-emerald-950/40 rounded-3xl text-emerald-600",
-                                                        children:
-                                                          jsxRuntimeExports.jsx(
-                                                            Monitor,
-                                                            {
-                                                              className:
-                                                                "h-5 w-5",
-                                                            },
-                                                          ),
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsxs(
-                                                      "div",
-                                                      {
-                                                        children: [
-                                                          jsxRuntimeExports.jsx(
-                                                            "h6",
-                                                            {
-                                                              className:
-                                                                "text-sm sm:text-base font-extrabold text-slate-900 dark:text-white",
-                                                              children:
-                                                                "Máy tính học tập",
-                                                            },
-                                                          ),
-                                                          jsxRuntimeExports.jsx(
-                                                            "span",
-                                                            {
-                                                              className:
-                                                                "text-[9px] font-bold text-emerald-600 dark:text-emerald-400",
-                                                              children:
-                                                                "Cách xa 5 km",
-                                                            },
-                                                          ),
-                                                        ],
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className: "space-y-1",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-500 block",
-                                                        children:
-                                                          "Vị trí địa lý:",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                                        children:
-                                                          "🏫 Phòng máy trường học",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  className:
-                                                    "mt-3 pt-2 border-t border-slate-200/50 dark:border-slate-800/50 flex justify-between items-center",
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className: `text-[9px] font-extrabold px-1.5 py-0.5 rounded ${y === "desktop" ? "bg-emerald-100 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-400" : "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400"}`,
-                                                        children:
-                                                          y === "desktop"
-                                                            ? "ĐANG ĐỒNG BỘ"
-                                                            : "CHƯA KẾT NỐI",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-[9px] font-bold text-blue-600 group-hover:translate-x-1 transition-transform",
-                                                        children: "Thử →",
-                                                      },
-                                                    ),
-                                                  ],
-                                                }),
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                  ],
+                                jsxRuntimeExports.jsx("input", {
+                                  type: "text",
+                                  placeholder:
+                                    "Gõ tin nhắn tức thời có chứa Emojis...",
+                                  value: Qe,
+                                  onChange: (F) => qe(F.target.value),
+                                  onKeyDown: (F) => F.key === "Enter" && ie(),
+                                  className:
+                                    "no-override flex-1 py-1.5 px-3 rounded-xl bg-slate-950 border border-slate-800 text-slate-200 placeholder:text-slate-500 text-xs sm:text-sm font-medium focus:outline-hidden focus:border-indigo-500 h-9",
                                 }),
                                 jsxRuntimeExports.jsx("div", {
+                                  className: "flex gap-1 shrink-0",
+                                  children: ["👍", "😍", "🔥"].map((F, Be) =>
+                                    jsxRuntimeExports.jsx(
+                                      "button",
+                                      {
+                                        onClick: () => ie(F),
+                                        className:
+                                          "no-override p-1.5 text-xs bg-slate-800 hover:bg-slate-750 rounded-lg cursor-pointer transition-all active:scale-90",
+                                        children: F,
+                                      },
+                                      Be,
+                                    ),
+                                  ),
+                                }),
+                                jsxRuntimeExports.jsx("button", {
+                                  onClick: () => ie(),
                                   className:
-                                    "mt-4 border-t border-slate-100 dark:border-slate-800 pt-4",
-                                  children: y
-                                    ? jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "p-8 sm:p-5 rounded-3xl bg-amber-50/40 dark:bg-amber-950/10 border border-amber-200/40 space-y-2 animate-fadeIn text-sm sm:text-base font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex items-center gap-2 text-amber-700 dark:text-amber-400",
-                                            children: [
-                                              jsxRuntimeExports.jsx(
-                                                CircleCheck,
-                                                {
-                                                  className: "h-4 w-4 shrink-0",
-                                                },
-                                              ),
-                                              jsxRuntimeExports.jsxs("span", {
-                                                className: "font-extrabold",
-                                                children: [
-                                                  "Đồng bộ hoàn tất trên ",
-                                                  y === "phone"
-                                                    ? "Điện thoại"
-                                                    : y === "tablet"
-                                                      ? "Máy tính bảng"
-                                                      : "Máy tính trường học",
-                                                  "!",
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("p", {
-                                            className:
-                                              "text-slate-600 dark:text-slate-400 font-medium",
-                                            children: [
-                                              "Tuyệt vời! Em có thể thấy ngay cả khi em ",
-                                              y === "phone"
-                                                ? "đang ở Công viên Yên Sở cách xa chiếc Laptop 15 km"
-                                                : y === "tablet"
-                                                  ? "đang ở Sân bay Nội Bài cách xa chiếc Laptop 35 km"
-                                                  : "đang ở Phòng máy trường học cách xa chiếc Laptop 5 km",
-                                              ", chiếc ",
-                                              y === "phone"
-                                                ? "Điện thoại"
-                                                : y === "tablet"
-                                                  ? "Máy tính bảng"
-                                                  : "Máy tính học tập",
-                                              " vẫn truy cập được đầy đủ ",
-                                              N.length,
-                                              " tệp tin ở trên Đám Mây mà không cần mang theo máy tính cá nhân. Đây chính là ",
-                                              jsxRuntimeExports.jsx("strong", {
-                                                children:
-                                                  "Tính di động (Mobility)",
-                                              }),
-                                              ".",
-                                            ],
-                                          }),
-                                        ],
-                                      })
-                                    : jsxRuntimeExports.jsx("div", {
-                                        className:
-                                          "p-5 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-850/20 text-center text-sm sm:text-base font-medium text-slate-500 font-medium",
-                                        children:
-                                          "💡 Hãy chọn 1 thiết bị từ xa ở phía trên để bật màn hình mô phỏng đồng bộ!",
-                                      }),
+                                    "no-override h-9 w-9 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl cursor-pointer shrink-0 flex items-center justify-center",
+                                  children: jsxRuntimeExports.jsx(Send, {
+                                    className: "h-3.5 w-3.5",
+                                  }),
                                 }),
                               ],
+                            }),
+                          ],
+                        }),
+                        jsxRuntimeExports.jsxs("div", {
+                          className: "space-y-1.5",
+                          children: [
+                            jsxRuntimeExports.jsx("span", {
+                              className:
+                                "text-sm sm:text-base font-semibold text-slate-400 block font-bold uppercase tracking-wider",
+                              children:
+                                "Trò chuyện tức thời qua Internet (IM):",
+                            }),
+                            jsxRuntimeExports.jsx("div", {
+                              className: "flex flex-wrap gap-2",
+                              children: [
+                                "Tớ vừa tải slide lên Google Drive của nhóm rồi nha! 👍",
+                                "Mọi người online họp nhóm bàn phân chia slide báo cáo đi thôi! 🔥",
+                                "Đồng ý nhé, tớ bắt đầu bật webcam cuộc gọi nhóm đây.",
+                              ].map((F, Be) =>
+                                jsxRuntimeExports.jsxs(
+                                  "button",
+                                  {
+                                    onClick: () => ie(F),
+                                    className:
+                                      "px-2.5 py-3 bg-slate-900 hover:bg-slate-850 border border-slate-800 text-[10.5px] font-bold text-slate-350 rounded-3xl cursor-pointer transition-all active:scale-95 hover:scale-103 transition-all",
+                                    children: ['💬 "', F, '"'],
+                                  },
+                                  Be,
+                                ),
+                              ),
                             }),
                           ],
                         }),
                       ],
                     }),
-                  b === "backup" &&
+                  n === 4 &&
                     jsxRuntimeExports.jsxs("div", {
-                      className: "space-y-6",
+                      className: "space-y-4 animate-fadeIn",
                       children: [
                         jsxRuntimeExports.jsxs("div", {
                           className:
-                            "bg-slate-50 dark:bg-slate-850/20 p-5 sm:p-6 rounded-3xl border border-slate-150 dark:border-slate-800",
+                            "w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col",
                           children: [
-                            jsxRuntimeExports.jsxs("h5", {
+                            jsxRuntimeExports.jsxs("div", {
                               className:
-                                "font-bold text-sm sm:text-base font-medium text-slate-900 dark:text-white flex items-center gap-2",
+                                "bg-slate-950 p-8 sm:p-5 px-5 sm:px-6 border-b border-slate-800 flex items-center gap-3",
                               children: [
-                                jsxRuntimeExports.jsx(RefreshCw, {
-                                  className: "h-4 w-4 text-emerald-500",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "flex items-center gap-1.5 shrink-0",
+                                  children: [
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "h-2.5 w-2.5 rounded-full bg-red-500/80",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "h-2.5 w-2.5 rounded-full bg-yellow-500/80",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "h-2.5 w-2.5 rounded-full bg-green-500/80",
+                                    }),
+                                  ],
                                 }),
-                                jsxRuntimeExports.jsx("span", {
-                                  children:
-                                    "Cứu dữ liệu an toàn khi xảy ra sự cố phần cứng cực mạnh",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "flex-1 max-w-xl mx-auto bg-slate-900 border border-slate-800 rounded-3xl py-1 px-5 sm:px-5 flex items-center gap-2 text-[10.5px] text-slate-400 font-mono",
+                                  children: [
+                                    jsxRuntimeExports.jsx(Globe, {
+                                      className: "h-3 w-3 text-slate-500",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className: "text-slate-500",
+                                      children: "https://",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className: "text-slate-200",
+                                      children: "www.smarttech-academy.edu.vn",
+                                    }),
+                                  ],
                                 }),
                               ],
                             }),
-                            jsxRuntimeExports.jsxs("p", {
+                            jsxRuntimeExports.jsxs("div", {
                               className:
-                                "mt-1 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400 leading-relaxed font-medium",
+                                "relative bg-slate-950 h-[350px] w-full overflow-hidden flex flex-col justify-between p-5 sm:p-6",
                               children: [
-                                jsxRuntimeExports.jsx("strong", {
-                                  children: "Trải nghiệm thực tế:",
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "absolute inset-0 p-5 sm:p-6 overflow-y-auto pb-20 select-none opacity-20 pointer-events-none",
+                                  children: [
+                                    jsxRuntimeExports.jsx("div", {
+                                      className:
+                                        "flex items-center justify-between border-b border-slate-900 pb-3 mb-4",
+                                      children: jsxRuntimeExports.jsxs("div", {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                          jsxRuntimeExports.jsx("div", {
+                                            className:
+                                              "h-6 w-6 rounded-md bg-indigo-600 flex items-center justify-center text-white text-sm sm:text-base font-semibold font-black",
+                                            children: "ST",
+                                          }),
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "text-sm sm:text-base font-medium font-black text-white",
+                                            children:
+                                              "SmartTech Academy Portal",
+                                          }),
+                                        ],
+                                      }),
+                                    }),
+                                    jsxRuntimeExports.jsxs("div", {
+                                      className:
+                                        "bg-slate-900 p-5 sm:p-6 rounded-3xl space-y-2 text-left mb-3",
+                                      children: [
+                                        jsxRuntimeExports.jsx("h3", {
+                                          className:
+                                            "text-sm sm:text-base font-medium font-black text-white",
+                                          children:
+                                            "CHƯƠNG TRÌNH LUYỆN THI TIN HỌC QUỐC TẾ IC3 GS6",
+                                        }),
+                                        jsxRuntimeExports.jsx("p", {
+                                          className:
+                                            "text-sm sm:text-base font-semibold text-slate-400 leading-normal",
+                                          children:
+                                            "Trang bị kỹ năng số cốt lõi và chinh phục chứng chỉ tin học quốc tế danh giá. Ưu đãi 30% khi nhắn tin trực tuyến hôm nay!",
+                                        }),
+                                      ],
+                                    }),
+                                  ],
                                 }),
-                                " Máy tính cá nhân có thể hỏng bất ngờ do rơi vỡ, chập nguồn hoặc dính nước. Hãy thử bật/tắt chế độ tự động đồng bộ lên Mây, rồi kích hoạt sự cố hỏng hóc máy tính để xem Đám mây cứu nguy cho dữ liệu như thế nào nhé!",
+                                _e
+                                  ? jsxRuntimeExports.jsxs("div", {
+                                      className:
+                                        "absolute bottom-3 right-3 w-[280px] sm:w-[320px] bg-white dark:bg-slate-900 border border-amber-500/60 rounded-2xl shadow-2xl flex flex-col h-[320px] z-20 animate-scaleUp",
+                                      children: [
+                                        jsxRuntimeExports.jsxs("div", {
+                                          className:
+                                            "bg-amber-500/10 dark:bg-slate-950 p-2.5 px-3 rounded-t-2xl border-b border-amber-500/20 dark:border-slate-800 flex items-center justify-between text-sm",
+                                          children: [
+                                            jsxRuntimeExports.jsxs("div", {
+                                              className:
+                                                "flex items-center gap-2",
+                                              children: [
+                                                jsxRuntimeExports.jsxs("div", {
+                                                  className:
+                                                    "h-7 w-7 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-xs relative",
+                                                  children: [
+                                                    "LT",
+                                                    jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "absolute bottom-0 right-0 h-2 w-2 rounded-full bg-emerald-500 border border-white dark:border-slate-900",
+                                                      },
+                                                    ),
+                                                  ],
+                                                }),
+                                                jsxRuntimeExports.jsxs("div", {
+                                                  className: "text-left",
+                                                  children: [
+                                                    jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "font-extrabold text-slate-800 dark:text-slate-100 block text-xs",
+                                                        children:
+                                                          "Trợ Giúp Học Viên",
+                                                      },
+                                                    ),
+                                                    jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-[9px] text-slate-500 dark:text-slate-400 block",
+                                                        children:
+                                                          "Tư vấn viên: Linh (Đang Online)",
+                                                      },
+                                                    ),
+                                                  ],
+                                                }),
+                                              ],
+                                            }),
+                                            jsxRuntimeExports.jsx("button", {
+                                              type: "button",
+                                              onClick: () => Ue(!1),
+                                              className:
+                                                "no-override p-1 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-md text-slate-500 dark:text-slate-400 cursor-pointer",
+                                              children: jsxRuntimeExports.jsx(
+                                                Minus,
+                                                { className: "h-4 w-4" },
+                                              ),
+                                            }),
+                                          ],
+                                        }),
+                                        jsxRuntimeExports.jsxs("div", {
+                                          className:
+                                            "flex-1 p-3 overflow-y-auto space-y-2 bg-slate-50 dark:bg-slate-900 flex flex-col justify-end",
+                                          children: [
+                                            ge.map((F, Be) => {
+                                              const S = F.sender === "user";
+                                              return jsxRuntimeExports.jsxs(
+                                                "div",
+                                                {
+                                                  className: `flex flex-col max-w-[85%] ${S ? "self-end items-end" : "self-start items-start"} animate-scaleUp`,
+                                                  children: [
+                                                    jsxRuntimeExports.jsx(
+                                                      "div",
+                                                      {
+                                                        className: `p-2 px-3 rounded-2xl text-xs font-semibold leading-relaxed shadow-xs ${S ? "bg-amber-500 text-slate-950 rounded-br-none font-bold" : "bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-bl-none"}`,
+                                                        children: F.text,
+                                                      },
+                                                    ),
+                                                    jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-[8px] text-slate-500 dark:text-slate-400 mt-0.5 font-mono uppercase",
+                                                        children: F.time,
+                                                      },
+                                                    ),
+                                                  ],
+                                                },
+                                                Be,
+                                              );
+                                            }),
+                                            Te &&
+                                              jsxRuntimeExports.jsx("div", {
+                                                className:
+                                                  "self-start flex flex-col items-start",
+                                                children:
+                                                  jsxRuntimeExports.jsxs(
+                                                    "div",
+                                                    {
+                                                      className:
+                                                        "bg-slate-200 dark:bg-slate-800 text-slate-500 p-2 px-3 rounded-2xl text-xs font-medium flex items-center gap-1.5",
+                                                      children: [
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce animate-delay-100",
+                                                          },
+                                                        ),
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce animate-delay-200",
+                                                          },
+                                                        ),
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "h-1.5 w-1.5 bg-slate-500 rounded-full animate-bounce animate-delay-300",
+                                                          },
+                                                        ),
+                                                      ],
+                                                    },
+                                                  ),
+                                              }),
+                                          ],
+                                        }),
+                                        jsxRuntimeExports.jsxs("div", {
+                                          className:
+                                            "p-2 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 rounded-b-2xl flex gap-1.5",
+                                          children: [
+                                            jsxRuntimeExports.jsx("input", {
+                                              type: "text",
+                                              placeholder:
+                                                "Nhập câu hỏi của em...",
+                                              value: Ae,
+                                              onChange: (F) =>
+                                                Q(F.target.value),
+                                              onKeyDown: (F) =>
+                                                F.key === "Enter" && Ke(Ae),
+                                              className:
+                                                "no-override flex-1 py-1 px-3 rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 text-xs font-medium focus:outline-hidden focus:border-amber-500 h-9",
+                                            }),
+                                            jsxRuntimeExports.jsx("button", {
+                                              type: "button",
+                                              onClick: () => Ke(Ae),
+                                              className:
+                                                "no-override h-9 w-9 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-xl cursor-pointer flex items-center justify-center shrink-0 shadow-xs",
+                                              children: jsxRuntimeExports.jsx(
+                                                Send,
+                                                { className: "h-3.5 w-3.5" },
+                                              ),
+                                            }),
+                                          ],
+                                        }),
+                                      ],
+                                    })
+                                  : jsxRuntimeExports.jsx("button", {
+                                      type: "button",
+                                      onClick: () => Ue(!0),
+                                      className:
+                                        "no-override absolute bottom-3 right-3 h-12 w-12 rounded-full bg-amber-500 hover:bg-amber-600 text-slate-950 shadow-xl flex items-center justify-center cursor-pointer transition-all hover:scale-105",
+                                      children: jsxRuntimeExports.jsx(
+                                        MessageCircle,
+                                        { className: "h-5 w-5" },
+                                      ),
+                                    }),
                               ],
                             }),
                           ],
                         }),
                         jsxRuntimeExports.jsxs("div", {
+                          className: "space-y-1.5",
+                          children: [
+                            jsxRuntimeExports.jsx("span", {
+                              className:
+                                "text-sm sm:text-base font-semibold text-slate-400 block font-bold uppercase tracking-wider",
+                              children:
+                                "Nhấp để gửi câu hỏi tư vấn trực tiếp trên Web:",
+                            }),
+                            jsxRuntimeExports.jsx("div", {
+                              className: "flex flex-wrap gap-2",
+                              children: [
+                                "Em muốn đăng ký tư vấn nhận mã ưu đãi giảm học phí 30% khóa học IC3 GS6 ạ!",
+                                "Học viện có hỗ trợ tài liệu học tập PDF gửi kèm không ạ?",
+                                "Bên mình đào tạo trực tuyến qua Zoom hay qua nền tảng nào ạ?",
+                              ].map((F, Be) =>
+                                jsxRuntimeExports.jsxs(
+                                  "button",
+                                  {
+                                    onClick: () => {
+                                      (Ue(!0), Ke(F));
+                                    },
+                                    className:
+                                      "px-2.5 py-3 bg-slate-900 hover:bg-slate-850 border border-slate-800 text-[10.5px] font-bold text-slate-350 rounded-3xl cursor-pointer transition-all active:scale-95 hover:scale-103 transition-all",
+                                    children: ['❓ "', F, '"'],
+                                  },
+                                  Be,
+                                ),
+                              ),
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  n === 5 &&
+                    jsxRuntimeExports.jsxs("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: [
+                        jsxRuntimeExports.jsxs("div", {
                           className:
-                            "grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch",
+                            "bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden p-8 sm:p-5 shadow-inner space-y-3",
                           children: [
                             jsxRuntimeExports.jsxs("div", {
                               className:
-                                "lg:col-span-5 bg-slate-50 dark:bg-slate-850/40 p-5 sm:p-6 rounded-3xl border border-slate-100 dark:border-slate-800 space-y-4",
+                                "bg-slate-950 border border-slate-850 p-8 sm:p-5 rounded-3xl flex items-center justify-between",
                               children: [
+                                jsxRuntimeExports.jsxs("div", {
+                                  className: "flex items-center gap-2",
+                                  children: [
+                                    jsxRuntimeExports.jsx(Monitor, {
+                                      className: "h-4 w-4 text-purple-400",
+                                    }),
+                                    jsxRuntimeExports.jsxs("div", {
+                                      className: "text-left",
+                                      children: [
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "text-[10.5px] font-black text-slate-300 block",
+                                          children: "Đang trình chiếu màn hình",
+                                        }),
+                                        jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "text-[9px] text-slate-500 block font-bold",
+                                          children:
+                                            "Slide báo cáo đề tài thực tập công nghệ số",
+                                        }),
+                                      ],
+                                    }),
+                                  ],
+                                }),
                                 jsxRuntimeExports.jsx("span", {
                                   className:
-                                    "text-sm sm:text-base font-extrabold text-emerald-600 uppercase tracking-wider block",
-                                  children: "Cài đặt sao lưu trên máy tính",
+                                    "text-[8.5px] bg-red-600/10 text-red-400 border border-red-900/40 px-2 py-0.5 rounded-md font-bold animate-pulse",
+                                  children: "● Đang ghi hình cuộc họp",
                                 }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsx("div", {
+                              className: "grid grid-cols-2 gap-2.5",
+                              children: ke.map((F) => {
+                                const Be = F.id === "me",
+                                  S = F.activeSpeaker;
+                                return jsxRuntimeExports.jsxs(
+                                  "div",
+                                  {
+                                    className: `aspect-video rounded-3xl relative overflow-hidden bg-slate-950 border transition-all ${S ? "border-purple-500 ring-2 ring-purple-500/20" : "border-slate-850"}`,
+                                    children: [
+                                      !Be || C
+                                        ? jsxRuntimeExports.jsxs("div", {
+                                            className:
+                                              "absolute inset-0 flex flex-col items-center justify-center p-8 sm:p-5",
+                                            children: [
+                                              jsxRuntimeExports.jsx("div", {
+                                                className:
+                                                  "absolute inset-0 opacity-15 bg-gradient-to-tr from-purple-800 to-indigo-900",
+                                              }),
+                                              jsxRuntimeExports.jsx("div", {
+                                                className: `h-10 w-10 rounded-full flex items-center justify-center text-white font-black text-sm sm:text-base font-medium ${Be ? "bg-emerald-600" : F.avatarBg}`,
+                                                children: F.name.charAt(0),
+                                              }),
+                                            ],
+                                          })
+                                        : jsxRuntimeExports.jsxs("div", {
+                                            className:
+                                              "absolute inset-0 flex flex-col items-center justify-center bg-slate-900 text-slate-600 text-sm sm:text-base font-semibold gap-1",
+                                            children: [
+                                              jsxRuntimeExports.jsx(VideoOff, {
+                                                className: "h-5 w-5",
+                                              }),
+                                              jsxRuntimeExports.jsx("span", {
+                                                children: "Camera đã tắt",
+                                              }),
+                                            ],
+                                          }),
+                                      jsxRuntimeExports.jsxs("div", {
+                                        className:
+                                          "absolute bottom-1.5 inset-x-1.5 flex items-center justify-between text-[8.5px] bg-black/60 px-2 py-1 rounded-md text-slate-300",
+                                        children: [
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "font-bold truncate max-w-[80%]",
+                                            children: F.name,
+                                          }),
+                                          jsxRuntimeExports.jsx("div", {
+                                            children:
+                                              Be && !ot
+                                                ? jsxRuntimeExports.jsx(
+                                                    MicOff,
+                                                    {
+                                                      className:
+                                                        "h-3 w-3 text-red-400",
+                                                    },
+                                                  )
+                                                : jsxRuntimeExports.jsxs(
+                                                    "div",
+                                                    {
+                                                      className:
+                                                        "flex gap-[1.5px] items-end h-2.5",
+                                                      children: [
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "w-[1.5px] bg-emerald-400 rounded-full transition-all",
+                                                            style: {
+                                                              height: `${Math.min(F.audioLevel, 100)}%`,
+                                                            },
+                                                          },
+                                                        ),
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "w-[1.5px] bg-emerald-400 rounded-full transition-all",
+                                                            style: {
+                                                              height: `${Math.min(F.audioLevel * 0.7, 100)}%`,
+                                                            },
+                                                          },
+                                                        ),
+                                                        jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "w-[1.5px] bg-emerald-400 rounded-full transition-all",
+                                                            style: {
+                                                              height: `${Math.min(F.audioLevel * 0.4, 100)}%`,
+                                                            },
+                                                          },
+                                                        ),
+                                                      ],
+                                                    },
+                                                  ),
+                                          }),
+                                        ],
+                                      }),
+                                    ],
+                                  },
+                                  F.id,
+                                );
+                              }),
+                            }),
+                          ],
+                        }),
+                        jsxRuntimeExports.jsxs("div", {
+                          className:
+                            "flex items-center justify-between bg-slate-900 p-8 sm:p-5 px-5 sm:px-6 rounded-3xl border border-slate-800 text-sm sm:text-base font-medium",
+                          children: [
+                            jsxRuntimeExports.jsxs("div", {
+                              className: "flex gap-2",
+                              children: [
+                                jsxRuntimeExports.jsxs("button", {
+                                  onClick: () => {
+                                    (w(!ot), u(5));
+                                  },
+                                  className: `no-override px-4 py-2 rounded-2xl font-extrabold flex items-center gap-1.5 cursor-pointer transition-all ${ot ? "bg-emerald-600 text-white hover:bg-emerald-700 shadow-md" : "bg-rose-600 text-white hover:bg-rose-700 shadow-md"}`,
+                                  children: [
+                                    ot
+                                      ? jsxRuntimeExports.jsx(Mic, {
+                                          className: "h-4 w-4",
+                                        })
+                                      : jsxRuntimeExports.jsx(MicOff, {
+                                          className: "h-4 w-4",
+                                        }),
+                                    ot ? "Tắt Mic" : "Bật Mic",
+                                  ],
+                                }),
+                                jsxRuntimeExports.jsxs("button", {
+                                  onClick: () => {
+                                    (Ee(!C), u(5));
+                                  },
+                                  className: `no-override px-4 py-2 rounded-2xl font-extrabold flex items-center gap-1.5 cursor-pointer transition-all ${C ? "bg-indigo-600 text-white hover:bg-indigo-700 shadow-md" : "bg-rose-600 text-white hover:bg-rose-700 shadow-md"}`,
+                                  children: [
+                                    C
+                                      ? jsxRuntimeExports.jsx(Video, {
+                                          className: "h-4 w-4",
+                                        })
+                                      : jsxRuntimeExports.jsx(VideoOff, {
+                                          className: "h-4 w-4",
+                                        }),
+                                    C ? "Tắt Camera" : "Bật Camera",
+                                  ],
+                                }),
+                              ],
+                            }),
+                            jsxRuntimeExports.jsx("span", {
+                              className:
+                                "text-sm sm:text-base font-semibold text-slate-500 font-bold font-mono",
+                              children: "Họp trực tuyến đa phương tiện",
+                            }),
+                          ],
+                        }),
+                      ],
+                    }),
+                  n === 6 &&
+                    jsxRuntimeExports.jsx("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: jsxRuntimeExports.jsxs("div", {
+                        className:
+                          "bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 space-y-4 max-h-[380px] overflow-y-auto scrollbar-none",
+                        children: [
+                          jsxRuntimeExports.jsxs("div", {
+                            className:
+                              "border-b border-slate-800 pb-3 flex items-center justify-between",
+                            children: [
+                              jsxRuntimeExports.jsxs("div", {
+                                children: [
+                                  jsxRuntimeExports.jsx("h3", {
+                                    className:
+                                      "text-sm sm:text-base font-medium font-black text-white",
+                                    children:
+                                      "My Space // Nhật ký học tập cá nhân",
+                                  }),
+                                  jsxRuntimeExports.jsx("p", {
+                                    className:
+                                      "text-sm sm:text-base font-semibold text-slate-400",
+                                    children:
+                                      "Nơi đăng tải các câu chuyện, bài học và cảm nghĩ cá nhân hằng ngày.",
+                                  }),
+                                ],
+                              }),
+                              jsxRuntimeExports.jsx("span", {
+                                className:
+                                  "text-[9.5px] bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded-md font-bold border border-sky-900",
+                                children: "Mô phỏng Blog cá nhân",
+                              }),
+                            ],
+                          }),
+                          jsxRuntimeExports.jsxs("form", {
+                            onSubmit: mt,
+                            className:
+                              "bg-slate-950 p-8 sm:p-5 rounded-3xl border border-slate-850 space-y-3",
+                            children: [
+                              jsxRuntimeExports.jsx("span", {
+                                className:
+                                  "text-sm sm:text-base font-semibold text-sky-400 font-extrabold uppercase tracking-wider block",
+                                children: "✍️ Tạo một bài nhật ký mới:",
+                              }),
+                              jsxRuntimeExports.jsxs("div", {
+                                className:
+                                  "grid grid-cols-1 sm:grid-cols-2 gap-2",
+                                children: [
+                                  jsxRuntimeExports.jsx("input", {
+                                    type: "text",
+                                    placeholder: "Tiêu đề bài viết...",
+                                    value: Fe,
+                                    onChange: (F) => rt(F.target.value),
+                                    className:
+                                      "p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-bold text-slate-100 placeholder:text-slate-500 focus:outline-hidden focus:border-sky-500",
+                                  }),
+                                  jsxRuntimeExports.jsxs("select", {
+                                    value: yt,
+                                    onChange: (F) => xt(F.target.value),
+                                    className:
+                                      "p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-medium text-slate-300 font-bold focus:outline-hidden",
+                                    children: [
+                                      jsxRuntimeExports.jsx("option", {
+                                        value: "Chia sẻ hằng ngày",
+                                        children: "Chia sẻ hằng ngày",
+                                      }),
+                                      jsxRuntimeExports.jsx("option", {
+                                        value: "Kinh nghiệm học tập",
+                                        children: "Kinh nghiệm học tập",
+                                      }),
+                                      jsxRuntimeExports.jsx("option", {
+                                        value: "Công nghệ & Đời sống",
+                                        children: "Công nghệ & Đời sống",
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                              jsxRuntimeExports.jsx("textarea", {
+                                rows: 3,
+                                placeholder:
+                                  "Viết suy nghĩ hằng ngày của bạn lên đây... (ví dụ: Cảm nghĩ sau buổi học hôm nay về công cụ số)",
+                                value: ve,
+                                onChange: (F) => Ye(F.target.value),
+                                className:
+                                  "w-full p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-medium text-slate-200 placeholder:text-slate-500 focus:outline-hidden focus:border-sky-500 resize-none leading-relaxed",
+                              }),
+                              jsxRuntimeExports.jsx("div", {
+                                className: "flex justify-end",
+                                children: jsxRuntimeExports.jsxs("button", {
+                                  type: "submit",
+                                  className:
+                                    "px-5 sm:px-6 py-3 bg-sky-600 hover:bg-sky-500 text-slate-950 rounded-3xl text-sm sm:text-base font-semibold font-black cursor-pointer transition-all active:scale-95 hover:scale-103 transition-all flex items-center gap-1",
+                                  children: [
+                                    jsxRuntimeExports.jsx(Plus, {
+                                      className: "h-3.5 w-3.5",
+                                    }),
+                                    " Đăng tải lên Blog",
+                                  ],
+                                }),
+                              }),
+                            ],
+                          }),
+                          jsxRuntimeExports.jsxs("div", {
+                            className: "space-y-3",
+                            children: [
+                              jsxRuntimeExports.jsx("span", {
+                                className:
+                                  "text-sm sm:text-base font-semibold text-slate-400 font-bold uppercase tracking-wider block",
+                                children: "📚 Các bài viết đã đăng:",
+                              }),
+                              ht.map((F) =>
+                                jsxRuntimeExports.jsxs(
+                                  "div",
+                                  {
+                                    className:
+                                      "bg-slate-950/80 p-8 sm:p-5 border border-slate-850 rounded-3xl space-y-2 text-left animate-fadeIn",
+                                    children: [
+                                      jsxRuntimeExports.jsxs("div", {
+                                        className:
+                                          "flex items-start justify-between gap-2",
+                                        children: [
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "text-[9px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded-md font-bold",
+                                            children: F.category,
+                                          }),
+                                          jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "text-[9px] text-slate-500 font-bold",
+                                            children: F.date,
+                                          }),
+                                        ],
+                                      }),
+                                      jsxRuntimeExports.jsx("h4", {
+                                        className:
+                                          "text-sm sm:text-base font-extrabold text-slate-100",
+                                        children: F.title,
+                                      }),
+                                      jsxRuntimeExports.jsx("p", {
+                                        className:
+                                          "text-sm sm:text-base font-semibold text-slate-300 leading-relaxed whitespace-pre-line",
+                                        children: F.body,
+                                      }),
+                                      jsxRuntimeExports.jsxs("div", {
+                                        className:
+                                          "flex items-center justify-between pt-1 border-t border-slate-900 text-sm sm:text-base font-semibold",
+                                        children: [
+                                          jsxRuntimeExports.jsxs("span", {
+                                            className:
+                                              "text-slate-500 font-semibold",
+                                            children: [
+                                              "Tác giả: ",
+                                              jsxRuntimeExports.jsx("strong", {
+                                                className: "text-slate-300",
+                                                children: F.author,
+                                              }),
+                                            ],
+                                          }),
+                                          jsxRuntimeExports.jsxs("button", {
+                                            onClick: () => Dt(F.id),
+                                            className:
+                                              "flex items-center gap-1 text-slate-400 hover:text-sky-400 font-bold transition-colors cursor-pointer",
+                                            children: [
+                                              jsxRuntimeExports.jsx(ThumbsUp, {
+                                                className: "h-3 w-3",
+                                              }),
+                                              " Thích (",
+                                              F.likes,
+                                              ")",
+                                            ],
+                                          }),
+                                        ],
+                                      }),
+                                    ],
+                                  },
+                                  F.id,
+                                ),
+                              ),
+                            ],
+                          }),
+                        ],
+                      }),
+                    }),
+                  n === 7 &&
+                    jsxRuntimeExports.jsx("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: jsxRuntimeExports.jsxs("div", {
+                        className:
+                          "bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row gap-4 max-h-[380px] overflow-y-auto md:overflow-hidden",
+                        children: [
+                          jsxRuntimeExports.jsxs("div", {
+                            className:
+                              "md:w-1/2 flex flex-col gap-3 md:overflow-y-auto scrollbar-none text-left",
+                            children: [
+                              jsxRuntimeExports.jsxs("div", {
+                                className:
+                                  "flex items-center justify-between pb-1.5 border-b border-slate-800 shrink-0",
+                                children: [
+                                  jsxRuntimeExports.jsx("span", {
+                                    className:
+                                      "text-sm sm:text-base font-semibold text-slate-400 font-bold uppercase tracking-wider",
+                                    children: "Chủ đề thảo luận:",
+                                  }),
+                                  jsxRuntimeExports.jsx("button", {
+                                    onClick: () => Mt(!ft),
+                                    className:
+                                      "px-2 py-1 bg-rose-600 hover:bg-rose-500 text-slate-950 rounded-3xl text-[9px] font-black cursor-pointer transition-colors",
+                                    children: ft ? "Hủy" : "+ Đặt Câu Hỏi",
+                                  }),
+                                ],
+                              }),
+                              ft
+                                ? jsxRuntimeExports.jsxs("form", {
+                                    onSubmit: D,
+                                    className:
+                                      "bg-slate-950 p-8 sm:p-5 rounded-3xl border border-slate-850 space-y-2 animate-fadeIn shrink-0",
+                                    children: [
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "text-[9.5px] text-rose-400 font-black uppercase tracking-wider block",
+                                        children: "Hỏi cộng đồng:",
+                                      }),
+                                      jsxRuntimeExports.jsx("input", {
+                                        type: "text",
+                                        placeholder:
+                                          "Đặt tiêu đề câu hỏi ngắn gọn...",
+                                        value: Pe,
+                                        onChange: (F) => W(F.target.value),
+                                        className:
+                                          "w-full p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-semibold text-slate-100 font-bold placeholder:text-slate-500 focus:outline-hidden focus:border-rose-500",
+                                        required: !0,
+                                      }),
+                                      jsxRuntimeExports.jsx("textarea", {
+                                        rows: 3,
+                                        placeholder:
+                                          "Mô tả chi tiết câu hỏi cần mọi người thảo luận giải đáp giúp...",
+                                        value: Me,
+                                        onChange: (F) => et(F.target.value),
+                                        className:
+                                          "w-full p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-semibold text-slate-300 placeholder:text-slate-500 focus:outline-hidden focus:border-rose-500 resize-none leading-relaxed",
+                                        required: !0,
+                                      }),
+                                      jsxRuntimeExports.jsx("div", {
+                                        className: "flex justify-end",
+                                        children: jsxRuntimeExports.jsx(
+                                          "button",
+                                          {
+                                            type: "submit",
+                                            className:
+                                              "px-2.5 py-1 bg-rose-600 hover:bg-rose-500 text-slate-950 rounded-md text-sm sm:text-base font-semibold font-black cursor-pointer",
+                                            children: "Gửi câu hỏi",
+                                          },
+                                        ),
+                                      }),
+                                    ],
+                                  })
+                                : null,
+                              jsxRuntimeExports.jsx("div", {
+                                className:
+                                  "space-y-2 md:overflow-y-auto flex-1 scrollbar-none pr-0.5",
+                                children: ye.map((F) =>
+                                  jsxRuntimeExports.jsxs(
+                                    "div",
+                                    {
+                                      onClick: () => Le(F.id),
+                                      className: `p-8 sm:p-5 rounded-3xl border text-left cursor-pointer transition-all ${me === F.id ? "bg-rose-600/10 border-rose-500/50" : "bg-slate-950/70 border-slate-850 hover:border-slate-700"}`,
+                                      children: [
+                                        jsxRuntimeExports.jsx("h4", {
+                                          className:
+                                            "text-sm sm:text-base font-extrabold text-slate-100 leading-snug hover:text-rose-400 transition-colors line-clamp-2",
+                                          children: F.title,
+                                        }),
+                                        jsxRuntimeExports.jsxs("div", {
+                                          className:
+                                            "flex items-center justify-between text-[9px] text-slate-400 mt-2",
+                                          children: [
+                                            jsxRuntimeExports.jsxs("span", {
+                                              className:
+                                                "font-semibold text-slate-500",
+                                              children: ["@", F.author],
+                                            }),
+                                            jsxRuntimeExports.jsxs("div", {
+                                              className: "flex gap-2 font-bold",
+                                              children: [
+                                                jsxRuntimeExports.jsxs("span", {
+                                                  className: "text-rose-400",
+                                                  children: ["▲ ", F.votes],
+                                                }),
+                                                jsxRuntimeExports.jsxs("span", {
+                                                  children: [
+                                                    "💬 ",
+                                                    F.repliesCount,
+                                                    " phản hồi",
+                                                  ],
+                                                }),
+                                              ],
+                                            }),
+                                          ],
+                                        }),
+                                      ],
+                                    },
+                                    F.id,
+                                  ),
+                                ),
+                              }),
+                            ],
+                          }),
+                          jsxRuntimeExports.jsx("div", {
+                            className:
+                              "md:w-1/2 border-t md:border-t-0 md:border-l border-slate-800 pt-3 md:pt-0 md:pl-4 flex flex-col justify-between text-left md:h-[350px]",
+                            children:
+                              me !== null
+                                ? (() => {
+                                    const F = ye.find((Be) => Be.id === me);
+                                    return F
+                                      ? jsxRuntimeExports.jsxs("div", {
+                                          className:
+                                            "flex flex-col h-full justify-between",
+                                          children: [
+                                            jsxRuntimeExports.jsxs("div", {
+                                              className:
+                                                "space-y-3 overflow-y-auto scrollbar-none flex-1 pr-0.5",
+                                              children: [
+                                                jsxRuntimeExports.jsxs("div", {
+                                                  className:
+                                                    "space-y-1.5 border-b border-slate-800 pb-3",
+                                                  children: [
+                                                    jsxRuntimeExports.jsxs(
+                                                      "div",
+                                                      {
+                                                        className:
+                                                          "flex items-center justify-between text-[9px] text-slate-500",
+                                                        children: [
+                                                          jsxRuntimeExports.jsxs(
+                                                            "span",
+                                                            {
+                                                              children: [
+                                                                "Đăng bởi ",
+                                                                jsxRuntimeExports.jsxs(
+                                                                  "strong",
+                                                                  {
+                                                                    children: [
+                                                                      "@",
+                                                                      F.author,
+                                                                    ],
+                                                                  },
+                                                                ),
+                                                                " (",
+                                                                F.time,
+                                                                ")",
+                                                              ],
+                                                            },
+                                                          ),
+                                                          jsxRuntimeExports.jsxs(
+                                                            "button",
+                                                            {
+                                                              onClick: (Be) =>
+                                                                Ve(F.id, Be),
+                                                              className:
+                                                                "text-rose-400 hover:text-rose-300 font-bold bg-rose-500/10 border border-rose-500/20 px-1.5 py-0.5 rounded-md cursor-pointer",
+                                                              title:
+                                                                "Biểu quyết tăng mức độ quan tâm của chủ đề",
+                                                              children: [
+                                                                "▲ Ủng hộ (",
+                                                                F.votes,
+                                                                ")",
+                                                              ],
+                                                            },
+                                                          ),
+                                                        ],
+                                                      },
+                                                    ),
+                                                    jsxRuntimeExports.jsx(
+                                                      "h3",
+                                                      {
+                                                        className:
+                                                          "text-sm sm:text-base font-extrabold text-slate-100 leading-snug",
+                                                        children: F.title,
+                                                      },
+                                                    ),
+                                                    jsxRuntimeExports.jsx("p", {
+                                                      className:
+                                                        "text-sm sm:text-base font-semibold text-slate-300 leading-relaxed whitespace-pre-line bg-slate-950 p-8 sm:p-5 rounded-3xl border border-slate-850/60",
+                                                      children: F.content,
+                                                    }),
+                                                  ],
+                                                }),
+                                                jsxRuntimeExports.jsxs("div", {
+                                                  className: "space-y-2.5",
+                                                  children: [
+                                                    jsxRuntimeExports.jsxs(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-[9.5px] text-slate-400 font-bold block uppercase tracking-wider",
+                                                        children: [
+                                                          "Cộng đồng thảo luận giải đáp (",
+                                                          F.repliesCount,
+                                                          "):",
+                                                        ],
+                                                      },
+                                                    ),
+                                                    F.replies.length > 0
+                                                      ? F.replies.map((Be, S) =>
+                                                          jsxRuntimeExports.jsxs(
+                                                            "div",
+                                                            {
+                                                              className:
+                                                                "bg-slate-950/60 p-8 sm:p-5 border border-slate-850 rounded-3xl space-y-1.5 text-left animate-fadeIn flex gap-2 items-start",
+                                                              children: [
+                                                                jsxRuntimeExports.jsx(
+                                                                  "div",
+                                                                  {
+                                                                    className: `h-5 w-5 rounded-full shrink-0 flex items-center justify-center text-white font-extrabold text-[8px] ${Be.avatarBg}`,
+                                                                    children:
+                                                                      Be.author.charAt(
+                                                                        0,
+                                                                      ),
+                                                                  },
+                                                                ),
+                                                                jsxRuntimeExports.jsxs(
+                                                                  "div",
+                                                                  {
+                                                                    className:
+                                                                      "flex-1 min-w-0",
+                                                                    children: [
+                                                                      jsxRuntimeExports.jsxs(
+                                                                        "div",
+                                                                        {
+                                                                          className:
+                                                                            "flex items-center justify-between text-[8px] text-slate-400 font-semibold mb-0.5",
+                                                                          children:
+                                                                            [
+                                                                              jsxRuntimeExports.jsxs(
+                                                                                "span",
+                                                                                {
+                                                                                  children:
+                                                                                    [
+                                                                                      "@",
+                                                                                      Be.author,
+                                                                                    ],
+                                                                                },
+                                                                              ),
+                                                                              jsxRuntimeExports.jsx(
+                                                                                "span",
+                                                                                {
+                                                                                  children:
+                                                                                    Be.time,
+                                                                                },
+                                                                              ),
+                                                                            ],
+                                                                        },
+                                                                      ),
+                                                                      jsxRuntimeExports.jsx(
+                                                                        "p",
+                                                                        {
+                                                                          className:
+                                                                            "text-[10.5px] text-slate-300 leading-normal",
+                                                                          children:
+                                                                            Be.text,
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  },
+                                                                ),
+                                                              ],
+                                                            },
+                                                            S,
+                                                          ),
+                                                        )
+                                                      : jsxRuntimeExports.jsx(
+                                                          "span",
+                                                          {
+                                                            className:
+                                                              "text-[10.5px] text-slate-500 italic block py-3",
+                                                            children:
+                                                              "Chưa có ai phản hồi thảo luận này. Hãy viết câu trả lời thảo luận đầu tiên của bạn dưới đây!",
+                                                          },
+                                                        ),
+                                                  ],
+                                                }),
+                                              ],
+                                            }),
+                                            jsxRuntimeExports.jsxs("form", {
+                                              onSubmit: Re,
+                                              className:
+                                                "border-t border-slate-800 pt-2 shrink-0 flex gap-2 bg-slate-950/40 p-1 rounded-3xl",
+                                              children: [
+                                                jsxRuntimeExports.jsx("input", {
+                                                  type: "text",
+                                                  placeholder:
+                                                    "Gõ nội dung giải đáp, thảo luận công khai...",
+                                                  value: Je,
+                                                  onChange: (Be) =>
+                                                    Et(Be.target.value),
+                                                  className:
+                                                    "flex-1 p-8 sm:p-5 bg-slate-900 border border-slate-800 rounded-3xl text-sm sm:text-base font-medium text-slate-200 focus:outline-hidden focus:border-rose-500 placeholder:text-slate-500",
+                                                  required: !0,
+                                                }),
+                                                jsxRuntimeExports.jsx(
+                                                  "button",
+                                                  {
+                                                    type: "submit",
+                                                    className:
+                                                      "px-5 sm:px-5 py-3 bg-rose-600 hover:bg-rose-500 text-slate-950 rounded-3xl text-sm sm:text-base font-semibold font-black cursor-pointer transition-colors",
+                                                    children: "Gửi",
+                                                  },
+                                                ),
+                                              ],
+                                            }),
+                                          ],
+                                        })
+                                      : jsxRuntimeExports.jsx("span", {
+                                          className:
+                                            "text-sm sm:text-base font-medium text-slate-500 italic",
+                                          children:
+                                            "Chọn một thảo luận để xem chi tiết.",
+                                        });
+                                  })()
+                                : jsxRuntimeExports.jsxs("div", {
+                                    className:
+                                      "flex flex-col items-center justify-center h-full text-slate-500 text-sm sm:text-base font-medium italic gap-1.5 p-5 sm:p-6",
+                                    children: [
+                                      jsxRuntimeExports.jsx(
+                                        CircleQuestionMark,
+                                        { className: "h-6 w-6 text-slate-600" },
+                                      ),
+                                      jsxRuntimeExports.jsx("span", {
+                                        children:
+                                          "Chọn một câu hỏi thảo luận bên trái để xem ý kiến từ cộng đồng!",
+                                      }),
+                                    ],
+                                  }),
+                          }),
+                        ],
+                      }),
+                    }),
+                  n === 8 &&
+                    jsxRuntimeExports.jsx("div", {
+                      className: "space-y-4 animate-fadeIn",
+                      children: jsxRuntimeExports.jsxs("div", {
+                        className:
+                          "bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 sm:p-6 flex flex-col md:flex-row gap-6 items-start min-h-[400px]",
+                        children: [
+                          jsxRuntimeExports.jsxs("div", {
+                            className:
+                              "w-full md:w-[280px] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-3xl p-4 flex flex-col justify-between shadow-xl relative select-none shrink-0",
+                            children: [
+                              jsxRuntimeExports.jsxs("div", {
+                                className:
+                                  "flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-mono font-bold mb-3 px-1",
+                                children: [
+                                  jsxRuntimeExports.jsx("span", {
+                                    children: "Mạng di động (PSTN/GSM)",
+                                  }),
+                                  jsxRuntimeExports.jsxs("div", {
+                                    className: "flex items-center gap-1",
+                                    children: [
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "h-2 w-1 bg-emerald-500 rounded-xs",
+                                      }),
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "h-2.5 w-1 bg-emerald-500 rounded-xs",
+                                      }),
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "h-3 w-1 bg-emerald-500 rounded-xs",
+                                      }),
+                                      jsxRuntimeExports.jsx("span", {
+                                        className:
+                                          "h-3.5 w-1 bg-emerald-500 rounded-xs",
+                                      }),
+                                    ],
+                                  }),
+                                ],
+                              }),
+                              Nt === "idle" &&
                                 jsxRuntimeExports.jsxs("div", {
                                   className:
-                                    "p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 rounded-3xl flex items-center justify-between",
+                                    "flex-1 flex flex-col justify-between space-y-3",
+                                  children: [
+                                    jsxRuntimeExports.jsx("div", {
+                                      className: `bg-slate-100 dark:bg-slate-900 p-3 rounded-2xl border text-center min-h-[56px] flex flex-col justify-center transition-all ${Ut ? "border-rose-500 bg-rose-50 dark:bg-rose-950/20" : "border-slate-200 dark:border-slate-800"}`,
+                                      children: Ut
+                                        ? jsxRuntimeExports.jsx("span", {
+                                            className:
+                                              "text-xs font-semibold text-rose-600 dark:text-rose-400 leading-normal",
+                                            children: Ut,
+                                          })
+                                        : jsxRuntimeExports.jsxs(
+                                            jsxRuntimeExports.Fragment,
+                                            {
+                                              children: [
+                                                Ge
+                                                  ? jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-base font-mono font-extrabold text-teal-600 dark:text-teal-400 tracking-wider",
+                                                        children: Ge,
+                                                      },
+                                                    )
+                                                  : jsxRuntimeExports.jsx(
+                                                      "span",
+                                                      {
+                                                        className:
+                                                          "text-xs text-slate-400 italic font-medium",
+                                                        children:
+                                                          "Nhập số hoặc chọn danh bạ",
+                                                      },
+                                                    ),
+                                                At &&
+                                                  Ge &&
+                                                  jsxRuntimeExports.jsx(
+                                                    "span",
+                                                    {
+                                                      className:
+                                                        "text-[10px] text-slate-500 dark:text-slate-400 font-bold block mt-0.5",
+                                                      children: At,
+                                                    },
+                                                  ),
+                                              ],
+                                            },
+                                          ),
+                                    }),
+                                    jsxRuntimeExports.jsx("div", {
+                                      className: "grid grid-cols-3 gap-2",
+                                      children: [
+                                        "1",
+                                        "2",
+                                        "3",
+                                        "4",
+                                        "5",
+                                        "6",
+                                        "7",
+                                        "8",
+                                        "9",
+                                        "*",
+                                        "0",
+                                        "#",
+                                      ].map((F) =>
+                                        jsxRuntimeExports.jsx(
+                                          "button",
+                                          {
+                                            type: "button",
+                                            onClick: () => {
+                                              (hs(""),
+                                                Lt(""),
+                                                Ze((Be) =>
+                                                  Be.length < 15 ? Be + F : Be,
+                                                ));
+                                            },
+                                            className:
+                                              "no-override h-10 w-full bg-slate-100 dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-xl text-sm font-bold font-mono transition-all active:scale-95 cursor-pointer flex items-center justify-center",
+                                            children: F,
+                                          },
+                                          F,
+                                        ),
+                                      ),
+                                    }),
+                                    jsxRuntimeExports.jsxs("div", {
+                                      className:
+                                        "flex items-center justify-between gap-2 px-1 pt-1",
+                                      children: [
+                                        jsxRuntimeExports.jsx("button", {
+                                          type: "button",
+                                          onClick: () => {
+                                            (hs(""), Ze(""), Lt(""));
+                                          },
+                                          className:
+                                            "no-override px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 text-xs font-bold cursor-pointer",
+                                          children: "Xóa hết",
+                                        }),
+                                        jsxRuntimeExports.jsx("button", {
+                                          type: "button",
+                                          onClick: () =>
+                                            ws(Ge || "0903 456 789"),
+                                          className:
+                                            "no-override h-11 w-11 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer",
+                                          children: jsxRuntimeExports.jsx(
+                                            Phone,
+                                            {
+                                              className:
+                                                "h-5 w-5 fill-white text-white",
+                                            },
+                                          ),
+                                        }),
+                                        jsxRuntimeExports.jsx("button", {
+                                          type: "button",
+                                          onClick: () => {
+                                            (hs(""), Ze((F) => F.slice(0, -1)));
+                                          },
+                                          className:
+                                            "no-override px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 font-mono text-sm font-bold cursor-pointer",
+                                          children: "⌫",
+                                        }),
+                                      ],
+                                    }),
+                                  ],
+                                }),
+                              Nt === "calling" &&
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "flex-1 flex flex-col justify-between py-6 text-center",
+                                  children: [
+                                    jsxRuntimeExports.jsxs("div", {
+                                      className: "space-y-2",
+                                      children: [
+                                        jsxRuntimeExports.jsx("div", {
+                                          className:
+                                            "h-14 w-14 rounded-full bg-teal-500/10 border border-teal-500/30 text-teal-600 dark:text-teal-400 flex items-center justify-center mx-auto animate-pulse",
+                                          children: jsxRuntimeExports.jsx(
+                                            PhoneCall,
+                                            { className: "h-7 w-7" },
+                                          ),
+                                        }),
+                                        jsxRuntimeExports.jsxs("div", {
+                                          children: [
+                                            jsxRuntimeExports.jsx("span", {
+                                              className:
+                                                "text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-widest block animate-pulse",
+                                              children: "ĐANG KẾT NỐI...",
+                                            }),
+                                            jsxRuntimeExports.jsx("span", {
+                                              className:
+                                                "text-sm font-bold text-slate-800 dark:text-slate-100 block truncate max-w-[180px] mx-auto mt-1",
+                                              children: At || "Số máy tự gõ",
+                                            }),
+                                            jsxRuntimeExports.jsx("span", {
+                                              className:
+                                                "text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono block mt-0.5",
+                                              children: Ge,
+                                            }),
+                                          ],
+                                        }),
+                                      ],
+                                    }),
+                                    jsxRuntimeExports.jsx("button", {
+                                      type: "button",
+                                      onClick: fs,
+                                      className:
+                                        "no-override h-11 w-11 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center mx-auto shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer mt-4",
+                                      title: "Dừng cuộc gọi",
+                                      children: jsxRuntimeExports.jsx(
+                                        PhoneOff,
+                                        { className: "h-5 w-5" },
+                                      ),
+                                    }),
+                                  ],
+                                }),
+                              Nt === "connected" &&
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "flex-1 flex flex-col justify-between py-3 text-center",
                                   children: [
                                     jsxRuntimeExports.jsxs("div", {
                                       className: "space-y-1",
                                       children: [
                                         jsxRuntimeExports.jsx("span", {
                                           className:
-                                            "text-sm sm:text-base font-extrabold text-slate-900 dark:text-white",
-                                          children: "Tự động sao lưu lên mây",
+                                            "text-[10px] bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-2.5 py-0.5 rounded-full font-bold uppercase tracking-wider inline-block",
+                                          children: "CUỘC GỌI TRỰC TIẾP (PSTN)",
                                         }),
-                                        jsxRuntimeExports.jsx("p", {
+                                        jsxRuntimeExports.jsx("span", {
                                           className:
-                                            "text-sm sm:text-base font-semibold text-slate-500 font-medium",
-                                          children: "Auto-sync Cloud Backup",
+                                            "text-sm font-bold text-slate-800 dark:text-slate-100 block truncate max-w-[180px] mx-auto pt-2",
+                                          children: At || "Số máy tự gõ",
+                                        }),
+                                        jsxRuntimeExports.jsxs("span", {
+                                          className:
+                                            "text-xs font-mono font-bold text-slate-500 dark:text-slate-400 block mt-0.5",
+                                          children: [
+                                            Math.floor(It / 60)
+                                              .toString()
+                                              .padStart(2, "0"),
+                                            ":",
+                                            (It % 60)
+                                              .toString()
+                                              .padStart(2, "0"),
+                                          ],
+                                        }),
+                                        jsxRuntimeExports.jsx("div", {
+                                          className:
+                                            "flex items-center justify-center gap-1 h-6 my-2",
+                                          children: [1, 2, 3, 4, 5, 6, 7].map(
+                                            (F) => {
+                                              const Be = [
+                                                  20, 80, 50, 100, 60, 30, 70,
+                                                ],
+                                                S = Math.random() * 0.5;
+                                              return jsxRuntimeExports.jsx(
+                                                "span",
+                                                {
+                                                  className:
+                                                    "w-1 bg-teal-500 rounded-full animate-pulse",
+                                                  style: {
+                                                    height: `${Be[F - 1]}%`,
+                                                    animationDuration: `${0.6 + S}s`,
+                                                  },
+                                                },
+                                                F,
+                                              );
+                                            },
+                                          ),
+                                        }),
+                                      ],
+                                    }),
+                                    jsxRuntimeExports.jsx("div", {
+                                      className:
+                                        "bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3 rounded-2xl min-h-[64px] flex items-center justify-center text-center",
+                                      children: jsxRuntimeExports.jsx("p", {
+                                        className:
+                                          "text-xs font-semibold text-teal-700 dark:text-teal-300 leading-relaxed italic animate-fadeIn",
+                                        children: Zt || "Đang kết nối...",
+                                      }),
+                                    }),
+                                    jsxRuntimeExports.jsxs("div", {
+                                      className:
+                                        "flex justify-center gap-3 my-2",
+                                      children: [
+                                        jsxRuntimeExports.jsxs("button", {
+                                          type: "button",
+                                          onClick: () => Ot(!Ls),
+                                          className: `p-2 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 w-16 transition-colors cursor-pointer ${Ls ? "bg-red-500/10 border-red-500/30 text-red-600 dark:text-red-400" : "bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"}`,
+                                          children: [
+                                            jsxRuntimeExports.jsx(MicOff, {
+                                              className: "h-3.5 w-3.5",
+                                            }),
+                                            jsxRuntimeExports.jsx("span", {
+                                              children: Ls
+                                                ? "Đã tắt"
+                                                : "Tắt tiếng",
+                                            }),
+                                          ],
+                                        }),
+                                        jsxRuntimeExports.jsxs("button", {
+                                          type: "button",
+                                          onClick: () => st(!Ce),
+                                          className: `p-2 rounded-xl border text-xs font-bold flex flex-col items-center gap-1 w-16 transition-colors cursor-pointer ${Ce ? "bg-teal-500/10 border-teal-500/30 text-teal-600 dark:text-teal-400" : "bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400"}`,
+                                          children: [
+                                            jsxRuntimeExports.jsx(Volume2, {
+                                              className: "h-3.5 w-3.5",
+                                            }),
+                                            jsxRuntimeExports.jsx("span", {
+                                              children: Ce
+                                                ? "Loa ngoài"
+                                                : "Loa trong",
+                                            }),
+                                          ],
                                         }),
                                       ],
                                     }),
                                     jsxRuntimeExports.jsx("button", {
                                       type: "button",
-                                      disabled: !V,
-                                      onClick: () => ce(!ee),
-                                      className: `relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 focus:outline-none ${ee ? "bg-emerald-500" : "bg-slate-300"} ${V ? "" : "opacity-50 cursor-not-allowed"}`,
-                                      children: jsxRuntimeExports.jsx("span", {
-                                        className: `pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${ee ? "translate-x-5" : "translate-x-0"}`,
-                                      }),
+                                      onClick: fs,
+                                      className:
+                                        "no-override h-11 w-11 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center mx-auto shadow-lg hover:scale-105 active:scale-95 transition-all cursor-pointer mt-1",
+                                      title: "Dừng cuộc gọi",
+                                      children: jsxRuntimeExports.jsx(
+                                        PhoneOff,
+                                        { className: "h-5 w-5" },
+                                      ),
                                     }),
                                   ],
                                 }),
+                              Nt === "ended" &&
                                 jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-2",
+                                  className:
+                                    "flex-1 flex flex-col justify-center py-6 text-center animate-scaleUp",
+                                  children: [
+                                    jsxRuntimeExports.jsx("div", {
+                                      className:
+                                        "h-14 w-14 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mx-auto mb-2",
+                                      children: jsxRuntimeExports.jsx(
+                                        PhoneOff,
+                                        { className: "h-6 w-6" },
+                                      ),
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "text-sm font-bold text-red-600 dark:text-red-400 block uppercase",
+                                      children: "CUỘC GỌI ĐÃ KẾT THÚC",
+                                    }),
+                                    jsxRuntimeExports.jsx("span", {
+                                      className:
+                                        "text-xs text-slate-500 dark:text-slate-400 block font-medium mt-1",
+                                      children:
+                                        "Lưu trữ nhật ký thoại thành công",
+                                    }),
+                                  ],
+                                }),
+                            ],
+                          }),
+                          jsxRuntimeExports.jsx("div", {
+                            className:
+                              "flex-1 w-full flex flex-col justify-between text-left space-y-4",
+                            children: jsxRuntimeExports.jsxs("div", {
+                              className: "space-y-3",
+                              children: [
+                                jsxRuntimeExports.jsxs("div", {
+                                  className:
+                                    "border-b border-slate-200 dark:border-slate-800 pb-2",
                                   children: [
                                     jsxRuntimeExports.jsx("span", {
                                       className:
-                                        "text-sm sm:text-base font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider block",
-                                      children:
-                                        "Các tệp quan trọng trong ổ cứng máy tính:",
+                                        "text-sm font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider block",
+                                      children: "📞 Danh bạ liên lạc mô phỏng:",
                                     }),
-                                    jsxRuntimeExports.jsx("div", {
-                                      className: "space-y-1.5",
+                                    jsxRuntimeExports.jsx("p", {
+                                      className:
+                                        "text-xs text-slate-500 dark:text-slate-400 mt-0.5",
                                       children:
-                                        !V && !ee
-                                          ? jsxRuntimeExports.jsxs("div", {
-                                              className:
-                                                "p-5 sm:p-6 bg-red-50/50 dark:bg-red-950/20 border border-dashed border-red-300 dark:border-red-900 rounded-3xl text-center space-y-2",
-                                              children: [
-                                                jsxRuntimeExports.jsx(
-                                                  TriangleAlert,
-                                                  {
-                                                    className:
-                                                      "h-8 w-8 text-red-500 mx-auto animate-pulse",
-                                                  },
-                                                ),
-                                                jsxRuntimeExports.jsxs("div", {
-                                                  children: [
-                                                    jsxRuntimeExports.jsx(
-                                                      "span",
-                                                      {
-                                                        className:
-                                                          "text-sm sm:text-base font-extrabold text-red-600 dark:text-red-400 block",
-                                                        children:
-                                                          "DỮ LIỆU ĐÃ MẤT VĨNH VIỄN ❌",
-                                                      },
-                                                    ),
-                                                    jsxRuntimeExports.jsx("p", {
-                                                      className:
-                                                        "text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400 font-medium",
-                                                      children:
-                                                        "Toàn bộ tệp tin trong ổ cứng vật lý đã bị phá huỷ hoàn toàn, không thể phục hồi!",
-                                                    }),
-                                                  ],
-                                                }),
-                                                jsxRuntimeExports.jsx("div", {
-                                                  className:
-                                                    "space-y-1 text-left opacity-60",
-                                                  children: Ie.map((W, Me) =>
-                                                    jsxRuntimeExports.jsxs(
-                                                      "div",
-                                                      {
-                                                        className:
-                                                          "flex items-center gap-2 p-1.5 bg-red-100/30 dark:bg-red-950/30 rounded text-sm sm:text-base font-semibold font-medium line-through text-red-700 dark:text-red-400",
-                                                        children: [
-                                                          jsxRuntimeExports.jsx(
-                                                            CircleX,
-                                                            {
-                                                              className:
-                                                                "h-3 w-3 text-red-500 shrink-0",
-                                                            },
-                                                          ),
-                                                          jsxRuntimeExports.jsx(
-                                                            "span",
-                                                            {
-                                                              className:
-                                                                "truncate",
-                                                              children: W,
-                                                            },
-                                                          ),
-                                                        ],
-                                                      },
-                                                      Me,
-                                                    ),
-                                                  ),
-                                                }),
-                                              ],
-                                            })
-                                          : !V && ee
-                                            ? jsxRuntimeExports.jsxs("div", {
-                                                className:
-                                                  "p-5 sm:p-6 bg-emerald-50/50 dark:bg-emerald-950/20 border border-dashed border-emerald-300 dark:border-emerald-900 rounded-3xl text-center space-y-2",
-                                                children: [
-                                                  jsxRuntimeExports.jsx(Cloud, {
-                                                    className:
-                                                      "h-8 w-8 text-emerald-500 mx-auto animate-bounce",
-                                                  }),
-                                                  jsxRuntimeExports.jsxs(
-                                                    "div",
-                                                    {
-                                                      children: [
-                                                        jsxRuntimeExports.jsx(
-                                                          "span",
-                                                          {
-                                                            className:
-                                                              "text-sm sm:text-base font-extrabold text-emerald-600 dark:text-emerald-400 block",
-                                                            children:
-                                                              "DỮ LIỆU AN TOÀN TRÊN MÂY ✅",
-                                                          },
-                                                        ),
-                                                        jsxRuntimeExports.jsx(
-                                                          "p",
-                                                          {
-                                                            className:
-                                                              "text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400 font-medium",
-                                                            children:
-                                                              "Ổ cứng vật lý bị hỏng nhưng các tệp đã được lưu trữ bản sao dự phòng trên đám mây.",
-                                                          },
-                                                        ),
-                                                      ],
-                                                    },
-                                                  ),
-                                                  jsxRuntimeExports.jsx("div", {
-                                                    className:
-                                                      "space-y-1 text-left",
-                                                    children: Ie.map((W, Me) =>
-                                                      jsxRuntimeExports.jsxs(
-                                                        "div",
-                                                        {
-                                                          className:
-                                                            "flex items-center gap-2 p-1.5 bg-emerald-100/30 dark:bg-emerald-950/30 rounded text-sm sm:text-base font-semibold font-medium text-emerald-750 dark:text-emerald-400",
-                                                          children: [
-                                                            jsxRuntimeExports.jsx(
-                                                              Check,
-                                                              {
-                                                                className:
-                                                                  "h-3 w-3 text-emerald-500 shrink-0",
-                                                              },
-                                                            ),
-                                                            jsxRuntimeExports.jsxs(
-                                                              "span",
-                                                              {
-                                                                className:
-                                                                  "truncate",
-                                                                children: [
-                                                                  W,
-                                                                  " (An toàn trên Mây)",
-                                                                ],
-                                                              },
-                                                            ),
-                                                          ],
-                                                        },
-                                                        Me,
-                                                      ),
-                                                    ),
-                                                  }),
-                                                ],
-                                              })
-                                            : Ie.map((W, Me) =>
-                                                jsxRuntimeExports.jsxs(
-                                                  "div",
-                                                  {
-                                                    className:
-                                                      "flex items-center gap-2 p-8 sm:p-5 bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl text-sm sm:text-base font-semibold",
-                                                    children: [
-                                                      jsxRuntimeExports.jsx(
-                                                        FileText,
-                                                        {
-                                                          className:
-                                                            "h-3.5 w-3.5 text-blue-500 shrink-0",
-                                                        },
-                                                      ),
-                                                      jsxRuntimeExports.jsx(
-                                                        "span",
-                                                        {
-                                                          className:
-                                                            "text-slate-700 dark:text-slate-300 truncate",
-                                                          children: W,
-                                                        },
-                                                      ),
-                                                    ],
-                                                  },
-                                                  Me,
-                                                ),
-                                              ),
+                                        "Nhấp vào danh bạ bất kỳ bên dưới để thực hiện cuộc gọi thoại trực tiếp qua mạng di động:",
                                     }),
                                   ],
                                 }),
                                 jsxRuntimeExports.jsx("div", {
-                                  className: "pt-2",
-                                  children: V
-                                    ? jsxRuntimeExports.jsx("button", {
-                                        onClick: Ye,
-                                        className:
-                                          "w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm sm:text-base font-medium py-3 px-5 sm:px-6 rounded-3xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 hover:scale-103 transition-all",
-                                        children: jsxRuntimeExports.jsx(
-                                          "span",
-                                          {
-                                            children:
-                                              "🔨 Dùng Búa Đập Vỡ Laptop!",
-                                          },
-                                        ),
-                                      })
-                                    : jsxRuntimeExports.jsxs("button", {
-                                        onClick: mt,
-                                        className:
-                                          "w-full bg-slate-700 hover:bg-slate-800 text-white font-extrabold text-sm sm:text-base font-medium py-3 px-5 sm:px-6 rounded-3xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 hover:scale-103 transition-all",
-                                        children: [
-                                          jsxRuntimeExports.jsx(RefreshCw, {
-                                            className: "h-4 w-4",
-                                          }),
-                                          jsxRuntimeExports.jsx("span", {
-                                            children:
-                                              "Mua Laptop Mới / Sửa Laptop",
-                                          }),
-                                        ],
-                                      }),
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "lg:col-span-7 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 bg-white dark:bg-slate-900 flex flex-col justify-between",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-4",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-sm sm:text-base font-extrabold text-indigo-600 uppercase tracking-wider block",
-                                      children: "Tình trạng thực tế thiết bị",
-                                    }),
-                                    jsxRuntimeExports.jsx("div", {
-                                      className:
-                                        "flex items-center justify-center p-8 bg-slate-50 dark:bg-slate-850/30 rounded-3xl relative border border-slate-100 dark:border-slate-800",
-                                      children: V
-                                        ? jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex flex-col items-center gap-3 text-center",
-                                            children: [
-                                              jsxRuntimeExports.jsx(Laptop, {
-                                                className:
-                                                  "h-16 w-16 text-blue-500 animate-bounce",
-                                              }),
-                                              jsxRuntimeExports.jsxs("div", {
-                                                className: "space-y-1",
-                                                children: [
-                                                  jsxRuntimeExports.jsx(
-                                                    "span",
-                                                    {
-                                                      className:
-                                                        "text-sm sm:text-base font-extrabold text-slate-900 dark:text-white",
-                                                      children:
-                                                        "Laptop đang hoạt động bình thường",
-                                                    },
-                                                  ),
-                                                  jsxRuntimeExports.jsx("p", {
-                                                    className:
-                                                      "text-sm sm:text-base font-semibold text-slate-500 font-bold block",
-                                                    children:
-                                                      "Chứa nhiều tài liệu học tập, báo cáo quan trọng trên ổ cứng vật lý",
-                                                  }),
-                                                  jsxRuntimeExports.jsxs(
-                                                    "div",
-                                                    {
-                                                      className:
-                                                        "flex items-center justify-center gap-1.5 text-emerald-600 font-extrabold text-sm sm:text-base font-semibold",
-                                                      children: [
-                                                        jsxRuntimeExports.jsx(
-                                                          "span",
-                                                          {
-                                                            className:
-                                                              "h-2 w-2 rounded-full bg-emerald-500 inline-block animate-ping",
-                                                          },
-                                                        ),
-                                                        jsxRuntimeExports.jsx(
-                                                          "span",
-                                                          {
-                                                            children:
-                                                              "HỆ THỐNG AN TOÀN (ONLINE)",
-                                                          },
-                                                        ),
-                                                      ],
-                                                    },
-                                                  ),
-                                                ],
-                                              }),
-                                            ],
-                                          })
-                                        : jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex flex-col items-center gap-3 text-center",
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "text-5xl animate-pulse",
-                                                children: "🔨💥💻",
-                                              }),
-                                              jsxRuntimeExports.jsxs("div", {
-                                                className: "space-y-1",
-                                                children: [
-                                                  jsxRuntimeExports.jsx(
-                                                    "span",
-                                                    {
-                                                      className:
-                                                        "text-sm sm:text-base font-extrabold text-red-600 dark:text-red-400",
-                                                      children:
-                                                        "MÁY TÍNH BỊ BÚA ĐẬP VỠ, HỎNG VẬT LÝ HOÀN TOÀN!",
-                                                    },
-                                                  ),
-                                                  jsxRuntimeExports.jsx(
-                                                    "span",
-                                                    {
-                                                      className:
-                                                        "text-sm sm:text-base font-semibold text-slate-500 font-bold block",
-                                                      children:
-                                                        "Ổ cứng vật lý lưu trữ dữ liệu đã bị vỡ nát, hỏng hóc và mất hoàn toàn khả năng đọc/ghi.",
-                                                    },
-                                                  ),
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
                                   className:
-                                    "mt-4 border-t border-slate-100 dark:border-slate-800 pt-4",
+                                    "space-y-2.5 max-h-[260px] overflow-y-auto pr-1",
                                   children: [
-                                    U === "success" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "p-5 sm:p-6 rounded-3xl bg-emerald-50 text-emerald-800 dark:bg-emerald-950/20 dark:text-emerald-400 border border-emerald-200/50 space-y-3 animate-fadeIn text-sm sm:text-base font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex items-center gap-2",
-                                            children: [
-                                              jsxRuntimeExports.jsx(
-                                                CircleCheck,
-                                                {
-                                                  className:
-                                                    "h-4 w-4 shrink-0 text-emerald-600 dark:text-emerald-400",
-                                                },
-                                              ),
-                                              jsxRuntimeExports.jsx("span", {
-                                                className: "font-extrabold",
-                                                children:
-                                                  "Dữ Liệu Đã Được Tự Động Sao Lưu Trên Mây!",
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("p", {
-                                            className:
-                                              "font-medium text-slate-600 dark:text-slate-400",
-                                            children: [
-                                              "Do em đã bật ",
-                                              jsxRuntimeExports.jsx("strong", {
-                                                children:
-                                                  "Tự động sao lưu lên mây (Auto-sync Cloud Backup)",
-                                              }),
-                                              ", bản sao lưu của toàn bộ ",
-                                              Ie.length,
-                                              " tài liệu quan trọng đã được đồng bộ an toàn lên đám mây từ trước đó. Mặc dù laptop bị búa đập vỡ nát, em vẫn có thể sử dụng bản sao lưu này để khôi phục nguyên vẹn dữ liệu sang máy mới!",
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsx("button", {
-                                            onClick: Dt,
-                                            disabled: be,
-                                            className:
-                                              "bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-5 sm:px-6 py-3 rounded-3xl transition-all flex items-center gap-1.5 cursor-pointer",
-                                            children: be
-                                              ? "Đang tải bản sao lưu từ đám mây..."
-                                              : "Sử dụng bản sao lưu trên Mây để Khôi phục",
-                                          }),
-                                        ],
-                                      }),
-                                    U === "fail" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "p-5 sm:p-6 rounded-3xl bg-red-50 text-red-800 dark:bg-red-950/20 dark:text-red-400 border border-red-200/50 space-y-2 animate-fadeIn text-sm sm:text-base font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex items-center gap-2",
-                                            children: [
-                                              jsxRuntimeExports.jsx(
-                                                TriangleAlert,
-                                                {
-                                                  className:
-                                                    "h-4 w-4 shrink-0 text-red-600",
-                                                },
-                                              ),
-                                              jsxRuntimeExports.jsx("span", {
-                                                className: "font-extrabold",
-                                                children:
-                                                  "DỮ LIỆU ĐÃ MẤT VĨNH VIỄN ❌",
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("p", {
-                                            className:
-                                              "text-slate-600 dark:text-slate-400",
-                                            children: [
-                                              "Do em ",
-                                              jsxRuntimeExports.jsx("strong", {
-                                                children:
-                                                  "tắt tính năng đồng bộ hóa/sao lưu đám mây",
-                                              }),
-                                              ", các tệp tin quan trọng chỉ tồn tại duy nhất trên ổ cứng vật lý của chiếc Laptop. Khi máy bị đập vỡ hỏng hoàn toàn, các tệp tài liệu này cũng biến mất vĩnh viễn và không cách nào khôi phục lại được!",
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsx("p", {
-                                            className:
-                                              "text-slate-700 dark:text-slate-300 font-bold",
-                                            children:
-                                              '💡 Hãy nhấn "Mua Laptop Mới / Sửa Laptop", sau đó bật "Tự động sao lưu lên mây" để bảo vệ an toàn dữ liệu nhé!',
-                                          }),
-                                        ],
-                                      }),
-                                    U === "restored" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "p-5 sm:p-6 rounded-3xl bg-blue-50 text-blue-800 dark:bg-blue-950/20 dark:text-blue-400 border border-blue-200/50 space-y-3 animate-fadeIn text-sm sm:text-base font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex items-center gap-2",
-                                            children: [
-                                              jsxRuntimeExports.jsx(
-                                                CircleCheck,
-                                                {
-                                                  className:
-                                                    "h-4 w-4 shrink-0 text-blue-600",
-                                                },
-                                              ),
-                                              jsxRuntimeExports.jsx("span", {
-                                                className: "font-extrabold",
-                                                children:
-                                                  "Khôi Phục Bản Sao Lưu Thành Công!",
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "space-y-1 bg-white dark:bg-slate-900 p-8 sm:p-5 rounded-3xl border border-blue-100 dark:border-slate-800",
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "text-sm sm:text-base font-bold text-slate-400 block mb-1",
-                                                children:
-                                                  "Các tệp tin được kéo về nguyên vẹn từ bản sao lưu đám mây:",
-                                              }),
-                                              de.map((W, Me) =>
-                                                jsxRuntimeExports.jsxs(
-                                                  "div",
-                                                  {
-                                                    className:
-                                                      "flex items-center gap-1.5 text-sm sm:text-base font-semibold text-slate-700 dark:text-slate-300",
-                                                    children: [
-                                                      jsxRuntimeExports.jsx(
-                                                        Check,
-                                                        {
-                                                          className:
-                                                            "h-3.5 w-3.5 text-emerald-500",
-                                                        },
-                                                      ),
-                                                      jsxRuntimeExports.jsx(
-                                                        "span",
-                                                        { children: W },
-                                                      ),
-                                                    ],
-                                                  },
-                                                  Me,
-                                                ),
-                                              ),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("p", {
-                                            className:
-                                              "font-medium text-slate-600 dark:text-slate-400",
-                                            children: [
-                                              "Tuyệt vời! Đây chính là ưu điểm cực kỳ quan trọng của tính năng ",
-                                              jsxRuntimeExports.jsx("strong", {
-                                                children:
-                                                  "Sao lưu & Khôi phục (Backup & Restore)",
-                                              }),
-                                              " nhờ Điện toán đám mây.",
-                                            ],
-                                          }),
-                                        ],
-                                      }),
-                                    !U &&
-                                      jsxRuntimeExports.jsx("div", {
-                                        className:
-                                          "p-5 sm:p-6 rounded-3xl bg-slate-50 dark:bg-slate-850/20 text-center text-sm sm:text-base font-medium text-slate-500 font-medium",
-                                        children:
-                                          '💡 Hãy nhấn nút "Dùng Búa Đập Vỡ Laptop!" màu đỏ để bắt đầu mô phỏng tai nạn phá hủy ổ cứng vật lý!',
-                                      }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  b === "cost" &&
-                    jsxRuntimeExports.jsxs("div", {
-                      className: "space-y-6 animate-fadeIn",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "bg-slate-50 dark:bg-slate-850/20 p-5 sm:p-6 rounded-3xl border border-slate-150 dark:border-slate-800",
-                          children: [
-                            jsxRuntimeExports.jsxs("h5", {
-                              className:
-                                "font-bold text-sm sm:text-base font-medium text-slate-900 dark:text-white flex items-center gap-2",
-                              children: [
-                                jsxRuntimeExports.jsx(DollarSign, {
-                                  className: "h-4 w-4 text-indigo-500",
-                                }),
-                                jsxRuntimeExports.jsx("span", {
-                                  children:
-                                    "Tại sao Điện toán đám mây giúp tiết kiệm chi phí khổng lồ?",
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("p", {
-                              className:
-                                "mt-1 text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400 leading-relaxed font-medium",
-                              children: [
-                                jsxRuntimeExports.jsx("strong", {
-                                  children: "Trải nghiệm thực tế:",
-                                }),
-                                " Tự xây dựng một phòng máy chủ riêng (Physical Server Room) đòi hỏi tiền mua thiết bị đắt đỏ, điều hòa làm mát chạy 24/7 và kỹ sư vận hành. Trái lại, Đám mây chỉ tính phí cho không gian thực tế em thuê. Hãy điều chỉnh dung lượng dữ liệu cần lưu trữ để xem bảng so sánh tiết kiệm!",
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "lg:col-span-5 bg-slate-50 dark:bg-slate-850/40 p-5 sm:p-6 rounded-3xl border border-slate-100 dark:border-slate-800 space-y-4",
-                              children: [
-                                jsxRuntimeExports.jsx("span", {
-                                  className:
-                                    "text-sm sm:text-base font-extrabold text-indigo-600 uppercase tracking-wider block",
-                                  children: "Yêu cầu dung lượng lưu trữ",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "space-y-2 p-5 sm:p-6 bg-white dark:bg-slate-900 border border-slate-150 dark:border-slate-800 rounded-3xl",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "flex justify-between items-center text-sm sm:text-base font-bold",
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-slate-700 dark:text-slate-300",
-                                          children: "Dung lượng dữ liệu:",
-                                        }),
-                                        jsxRuntimeExports.jsxs("span", {
-                                          className:
-                                            "text-blue-600 text-sm sm:text-base font-medium font-mono",
-                                          children: [E, " GB"],
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsx("input", {
-                                      type: "range",
-                                      min: "10",
-                                      max: "2000",
-                                      step: "10",
-                                      value: E,
-                                      onChange: (W) =>
-                                        v(Number(W.target.value)),
-                                      className:
-                                        "w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-3xl appearance-none cursor-pointer accent-blue-600",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "flex justify-between text-[9px] font-bold text-slate-400",
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          children: "10 GB (Nhỏ)",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          children: "1,000 GB (1 TB)",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          children: "2,000 GB (Lớn)",
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-2.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-sm sm:text-base font-bold text-red-600 uppercase tracking-wider block",
-                                      children:
-                                        "Chi phí máy chủ vật lý truyền thống:",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "space-y-1.5 text-sm sm:text-base font-medium",
-                                      children: [
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "flex justify-between p-8 sm:p-5 bg-red-50/40 dark:bg-red-950/10 border border-red-100 dark:border-red-950/20 rounded-3xl font-medium",
-                                          children: [
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "flex items-center gap-1 text-slate-700 dark:text-slate-300",
-                                              children: [
-                                                jsxRuntimeExports.jsx(Server, {
-                                                  className:
-                                                    "h-3.5 w-3.5 text-red-500",
-                                                }),
-                                                " Thiết bị phần cứng máy chủ:",
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "font-bold text-slate-900 dark:text-white",
-                                              children: [
-                                                "$",
-                                                ye.hardware,
-                                                " (Một lần)",
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "flex justify-between p-8 sm:p-5 bg-red-50/40 dark:bg-red-950/10 border border-red-100 dark:border-red-950/20 rounded-3xl font-medium",
-                                          children: [
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "flex items-center gap-1 text-slate-700 dark:text-slate-300",
-                                              children: [
-                                                jsxRuntimeExports.jsx(
-                                                  CloudRain,
-                                                  {
-                                                    className:
-                                                      "h-3.5 w-3.5 text-red-500",
-                                                  },
-                                                ),
-                                                " Hệ thống điều hòa, tủ rack mát:",
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "font-bold text-slate-900 dark:text-white",
-                                              children: [
-                                                "$",
-                                                ye.aircon,
-                                                " (Một lần)",
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "flex justify-between p-8 sm:p-5 bg-red-50/40 dark:bg-red-950/10 border border-red-100 dark:border-red-950/20 rounded-3xl font-medium",
-                                          children: [
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "flex items-center gap-1 text-slate-700 dark:text-slate-300",
-                                              children: [
-                                                jsxRuntimeExports.jsx(Check, {
-                                                  className:
-                                                    "h-3.5 w-3.5 text-red-500",
-                                                }),
-                                                " Chi phí điện lực & kỹ thuật viên:",
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "font-bold text-slate-900 dark:text-white",
-                                              children: [
-                                                "$",
-                                                ye.itSupport,
-                                                " / tháng",
-                                              ],
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "lg:col-span-7 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 bg-white dark:bg-slate-900 flex flex-col justify-between",
-                              children: jsxRuntimeExports.jsxs("div", {
-                                className: "space-y-4",
-                                children: [
-                                  jsxRuntimeExports.jsx("span", {
-                                    className:
-                                      "text-sm sm:text-base font-extrabold text-indigo-600 uppercase tracking-wider block",
-                                    children: "Bảng So Sánh Chi Phí Thực Tế",
-                                  }),
-                                  jsxRuntimeExports.jsxs("div", {
-                                    className: "space-y-4",
-                                    children: [
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className: "space-y-1",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex justify-between text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                children:
-                                                  "Cách 1: Tự mua phòng máy chủ riêng (Vận hành 1 năm)",
-                                              }),
-                                              jsxRuntimeExports.jsxs("span", {
-                                                className:
-                                                  "text-red-600 font-mono",
-                                                children: ["$", Pe.localTotal],
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsx("div", {
-                                            className:
-                                              "h-4 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden",
-                                            children: jsxRuntimeExports.jsx(
-                                              "div",
-                                              {
-                                                className:
-                                                  "h-full bg-red-500 rounded-full",
-                                                style: { width: "100%" },
-                                              },
-                                            ),
-                                          }),
-                                        ],
-                                      }),
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className: "space-y-1",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "flex justify-between text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                            children: [
-                                              jsxRuntimeExports.jsxs("span", {
-                                                children: [
-                                                  "Cách 2: Thuê Điện toán đám mây (Thuê 1 năm cho ",
-                                                  E,
-                                                  " GB)",
-                                                ],
-                                              }),
-                                              jsxRuntimeExports.jsxs("span", {
-                                                className:
-                                                  "text-emerald-600 font-mono",
-                                                children: ["$", Pe.cloudTotal],
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsx("div", {
-                                            className:
-                                              "h-4 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden",
-                                            children: jsxRuntimeExports.jsx(
-                                              "div",
-                                              {
-                                                className:
-                                                  "h-full bg-emerald-500 rounded-full transition-all duration-300",
-                                                style: {
-                                                  width: `${Math.max(3, Math.min(100, (Pe.cloudTotal / Pe.localTotal) * 100))}%`,
-                                                },
-                                              },
-                                            ),
-                                          }),
-                                        ],
-                                      }),
-                                    ],
-                                  }),
-                                  jsxRuntimeExports.jsxs("div", {
-                                    className:
-                                      "p-5 sm:p-6 rounded-3xl bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-950/40 text-sm sm:text-base font-medium space-y-2",
-                                    children: [
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "flex items-center gap-1.5 text-indigo-700 dark:text-indigo-400",
-                                        children: [
-                                          jsxRuntimeExports.jsx(TrendingDown, {
-                                            className:
-                                              "h-4 w-4 shrink-0 text-indigo-500",
-                                          }),
-                                          jsxRuntimeExports.jsx("span", {
-                                            className:
-                                              "font-extrabold text-sm sm:text-base font-medium",
-                                            children:
-                                              "Điện toán đám mây giúp em tiết kiệm bao nhiêu?",
-                                          }),
-                                        ],
-                                      }),
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "grid grid-cols-2 gap-3 pt-1",
-                                        children: [
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "bg-white dark:bg-slate-900 p-8 sm:p-5 border border-slate-100 dark:border-slate-800 rounded-3xl",
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "text-sm sm:text-base font-semibold text-slate-400 block",
-                                                children:
-                                                  "Tiết kiệm sau 6 tháng:",
-                                              }),
-                                              jsxRuntimeExports.jsxs("span", {
-                                                className:
-                                                  "text-emerald-600 text-lg font-bold font-mono",
-                                                children: ["$", Le.saved],
-                                              }),
-                                            ],
-                                          }),
-                                          jsxRuntimeExports.jsxs("div", {
-                                            className:
-                                              "bg-white dark:bg-slate-900 p-8 sm:p-5 border border-slate-100 dark:border-slate-800 rounded-3xl",
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "text-sm sm:text-base font-semibold text-slate-400 block",
-                                                children:
-                                                  "Tiết kiệm sau 1 năm:",
-                                              }),
-                                              jsxRuntimeExports.jsxs("span", {
-                                                className:
-                                                  "text-emerald-600 text-lg font-bold font-mono",
-                                                children: ["$", Pe.saved],
-                                              }),
-                                            ],
-                                          }),
-                                        ],
-                                      }),
-                                      jsxRuntimeExports.jsxs("p", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold text-slate-500 dark:text-slate-400 leading-relaxed font-semibold",
-                                        children: [
-                                          "💡 ",
-                                          jsxRuntimeExports.jsx("strong", {
-                                            children: "Lợi ích vượt trội:",
-                                          }),
-                                          " Em không cần trả bất cứ khoản phí khổng lồ đầu vào nào ($0 ban đầu), chỉ thuê bao với giá khoảng ",
-                                          jsxRuntimeExports.jsxs("strong", {
-                                            children: ["$", H(E), " / tháng"],
-                                          }),
-                                          " dựa trên dữ liệu thật của em. Đây chính là đặc điểm cực mạnh của ",
-                                          jsxRuntimeExports.jsx("strong", {
-                                            children:
-                                              "Tiết kiệm chi phí (Cost Saving)",
-                                          }),
-                                          " trong giáo trình thi quốc tế.",
-                                        ],
-                                      }),
-                                    ],
-                                  }),
-                                ],
-                              }),
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                ],
-              }),
-            }),
-          n === 2 &&
-            jsxRuntimeExports.jsx("div", {
-              className: "space-y-6",
-              children: jsxRuntimeExports.jsxs("div", {
-                className:
-                  "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-5 sm:p-6 shadow-sm space-y-6 text-left",
-                children: [
-                  jsxRuntimeExports.jsxs("div", {
-                    className: "space-y-2",
-                    children: [
-                      jsxRuntimeExports.jsx("span", {
-                        className:
-                          "text-sm sm:text-base font-extrabold text-amber-600 uppercase tracking-widest block",
-                        children: "Mô phỏng Trực quan Tương tác",
-                      }),
-                      jsxRuntimeExports.jsx("h3", {
-                        className:
-                          "text-xl font-black text-slate-900 dark:text-white",
-                        children:
-                          "Trải nghiệm & Đối mặt với 3 Nhược điểm của Đám mây",
-                      }),
-                      jsxRuntimeExports.jsx("p", {
-                        className:
-                          "text-sm sm:text-base font-medium text-slate-600 dark:text-slate-400 font-medium leading-relaxed",
-                        children:
-                          "Để thấu hiểu sâu sắc vì sao chúng được coi là nhược điểm trong thực tế, em hãy trực tiếp kích hoạt các tình huống mô phỏng dưới đây:",
-                      }),
-                    ],
-                  }),
-                  jsxRuntimeExports.jsxs("div", {
-                    className:
-                      "flex flex-col sm:flex-row gap-2 border-b border-slate-100 dark:border-slate-800 pb-4",
-                    children: [
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => ze("conn"),
-                        className: `flex-1 py-3 px-5 sm:px-6 rounded-3xl text-sm sm:text-base font-bold transition-all flex items-center justify-center gap-2 cursor-pointer border ${at === "conn" ? "bg-amber-500 border-amber-500 text-white shadow-sm" : "bg-slate-50 border-slate-250 dark:bg-slate-850/30 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"}`,
-                        children: [
-                          jsxRuntimeExports.jsx(WifiOff, {
-                            className: "h-4 w-4",
-                          }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "1. Kết nối (Connectivity)",
-                          }),
-                        ],
-                      }),
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => ze("sec"),
-                        className: `flex-1 py-3 px-5 sm:px-6 rounded-3xl text-sm sm:text-base font-bold transition-all flex items-center justify-center gap-2 cursor-pointer border ${at === "sec" ? "bg-amber-500 border-amber-500 text-white shadow-sm" : "bg-slate-50 border-slate-250 dark:bg-slate-850/30 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"}`,
-                        children: [
-                          jsxRuntimeExports.jsx(Lock, { className: "h-4 w-4" }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "2. Bảo mật (Security)",
-                          }),
-                        ],
-                      }),
-                      jsxRuntimeExports.jsxs("button", {
-                        onClick: () => ze("desktop"),
-                        className: `flex-1 py-3 px-5 sm:px-6 rounded-3xl text-sm sm:text-base font-bold transition-all flex items-center justify-center gap-2 cursor-pointer border ${at === "desktop" ? "bg-amber-500 border-amber-500 text-white shadow-sm" : "bg-slate-50 border-slate-250 dark:bg-slate-850/30 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"}`,
-                        children: [
-                          jsxRuntimeExports.jsx(Monitor, {
-                            className: "h-4 w-4",
-                          }),
-                          jsxRuntimeExports.jsx("span", {
-                            children: "3. Hỗ trợ MT Để bàn (Desktop)",
-                          }),
-                        ],
-                      }),
-                    ],
-                  }),
-                  at === "conn" &&
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fadeIn",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "lg:col-span-5 space-y-4",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 rounded-3xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 text-sm sm:text-base font-medium text-amber-800 dark:text-amber-400",
-                              children: [
-                                jsxRuntimeExports.jsx("p", {
-                                  className: "font-bold mb-1",
-                                  children: "Mô tả tình huống:",
-                                }),
-                                jsxRuntimeExports.jsx("p", {
-                                  className:
-                                    "font-medium text-slate-600 dark:text-slate-400 leading-relaxed",
-                                  children:
-                                    "Làm việc trên các ứng dụng đám mây (như Google Docs, Office 365, Canva) đòi hỏi máy tính của em liên tục kết nối Internet ổn định. Hãy thử ngắt công tắc cáp mạng bên dưới và xem hậu quả!",
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 border border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 space-y-4",
-                              children: [
-                                jsxRuntimeExports.jsx("span", {
-                                  className:
-                                    "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest block",
-                                  children: "Công tắc kết nối Internet",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className: "flex items-center gap-3",
-                                      children: [
-                                        De
-                                          ? jsxRuntimeExports.jsx("div", {
-                                              className:
-                                                "h-10 w-10 bg-emerald-100 dark:bg-emerald-950/40 rounded-full flex items-center justify-center shrink-0",
-                                              children: jsxRuntimeExports.jsx(
-                                                Wifi,
-                                                {
-                                                  className:
-                                                    "h-5 w-5 text-emerald-600",
-                                                },
-                                              ),
-                                            })
-                                          : jsxRuntimeExports.jsx("div", {
-                                              className:
-                                                "h-10 w-10 bg-red-100 dark:bg-red-950/40 rounded-full flex items-center justify-center shrink-0",
-                                              children: jsxRuntimeExports.jsx(
-                                                WifiOff,
-                                                {
-                                                  className:
-                                                    "h-5 w-5 text-red-600",
-                                                },
-                                              ),
-                                            }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          children: [
-                                            jsxRuntimeExports.jsxs("span", {
-                                              className:
-                                                "text-sm sm:text-base font-bold text-slate-800 dark:text-white block",
-                                              children: [
-                                                "Internet: ",
-                                                De
-                                                  ? "ĐANG KẾT NỐI (ONLINE)"
-                                                  : "ĐÃ BỊ NGẮT (OFFLINE)",
-                                              ],
-                                            }),
-                                            jsxRuntimeExports.jsx("span", {
-                                              className:
-                                                "text-sm sm:text-base font-semibold text-slate-400 block font-medium",
-                                              children:
-                                                "Cáp quang FTTH tốc độ cao",
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsx("button", {
-                                      onClick: () => {
-                                        const W = !De;
-                                        (tt(W),
-                                          ge(
-                                            W
-                                              ? (Me) => [
-                                                  ...Me,
-                                                  "[Hệ thống] Cáp mạng đã được cắm lại.",
-                                                  "[Đồng bộ] Đang thiết lập lại đường truyền ổn định...",
-                                                ]
-                                              : (Me) => [
-                                                  ...Me,
-                                                  "[Hệ thống - CẢNH BÁO] Đã rút cáp mạng! Không có kết nối mạng Internet.",
-                                                  "[Đồng bộ - LỖI] Mất kết nối đến Máy chủ Cloud.",
-                                                ],
-                                          ));
-                                      },
-                                      className: `px-5 sm:px-6 py-3 text-sm sm:text-base font-bold rounded-3xl transition-all shadow-sm cursor-pointer whitespace-nowrap text-center ${De ? "bg-red-600 hover:bg-red-700 text-white" : "bg-emerald-600 hover:bg-emerald-700 text-white"}`,
-                                      children: De
-                                        ? "Ngắt Kết Nối Internet 🔌"
-                                        : "Cắm Cáp Mạng Internet 🔌",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("button", {
-                              onClick: () => {
-                                if (!De) {
-                                  ge((W) => [
-                                    ...W,
-                                    "[Sự cố] Không thể chỉnh sửa trực tuyến! Hãy bật Internet trước.",
-                                  ]);
-                                  return;
-                                }
-                                (oe(!0),
-                                  ge((W) => [
-                                    ...W,
-                                    "[Hành động] Người dùng bấm: Chỉnh sửa bài tập lớn trực tiếp trên mây...",
-                                    "[Đồng bộ] Đang cập nhật dữ liệu thời gian thực lên máy chủ Google Drive...",
-                                  ]),
-                                  setTimeout(() => {
-                                    (oe(!1),
-                                      ge((W) => [
-                                        ...W,
-                                        "[Thành công] Tệp tin đã được lưu tự động lên Đám mây.",
-                                      ]));
-                                  }, 1e3));
-                              },
-                              disabled: it,
-                              className:
-                                "w-full bg-slate-800 hover:bg-slate-900 text-white font-extrabold text-sm sm:text-base font-medium py-3 px-5 sm:px-6 rounded-3xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer",
-                              children: [
-                                it
-                                  ? jsxRuntimeExports.jsx(RefreshCw, {
-                                      className: "h-4 w-4 animate-spin",
-                                    })
-                                  : jsxRuntimeExports.jsx(Cloud, {
-                                      className: "h-4 w-4",
-                                    }),
-                                jsxRuntimeExports.jsx("span", {
-                                  children:
-                                    "Chỉnh sửa tài liệu học tập trực tuyến",
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "lg:col-span-7 flex flex-col border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden bg-slate-900 text-slate-100 font-mono text-sm sm:text-base font-semibold h-[300px]",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "bg-slate-950 px-5 sm:px-6 py-3 border-b border-slate-800 flex items-center justify-between shrink-0",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "flex items-center gap-1.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-red-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-yellow-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-green-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "ml-2 text-sm sm:text-base font-bold text-slate-400",
-                                      children:
-                                        "GOOGLE DOCS EDITOR (Cloud Interface)",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsx("div", {
-                                  className: "flex items-center gap-1.5",
-                                  children: De
-                                    ? jsxRuntimeExports.jsxs("span", {
-                                        className:
-                                          "flex items-center gap-1 text-sm sm:text-base font-semibold text-emerald-400 font-bold bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800",
-                                        children: [
-                                          jsxRuntimeExports.jsx("span", {
-                                            className:
-                                              "h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping",
-                                          }),
-                                          "ONLINE",
-                                        ],
-                                      })
-                                    : jsxRuntimeExports.jsx("span", {
-                                        className:
-                                          "flex items-center gap-1 text-sm sm:text-base font-semibold text-red-400 font-bold bg-red-950/50 px-2 py-0.5 rounded border border-red-800",
-                                        children: "OFFLINE",
-                                      }),
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "flex-1 p-5 sm:p-6 space-y-2 overflow-y-auto select-none font-mono",
-                              children: [
-                                ie.map((W, Me) => {
-                                  let et = "text-slate-300";
-                                  return (
-                                    (W.includes("[CẢNH BÁO]") ||
-                                      W.includes("[Sự cố]")) &&
-                                      (et = "text-amber-400 font-bold"),
-                                    W.includes("[LỖI]") &&
-                                      (et = "text-red-400 font-bold"),
-                                    W.includes("[Thành công]") &&
-                                      (et = "text-emerald-400 font-bold"),
-                                    W.includes("[Hành động]") &&
-                                      (et = "text-blue-400"),
-                                    jsxRuntimeExports.jsx(
-                                      "div",
-                                      {
-                                        className: `leading-relaxed ${et}`,
-                                        children: W,
-                                      },
-                                      Me,
-                                    )
-                                  );
-                                }),
-                                it &&
-                                  jsxRuntimeExports.jsx("div", {
-                                    className: "text-blue-300 animate-pulse",
-                                    children:
-                                      "> Đang truyền tải gói tin qua TCP/IP... (12% - 55% - 87%)...",
-                                  }),
-                                !De &&
-                                  jsxRuntimeExports.jsxs("div", {
-                                    className:
-                                      "bg-red-950/20 text-red-400 p-8 sm:p-5 rounded-3xl border border-red-900/50 space-y-1 mt-4 animate-pulse",
-                                    children: [
-                                      jsxRuntimeExports.jsx("p", {
-                                        className:
-                                          "font-extrabold text-sm sm:text-base font-medium",
-                                        children: "⚠️ MẤT KẾT NỐI INTERNET:",
-                                      }),
-                                      jsxRuntimeExports.jsx("p", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold leading-relaxed",
-                                        children:
-                                          "Hệ thống đã bị treo. Bạn không thể nhập ký tự mới, tệp tin không thể tự động lưu, mọi thao tác soạn thảo bị đình chỉ ngay lập tức do thiếu Connectivity.",
-                                      }),
-                                    ],
-                                  }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  at === "sec" &&
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fadeIn",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "lg:col-span-5 space-y-4",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 rounded-3xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 text-sm sm:text-base font-medium text-amber-800 dark:text-amber-400",
-                              children: [
-                                jsxRuntimeExports.jsx("p", {
-                                  className: "font-bold mb-1",
-                                  children: "Mô tả tình huống:",
-                                }),
-                                jsxRuntimeExports.jsx("p", {
-                                  className:
-                                    "font-medium text-slate-600 dark:text-slate-400 leading-relaxed",
-                                  children:
-                                    "Đưa dữ liệu lên Đám mây đồng nghĩa với việc nó trực tiếp nằm trên máy chủ công cộng. Nếu em dùng mật khẩu quá đơn giản và không bật Xác thực 2 yếu tố (2FA), hacker có thể bẻ khóa tài khoản cực nhanh và lấy trộm toàn bộ tài liệu của em.",
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 border border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 space-y-4",
-                              children: [
-                                jsxRuntimeExports.jsx("span", {
-                                  className:
-                                    "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest block",
-                                  children: "Cấu hình Đăng Nhập Cloud",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "space-y-1.5",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "flex justify-between items-center",
-                                      children: [
-                                        jsxRuntimeExports.jsx("label", {
-                                          className:
-                                            "text-sm sm:text-base font-bold text-slate-700 dark:text-slate-300",
-                                          children:
-                                            "Nhập mật khẩu tự thiết lập:",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className: `text-sm sm:text-base font-bold px-2 py-0.5 rounded-full border ${evaluatePassword(ae).color}`,
-                                          children: evaluatePassword(ae).label,
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsx("input", {
-                                      type: "text",
-                                      value: ae,
-                                      onChange: (W) => {
-                                        (Ae(W.target.value),
-                                          w((Me) => [
-                                            ...Me,
-                                            `[Thay đổi] Đã nhập mật khẩu mới: "${W.target.value}"`,
-                                          ]),
-                                          Ke("idle"));
-                                      },
-                                      placeholder: "Nhập mật khẩu của em...",
-                                      className:
-                                        "w-full bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 px-5 sm:px-5 py-3 rounded-3xl text-sm sm:text-base font-semibold focus:outline-none focus:border-amber-500",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className: "flex flex-wrap gap-1.5 pt-1",
-                                      children: [
-                                        jsxRuntimeExports.jsx("button", {
-                                          type: "button",
-                                          onClick: () => {
-                                            (Ae("123456"),
-                                              w((W) => [
-                                                ...W,
-                                                '[Thay đổi] Đặt mật khẩu mẫu: "123456" (Rất yếu)',
-                                              ]),
-                                              Ke("idle"));
-                                          },
-                                          className:
-                                            "px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-sm sm:text-base font-bold text-slate-600 dark:text-slate-300 cursor-pointer",
-                                          children: "Mẫu yếu (123456)",
-                                        }),
-                                        jsxRuntimeExports.jsx("button", {
-                                          type: "button",
-                                          onClick: () => {
-                                            (Ae("hoanglong_2015"),
-                                              w((W) => [
-                                                ...W,
-                                                '[Thay đổi] Đặt mật khẩu mẫu: "hoanglong_2015" (Trung bình)',
-                                              ]),
-                                              Ke("idle"));
-                                          },
-                                          className:
-                                            "px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-sm sm:text-base font-bold text-slate-600 dark:text-slate-300 cursor-pointer",
-                                          children:
-                                            "Mẫu trung bình (hoanglong_2015)",
-                                        }),
-                                        jsxRuntimeExports.jsx("button", {
-                                          type: "button",
-                                          onClick: () => {
-                                            (Ae("Xy9#pQ@2mK$"),
-                                              w((W) => [
-                                                ...W,
-                                                '[Thay đổi] Đặt mật khẩu mẫu: "Xy9#pQ@2mK$" (Rất mạnh)',
-                                              ]),
-                                              Ke("idle"));
-                                          },
-                                          className:
-                                            "px-2 py-1 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 rounded text-sm sm:text-base font-bold text-slate-600 dark:text-slate-300 cursor-pointer",
-                                          children: "Mẫu mạnh (Xy9#pQ@2mK$)",
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("label", {
-                                  className:
-                                    "flex items-center gap-2.5 p-8 sm:p-5 bg-red-50/50 dark:bg-red-950/10 border border-red-200 dark:border-red-900/30 rounded-3xl cursor-pointer select-none",
-                                  children: [
-                                    jsxRuntimeExports.jsx("input", {
-                                      type: "checkbox",
-                                      checked: $e,
-                                      onChange: (W) => {
-                                        const Me = W.target.checked;
-                                        (_e(Me),
-                                          w((et) => [
-                                            ...et,
-                                            Me
-                                              ? "[Rò rỉ] CẢNH BÁO: Vô tình để lộ mật khẩu! (Qua link lừa đảo Phishing, dán note màn hình, lộ ảnh chụp...)."
-                                              : "[Bảo mật] Đã thu hồi sự cố lộ mật khẩu.",
-                                            Me
-                                              ? "[Cảnh báo] LƯU Ý: Một khi đã bị rò rỉ, bất kỳ ai cũng có thể biết mật khẩu của em lập tức. Dù mật khẩu mạnh đến mấy cũng trở nên vô dụng!"
-                                              : "[Bảo mật] Đã phục hồi độ tin cậy mật khẩu.",
-                                          ]),
-                                          Ke("idle"));
-                                      },
-                                      className:
-                                        "h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500 cursor-pointer",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-sm sm:text-base font-extrabold text-red-600 dark:text-red-400 block",
-                                          children: "Vô tình để lộ mật khẩu ⚠️",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-[9px] text-slate-500 dark:text-slate-400 block font-medium",
-                                          children:
-                                            "Bị dụ bấm link lừa đảo Phishing hoặc lộ ảnh màn hình",
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("label", {
-                                  className:
-                                    "flex items-center gap-2.5 p-8 sm:p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl cursor-pointer select-none",
-                                  children: [
-                                    jsxRuntimeExports.jsx("input", {
-                                      type: "checkbox",
-                                      checked: Q,
-                                      onChange: (W) => {
-                                        const Me = W.target.checked;
-                                        (Te(Me),
-                                          w((et) => [
-                                            ...et,
-                                            Me
-                                              ? "[Bảo mật] Đã BẬT tính năng Xác thực 2 lớp (2FA)."
-                                              : "[Cảnh báo] Đã TẮT Xác thực 2 lớp.",
-                                          ]),
-                                          Ke("idle"));
-                                      },
-                                      className:
-                                        "h-4 w-4 rounded border-slate-300 text-amber-600 focus:ring-amber-500 cursor-pointer",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-sm sm:text-base font-bold text-slate-800 dark:text-white block",
-                                          children:
-                                            "Kích hoạt Xác thực 2 lớp (2FA)",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-[9px] text-slate-400 block font-medium",
-                                          children:
-                                            "Bắt buộc nhập mã OTP gửi về điện thoại di động",
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "p-8 sm:p-5 bg-slate-100 dark:bg-slate-950/50 rounded-3xl border border-slate-200 dark:border-slate-800/80 space-y-1 text-sm sm:text-base font-medium",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-wider block",
-                                      children: "ƯỚC TÍNH THỜI GIAN BẺ KHÓA",
-                                    }),
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className:
-                                        "font-extrabold text-slate-900 dark:text-white flex items-center gap-1.5",
-                                      children: [
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "h-2 w-2 rounded-full bg-amber-500",
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          children: $e
-                                            ? "Tức thì (0.01 giây) - Do mật khẩu đã bị rò rỉ!"
-                                            : evaluatePassword(ae).time,
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("button", {
-                              onClick: () => {
-                                Ke("hacking");
-                                const W = evaluatePassword(ae),
-                                  Me = $e
-                                    ? "Tức thì (0.01 giây) - do bị lộ"
-                                    : W.time;
-                                (w([
-                                  "[Hành động] Kích hoạt mô phỏng Hacker tấn công tài khoản của em...",
-                                  "[Hacker] Đang thu thập địa chỉ email Cloud...",
-                                  $e
-                                    ? "[Hacker] PHÁT HIỆN MẬT KHẨU ĐÃ BỊ RÒ RỈ! Do em vô tình để lộ (Phishing/giấy note/chia sẻ), Hacker và NGƯỜI LẠ đều biết mật khẩu ngay lập tức."
-                                    : "[Hacker] Chạy tool bẻ khóa Brute Force, dò quét 100,000 cụm mật khẩu mỗi giây...",
-                                  $e
-                                    ? `[Hacker] Sử dụng trực tiếp mật khẩu đã thu thập được: "${ae}" để đăng nhập.`
-                                    : `[Hacker] Độ mạnh mật khẩu phát hiện: ${W.label.toUpperCase()}`,
-                                  $e
-                                    ? "[Cảnh báo] Khi mật khẩu bị lộ, độ mạnh mật khẩu trở nên vô nghĩa! Dù đặt mật khẩu mạnh đến đâu cũng vô dụng."
-                                    : `[Hacker] Thời gian bẻ khóa: ${Me}`,
-                                ]),
-                                  setTimeout(() => {
-                                    $e ||
-                                    W.strength === "weak" ||
-                                    W.strength === "medium"
-                                      ? (w(
-                                          $e
-                                            ? (Je) => [
-                                                ...Je,
-                                                `[Hacker] Đăng nhập thành công TỨC THÌ! Hacker sử dụng mật khẩu rò rỉ "${ae}".`,
-                                                "[Cảnh báo nghiêm trọng] Khi em vô tình lộ mật khẩu, không chỉ hacker và người lạ đều có thể đọc được và đăng nhập dễ dàng, cho dù em có thiết lập mật khẩu siêu mạnh và phức tạp đến đâu đi nữa!",
-                                              ]
-                                            : (Je) => [
-                                                ...Je,
-                                                `[Hacker] Bẻ khóa thành công sau ${W.time}! Mật khẩu "${ae}" quá yếu.`,
-                                              ],
-                                        ),
-                                        Q
-                                          ? (Ke("defended"),
-                                            w((Je) => [
-                                              ...Je,
-                                              "[Hệ thống Cloud] Phát hiện đăng nhập từ IP lạ. Yêu cầu nhập mã OTP gửi về điện thoại!",
-                                              "[Hacker] Thất bại! Hacker không thể vượt qua hàng rào OTP lớp thứ hai.",
-                                              "[Bảo vệ] Tài khoản Cloud của em được bảo vệ an toàn nhờ có 2FA! 🔒",
-                                            ]))
-                                          : (Ke("hacked"),
-                                            w((Je) => [
-                                              ...Je,
-                                              "[Cảnh báo] Tài khoản bị truy cập trái phép hoàn toàn! Không có 2FA cản đường.",
-                                              "[Mất dữ liệu] Hacker đã tải hết tài liệu mật và xóa sạch tệp tin của em trên mây! 😱",
-                                            ])))
-                                      : (w((Je) => [
-                                          ...Je,
-                                          "[Hacker] Thất bại! Brute force không hiệu quả đối với mật khẩu bảo mật cao.",
-                                          `[Hacker] Cần ít nhất ${W.time} để hoàn tất dò quét.`,
-                                          "[Bảo vệ] Tài khoản của em an toàn tuyệt đối nhờ mật khẩu cực mạnh! 🔒",
-                                        ]),
-                                        Ke("defended"));
-                                  }, 2e3));
-                              },
-                              disabled: Ue === "hacking",
-                              className:
-                                "w-full bg-red-600 hover:bg-red-700 text-white font-extrabold text-sm sm:text-base font-medium py-3 px-5 sm:px-6 rounded-3xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-95 hover:scale-103 transition-all disabled:bg-slate-400",
-                              children: [
-                                jsxRuntimeExports.jsx(ShieldAlert, {
-                                  className: "h-4 w-4",
-                                }),
-                                jsxRuntimeExports.jsx("span", {
-                                  children: "⚡ Mô Phỏng Hacker Tấn Công",
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "lg:col-span-7 flex flex-col border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden bg-slate-950 text-slate-100 font-mono text-sm sm:text-base font-semibold h-[340px]",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "bg-slate-900 px-5 sm:px-6 py-3 border-b border-slate-800 flex items-center justify-between shrink-0",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "flex items-center gap-1.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-red-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-yellow-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "h-3 w-3 rounded-full bg-green-500",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "ml-2 text-sm sm:text-base font-bold text-slate-400",
-                                      children:
-                                        "CYBER SECURITY PENETRATION LAB",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  children: [
-                                    Ue === "hacking" &&
-                                      jsxRuntimeExports.jsx("span", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold text-yellow-400 font-bold animate-pulse",
-                                        children: "⚡ ATTACKING...",
-                                      }),
-                                    Ue === "hacked" &&
-                                      jsxRuntimeExports.jsx("span", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold text-red-500 font-extrabold animate-bounce",
-                                        children: "🚨 COMPROMISED",
-                                      }),
-                                    Ue === "defended" &&
-                                      jsxRuntimeExports.jsx("span", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold text-emerald-400 font-bold",
-                                        children: "🛡️ PROTECTED",
-                                      }),
-                                    Ue === "idle" &&
-                                      jsxRuntimeExports.jsx("span", {
-                                        className:
-                                          "text-sm sm:text-base font-semibold text-slate-400",
-                                        children: "READY",
-                                      }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "flex-1 p-5 sm:p-6 space-y-2 overflow-y-auto font-mono",
-                              children: [
-                                ot.map((W, Me) => {
-                                  let et = "text-slate-300";
-                                  return (
-                                    (W.includes("[Thay đổi]") ||
-                                      W.includes("[Bảo mật]")) &&
-                                      (et = "text-blue-400"),
-                                    W.includes("[Hacker]") &&
-                                      !W.includes("Thất bại") &&
-                                      (et = "text-red-400"),
-                                    W.includes("[Rò rỉ]") &&
-                                      (et = "text-amber-400 font-bold"),
-                                    (W.includes("Thất bại") ||
-                                      W.includes("[Bảo vệ]") ||
-                                      W.includes("an toàn")) &&
-                                      (et = "text-emerald-400 font-bold"),
-                                    (W.includes("[Cảnh báo]") ||
-                                      W.includes("[Mất dữ liệu]")) &&
-                                      (et =
-                                        "text-red-500 font-extrabold animate-pulse"),
-                                    jsxRuntimeExports.jsx(
-                                      "div",
-                                      {
-                                        className: `leading-relaxed ${et}`,
-                                        children: W,
-                                      },
-                                      Me,
-                                    )
-                                  );
-                                }),
-                                Ue === "hacking" &&
-                                  jsxRuntimeExports.jsx("div", {
-                                    className:
-                                      "text-yellow-400 font-bold animate-pulse",
-                                    children:
-                                      "> Đang bẻ khóa bảo mật, gửi hàng nghìn requests/giây...",
-                                  }),
-                              ],
-                            }),
-                          ],
-                        }),
-                      ],
-                    }),
-                  at === "desktop" &&
-                    jsxRuntimeExports.jsxs("div", {
-                      className:
-                        "grid grid-cols-1 lg:grid-cols-12 gap-6 animate-fadeIn",
-                      children: [
-                        jsxRuntimeExports.jsxs("div", {
-                          className: "lg:col-span-5 space-y-4",
-                          children: [
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 rounded-3xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 text-sm sm:text-base font-medium text-amber-800 dark:text-amber-400",
-                              children: [
-                                jsxRuntimeExports.jsx("p", {
-                                  className: "font-bold mb-1",
-                                  children: "Mô tả tình huống:",
-                                }),
-                                jsxRuntimeExports.jsx("p", {
-                                  className:
-                                    "font-medium text-slate-600 dark:text-slate-400 leading-relaxed",
-                                  children:
-                                    'Điện toán đám mây được thiết kế để chạy trên mọi thiết bị (điện thoại, máy tính bảng, laptop) qua trình duyệt web. Chính vì "đa năng" như vậy nên nó không tối ưu riêng cho máy tính để bàn. Nhiều phần mềm chạy trên đám mây (bản web) sẽ bị cắt bớt tính năng, không mượt và mạnh mẽ bằng phần mềm cài đặt trực tiếp vào ổ cứng máy tính.',
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 border border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 space-y-3",
-                              children: [
-                                jsxRuntimeExports.jsx("span", {
-                                  className:
-                                    "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest block",
-                                  children:
-                                    "Chọn phiên bản phần mềm để kiểm tra:",
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "grid grid-cols-2 gap-2",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("button", {
-                                      onClick: () => {
-                                        (Ee("cloud"),
-                                          We("idle"),
-                                          lt(60),
-                                          xt("idle"),
-                                          rt([
-                                            "[Hệ thống] Đang xem ứng dụng Bản Đám Mây (Web App).",
-                                            "[Đặc tính] Chạy trên mọi thiết bị (Điện thoại, Tablet, Laptop) qua Trình duyệt Web.",
-                                            "[Nhấn] Click thử các nút gửi File/Thư mục Zalo bên dưới.",
-                                          ]));
-                                      },
-                                      className: `p-8 sm:p-5 rounded-3xl border transition-all text-left flex flex-col justify-between cursor-pointer ${C === "cloud" ? "border-amber-500 bg-amber-50/50 dark:bg-amber-950/20 text-amber-900 dark:text-amber-200 shadow-sm" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100"}`,
-                                      children: [
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "flex items-center gap-1.5 mb-2",
-                                          children: [
-                                            jsxRuntimeExports.jsx(Cloud, {
-                                              className: "h-4 w-4 text-sky-500",
-                                            }),
-                                            jsxRuntimeExports.jsx("span", {
-                                              className:
-                                                "text-sm sm:text-base font-bold",
-                                              children: "1. Bản Đám Mây",
-                                            }),
-                                          ],
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-[9px] text-slate-400 block font-medium leading-tight",
-                                          children:
-                                            "Web App đa năng, chạy qua trình duyệt trên mọi thiết bị.",
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsxs("button", {
-                                      onClick: () => {
-                                        (Ee("native"),
-                                          We("idle"),
-                                          lt(60),
-                                          xt("idle"),
-                                          rt([
-                                            "[Hệ thống] Đang xem ứng dụng Bản Cài Đặt Cục Bộ (Native App).",
-                                            "[Đặc tính] Cài trực tiếp vào ổ cứng, tối ưu hóa riêng cho tài nguyên máy tính để bàn.",
-                                            "[Nhấn] Click thử các nút gửi File/Thư mục Zalo bên dưới.",
-                                          ]));
-                                      },
-                                      className: `p-8 sm:p-5 rounded-3xl border transition-all text-left flex flex-col justify-between cursor-pointer ${C === "native" ? "border-indigo-500 bg-indigo-50/50 dark:bg-indigo-950/20 text-indigo-900 dark:text-indigo-200 shadow-sm" : "border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-100"}`,
-                                      children: [
-                                        jsxRuntimeExports.jsxs("div", {
-                                          className:
-                                            "flex items-center gap-1.5 mb-2",
-                                          children: [
-                                            jsxRuntimeExports.jsx(Monitor, {
-                                              className:
-                                                "h-4 w-4 text-indigo-500",
-                                            }),
-                                            jsxRuntimeExports.jsx("span", {
-                                              className:
-                                                "text-sm sm:text-base font-bold",
-                                              children: "2. Bản Cài Đặt PC",
-                                            }),
-                                          ],
-                                        }),
-                                        jsxRuntimeExports.jsx("span", {
-                                          className:
-                                            "text-[9px] text-slate-400 block font-medium leading-tight",
-                                          children:
-                                            "Cài trực tiếp vào ổ cứng, chuyên dụng cho máy tính để bàn.",
-                                        }),
-                                      ],
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-5 sm:p-6 border border-slate-200 dark:border-slate-800 rounded-3xl bg-slate-50/50 dark:bg-slate-900/50 space-y-3",
-                              children: [
-                                jsxRuntimeExports.jsx("span", {
-                                  className:
-                                    "text-sm sm:text-base font-bold text-slate-400 uppercase tracking-widest block",
-                                  children:
-                                    "Thử Nghiệm Tính Năng Zalo Web vs Zalo PC:",
-                                }),
-                                jsxRuntimeExports.jsxs("p", {
-                                  className:
-                                    "text-sm sm:text-base font-semibold text-slate-500 leading-tight",
-                                  children: [
-                                    "Bấm thử các nút dưới đây để mô phỏng truyền tải File/Thư mục trên ",
-                                    C === "cloud" ? "Zalo Web" : "Zalo PC",
-                                    ":",
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className: "grid grid-cols-2 gap-2",
-                                  children: [
-                                    jsxRuntimeExports.jsx("button", {
-                                      onClick: () => {
-                                        (xt("file"),
-                                          rt(
-                                            C === "cloud"
-                                              ? (W) => [
-                                                  ...W,
-                                                  '[Zalo Web] 📄 Đã gửi tập tin "Bao_Cao.pdf" thành công qua đường truyền trình duyệt!',
-                                                ]
-                                              : (W) => [
-                                                  ...W,
-                                                  '[Zalo PC] 📄 Đã gửi tập tin "Bao_Cao.pdf" thành công từ ổ cứng cục bộ!',
-                                                ],
-                                          ));
-                                      },
-                                      className:
-                                        "py-3 px-5 sm:px-5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm sm:text-base font-semibold rounded-3xl transition-all active:scale-95 hover:scale-103 transition-all flex items-center justify-center gap-1 cursor-pointer",
-                                      children: "📄 Gửi Tập Tin",
-                                    }),
-                                    jsxRuntimeExports.jsx("button", {
-                                      onClick: () => {
-                                        C === "cloud"
-                                          ? (xt("folder-error"),
-                                            rt((W) => [
-                                              ...W,
-                                              "[Zalo Web] ❌ LỖI: Trình duyệt Web chỉ cho phép gửi tập tin đơn lẻ, KHÔNG hỗ trợ gửi cả Thư mục!",
-                                              "[Giải thích] Sandbox bảo mật của trình duyệt chặn quyền đọc toàn bộ cây thư mục từ ổ cứng máy tính.",
-                                            ]))
-                                          : (xt("folder-success"),
-                                            rt((W) => [
-                                              ...W,
-                                              '[Zalo PC] 📂 GỬI THƯ MỤC THÀNH CÔNG: Đã quét và truyền tải trọn vẹn thư mục "Project_Lab13" (gồm 35 tệp tin) thành công!',
-                                              "[Giải thích] Phần mềm cài trên Desktop có đầy đủ quyền tương tác hệ điều hành và hệ thống tệp cục bộ.",
-                                            ]));
-                                      },
-                                      className:
-                                        "py-3 px-5 sm:px-5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base font-semibold rounded-3xl transition-all active:scale-95 hover:scale-103 transition-all flex items-center justify-center gap-1 cursor-pointer",
-                                      children: "📂 Gửi Thư Mục",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                          ],
-                        }),
-                        jsxRuntimeExports.jsxs("div", {
-                          className:
-                            "lg:col-span-7 flex flex-col border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden bg-slate-900 text-slate-100 font-mono text-sm sm:text-base font-semibold h-[360px]",
-                          children: [
-                            jsxRuntimeExports.jsx("div", {
-                              className: `px-5 sm:px-6 py-3 flex items-center justify-between text-white font-sans font-bold shrink-0 ${C === "cloud" ? "bg-amber-700" : "bg-indigo-700"}`,
-                              children: jsxRuntimeExports.jsxs("div", {
-                                className: "flex items-center gap-1.5",
-                                children: [
-                                  C === "cloud"
-                                    ? jsxRuntimeExports.jsx(Cloud, {
-                                        className: "h-4 w-4",
-                                      })
-                                    : jsxRuntimeExports.jsx(Monitor, {
-                                        className: "h-4 w-4",
-                                      }),
-                                  jsxRuntimeExports.jsx("span", {
-                                    children:
-                                      C === "cloud"
-                                        ? "BẢN ĐÁM MÂY (Chạy qua Trình duyệt Web)"
-                                        : "BẢN CÀI ĐẶT CỤC BỘ (Cài vào Ổ cứng PC)",
-                                  }),
-                                ],
-                              }),
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-8 sm:p-5 bg-slate-950 border-b border-slate-800 grid grid-cols-3 gap-2.5 shrink-0",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "bg-slate-900/80 p-8 sm:p-5 rounded-3xl border border-slate-800 text-center space-y-0.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-[8px] text-slate-400 font-bold block uppercase",
-                                      children: "Độ Mượt Mà",
-                                    }),
-                                    jsxRuntimeExports.jsx("div", {
-                                      className:
-                                        "flex justify-center items-center gap-1",
-                                      children: jsxRuntimeExports.jsx("span", {
-                                        className: `text-sm sm:text-base font-extrabold ${C === "cloud" ? "text-amber-400" : "text-emerald-400"}`,
-                                        children:
-                                          C === "cloud"
-                                            ? "Trung Bình"
-                                            : "Tối Đa",
-                                      }),
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className: `text-[8px] block ${C === "cloud" ? "text-amber-500 font-semibold" : "text-emerald-500 font-semibold"}`,
-                                      children:
-                                        C === "cloud"
-                                          ? "Có thể sụt FPS 🟡"
-                                          : "Khóa 60 FPS mượt mà 🟢",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "bg-slate-900/80 p-8 sm:p-5 rounded-3xl border border-slate-800 text-center space-y-0.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-[8px] text-slate-400 font-bold block uppercase",
-                                      children: "Tính Năng Hỗ Trợ",
-                                    }),
-                                    jsxRuntimeExports.jsx("div", {
-                                      className:
-                                        "text-sm sm:text-base font-extrabold text-white",
-                                      children:
-                                        C === "cloud"
-                                          ? "Bị Cắt Bớt"
-                                          : "Đầy Đủ 100%",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-[8px] text-slate-400 block font-medium",
-                                      children:
-                                        C === "cloud"
-                                          ? "Chỉ hỗ trợ cơ bản ⚠️"
-                                          : "Toàn bộ công cụ nâng cao ✅",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "bg-slate-900/80 p-8 sm:p-5 rounded-3xl border border-slate-800 text-center space-y-0.5",
-                                  children: [
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-[8px] text-slate-400 font-bold block uppercase",
-                                      children: "Tận Dụng GPU",
-                                    }),
-                                    jsxRuntimeExports.jsx("div", {
-                                      className:
-                                        "text-sm sm:text-base font-extrabold text-white",
-                                      children:
-                                        C === "cloud"
-                                          ? "Hạn Chế (Web)"
-                                          : "Tối Đa (Native)",
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className:
-                                        "text-[8px] text-slate-400 block font-medium",
-                                      children:
-                                        C === "cloud"
-                                          ? "Bị nghẽn bởi Chrome"
-                                          : "Trực tiếp card đồ họa",
-                                    }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsxs("div", {
-                              className:
-                                "p-8 sm:p-5 bg-slate-950 border-b border-slate-850 flex flex-col gap-2 shrink-0 font-sans",
-                              children: [
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "flex items-center justify-between border-b border-slate-800 pb-1.5",
-                                  children: [
-                                    jsxRuntimeExports.jsxs("div", {
-                                      className: "flex items-center gap-1.5",
-                                      children: [
-                                        jsxRuntimeExports.jsx("div", {
-                                          className:
-                                            "h-6 w-6 bg-blue-600 rounded-full flex items-center justify-center text-white font-extrabold text-sm sm:text-base font-semibold",
-                                          children: "Z",
-                                        }),
-                                        jsxRuntimeExports.jsxs("div", {
-                                          children: [
-                                            jsxRuntimeExports.jsx("span", {
-                                              className:
-                                                "text-sm sm:text-base font-bold block text-white leading-tight",
-                                              children:
-                                                C === "cloud"
-                                                  ? "Zalo Web (Bản Trình Duyệt)"
-                                                  : "Zalo PC (Bản Cài Đặt Máy Tính)",
-                                            }),
-                                            jsxRuntimeExports.jsx("span", {
-                                              className:
-                                                "text-[8px] text-slate-400 block leading-none",
-                                              children:
-                                                C === "cloud"
-                                                  ? "URL: chat.zalo.me"
-                                                  : "Ứng dụng cục bộ cài đặt",
-                                            }),
-                                          ],
-                                        }),
-                                      ],
-                                    }),
-                                    jsxRuntimeExports.jsx("span", {
-                                      className: `text-[8px] font-bold px-1.5 py-0.5 rounded ${C === "cloud" ? "bg-amber-950/40 text-amber-400 border border-amber-900/50" : "bg-emerald-950/40 text-emerald-400 border border-emerald-900/50"}`,
-                                      children:
-                                        C === "cloud"
-                                          ? "GIỚI HẠN WEB SANDBOX"
-                                          : "ĐẦY ĐỦ QUYỀN HỆ THỐNG",
-                                    }),
-                                  ],
-                                }),
-                                jsxRuntimeExports.jsxs("div", {
-                                  className:
-                                    "bg-slate-900 rounded-3xl p-8 sm:p-5 border border-slate-800 text-sm sm:text-base font-semibold space-y-1.5",
-                                  children: [
-                                    yt === "idle" &&
-                                      jsxRuntimeExports.jsxs("p", {
-                                        className:
-                                          "text-slate-400 leading-relaxed font-medium",
-                                        children: [
-                                          "💬 ",
-                                          jsxRuntimeExports.jsx("strong", {
-                                            children: "Hệ thống Zalo:",
-                                          }),
-                                          " Chào mừng em! Hãy click nút ",
-                                          jsxRuntimeExports.jsx("span", {
-                                            className:
-                                              "text-blue-400 font-bold",
-                                            children: "Gửi Tập Tin",
-                                          }),
-                                          " hoặc ",
-                                          jsxRuntimeExports.jsx("span", {
-                                            className:
-                                              "text-indigo-400 font-bold",
-                                            children: "Gửi Thư Mục",
-                                          }),
-                                          " ở cột điều khiển bên trái để mô phỏng tương tác thực tế.",
-                                        ],
-                                      }),
-                                    yt === "file" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "flex items-start gap-2 text-emerald-400 animate-fadeIn font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsx(CircleCheck, {
-                                            className:
-                                              "h-4 w-4 shrink-0 text-emerald-400 mt-0.5",
-                                          }),
-                                          jsxRuntimeExports.jsxs("div", {
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className: "font-bold",
-                                                children:
-                                                  "Đồng ý gửi tệp tin thành công!",
-                                              }),
-                                              jsxRuntimeExports.jsxs("p", {
-                                                className:
-                                                  "text-slate-300 text-[9px] mt-0.5",
-                                                children: [
-                                                  '📄 Đã tải lên và gửi tệp tin "Bao_Cao.pdf" ( dung lượng 1.2 MB ) thành công trên ',
-                                                  C === "cloud"
-                                                    ? "Zalo Web"
-                                                    : "Zalo PC",
-                                                  ".",
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                        ],
-                                      }),
-                                    yt === "folder-error" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "flex items-start gap-2 text-red-400 animate-fadeIn font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsx(TriangleAlert, {
-                                            className:
-                                              "h-4 w-4 shrink-0 text-red-400 mt-0.5",
-                                          }),
-                                          jsxRuntimeExports.jsxs("div", {
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "font-bold text-red-500",
-                                                children:
-                                                  "❌ LỖI TRUY CẬP: TRÌNH DUYỆT CHẶN GỬI THƯ MỤC!",
-                                              }),
-                                              jsxRuntimeExports.jsxs("p", {
-                                                className:
-                                                  "text-slate-300 text-[9px] mt-1 leading-relaxed",
-                                                children: [
-                                                  "Khi dùng ",
-                                                  jsxRuntimeExports.jsx(
-                                                    "strong",
-                                                    {
-                                                      children:
-                                                        "Zalo trên Web (Bản Đám mây)",
-                                                    },
-                                                  ),
-                                                  ", trình duyệt web hoạt động trong môi trường cô lập bảo mật (Sandbox). Trình duyệt chỉ được phép chọn tệp đơn lẻ, **không thể gửi trực tiếp cả Thư mục**. Muốn gửi thư mục, em phải nén lại thành file zip trước hoặc cài đặt Zalo PC.",
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                        ],
-                                      }),
-                                    yt === "folder-success" &&
-                                      jsxRuntimeExports.jsxs("div", {
-                                        className:
-                                          "flex items-start gap-2 text-emerald-400 animate-fadeIn font-medium",
-                                        children: [
-                                          jsxRuntimeExports.jsx(CircleCheck, {
-                                            className:
-                                              "h-4 w-4 shrink-0 text-emerald-400 mt-0.5",
-                                          }),
-                                          jsxRuntimeExports.jsxs("div", {
-                                            children: [
-                                              jsxRuntimeExports.jsx("span", {
-                                                className:
-                                                  "font-bold text-emerald-400",
-                                                children:
-                                                  "📂 GỬI THƯ MỤC THÀNH CÔNG TRỰC TIẾP!",
-                                              }),
-                                              jsxRuntimeExports.jsxs("p", {
-                                                className:
-                                                  "text-slate-300 text-[9px] mt-1 leading-relaxed",
-                                                children: [
-                                                  "Khi dùng ",
-                                                  jsxRuntimeExports.jsx(
-                                                    "strong",
-                                                    {
-                                                      children:
-                                                        "Zalo Desktop (Bản Cài đặt PC)",
-                                                    },
-                                                  ),
-                                                  ' cài trực tiếp vào ổ cứng, ứng dụng có toàn quyền truy cập tài nguyên của hệ điều hành. Em có thể kéo thả và gửi trực tiếp trọn vẹn cả Thư mục "Project_Lab13" (gồm 35 tệp tin bên trong) vô cùng dễ dàng!',
-                                                ],
-                                              }),
-                                            ],
-                                          }),
-                                        ],
-                                      }),
-                                  ],
-                                }),
-                              ],
-                            }),
-                            jsxRuntimeExports.jsx("div", {
-                              className:
-                                "flex-1 p-8 sm:p-5 space-y-1.5 overflow-y-auto font-mono text-[9px] bg-slate-950",
-                              children: Fe.map((W, Me) => {
-                                let et = "text-slate-400";
-                                return (
-                                  (W.includes("[Cảnh báo]") ||
-                                    W.includes("[Hạn chế]")) &&
-                                    (et = "text-amber-400 font-semibold"),
-                                  W.includes("[Sát hạch]") &&
-                                    (et = "text-blue-400"),
-                                  (W.includes("sụt giảm") ||
-                                    W.includes("giật lag") ||
-                                    W.includes("🔴") ||
-                                    W.includes("❌")) &&
-                                    (et = "text-red-400 font-bold"),
-                                  (W.includes("mượt mà") ||
-                                    W.includes("[Kết quả]") ||
-                                    W.includes("🟢") ||
-                                    W.includes("thành công") ||
-                                    W.includes("THÀNH CÔNG")) &&
-                                    (et = "text-emerald-400 font-bold"),
-                                  jsxRuntimeExports.jsx(
-                                    "div",
                                     {
-                                      className: `leading-relaxed ${et}`,
-                                      children: W,
+                                      name: "Tổng đài khẩn cấp 115",
+                                      phone: "115",
+                                      desc: "Đường dây nóng cứu hộ y tế khẩn cấp, mạng viễn thông ưu tiên.",
                                     },
-                                    Me,
-                                  )
-                                );
-                              }),
+                                    {
+                                      name: "Nhóm trưởng Khánh Nam",
+                                      phone: "0912 888 999",
+                                      desc: "Thảo luận gấp về tiến độ chuẩn bị bài học nhóm IC3.",
+                                    },
+                                    {
+                                      name: "Cô giáo Thảo Vy",
+                                      phone: "0903 456 789",
+                                      desc: "Hỏi han cô về giờ giấc và thủ tục thi chứng chỉ tin học.",
+                                    },
+                                  ].map((F, Be) =>
+                                    jsxRuntimeExports.jsxs(
+                                      "button",
+                                      {
+                                        type: "button",
+                                        disabled: Nt !== "idle",
+                                        onClick: () => {
+                                          (Ze(F.phone), ws(F.phone, F.name));
+                                        },
+                                        className: `w-full p-3 rounded-2xl border text-left transition-all flex items-start gap-3 cursor-pointer ${Nt !== "idle" ? "opacity-40 cursor-not-allowed bg-slate-100 dark:bg-slate-900 border-slate-200 dark:border-slate-800" : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-teal-500/50 hover:bg-teal-50/50 dark:hover:bg-slate-800/80 shadow-xs"}`,
+                                        children: [
+                                          jsxRuntimeExports.jsx("div", {
+                                            className:
+                                              "h-9 w-9 rounded-full bg-teal-500/10 text-teal-600 dark:text-teal-400 font-extrabold text-sm flex items-center justify-center shrink-0 mt-0.5",
+                                            children: F.name.charAt(0),
+                                          }),
+                                          jsxRuntimeExports.jsxs("div", {
+                                            className: "min-w-0 flex-1",
+                                            children: [
+                                              jsxRuntimeExports.jsxs("div", {
+                                                className:
+                                                  "flex items-center justify-between gap-2",
+                                                children: [
+                                                  jsxRuntimeExports.jsx(
+                                                    "span",
+                                                    {
+                                                      className:
+                                                        "text-sm font-bold text-slate-800 dark:text-slate-100 truncate",
+                                                      children: F.name,
+                                                    },
+                                                  ),
+                                                  jsxRuntimeExports.jsx(
+                                                    "span",
+                                                    {
+                                                      className:
+                                                        "text-xs font-mono font-bold text-teal-600 dark:text-teal-400 shrink-0",
+                                                      children: F.phone,
+                                                    },
+                                                  ),
+                                                ],
+                                              }),
+                                              jsxRuntimeExports.jsx("p", {
+                                                className:
+                                                  "text-xs text-slate-500 dark:text-slate-400 mt-0.5 leading-snug",
+                                                children: F.desc,
+                                              }),
+                                            ],
+                                          }),
+                                        ],
+                                      },
+                                      Be,
+                                    ),
+                                  ),
+                                }),
+                              ],
                             }),
-                          ],
-                        }),
-                      ],
+                          }),
+                        ],
+                      }),
                     }),
                 ],
               }),
-            }),
+            ],
+          }),
         ],
       });
     }

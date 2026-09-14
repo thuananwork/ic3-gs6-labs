@@ -1,925 +1,3136 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>THCS Level 2 - GM1: Mô Phỏng Thực Hành IC3 GS6 (Chủ Đề 43: Mã Hoá)</title>
-
-  <!-- Font Awesome Icons -->
+  <title>THCS Level 2 - GM1: Lab 02 - Tính Năng Của Lịch Kỹ Thuật Số (Digital Calendar)</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
   <style>
     :root {
-      --primary: #2563eb;
-      --primary-hover: #1d4ed8;
-      --primary-subtle: #eff6ff;
-      --success: #10b981;
-      --success-hover: #059669;
-      --success-subtle: #f0fdf4;
-      --danger: #ef4444;
-      --danger-hover: #dc2626;
-      --danger-subtle: #fef2f2;
-      --warning: #f59e0b;
-      --warning-subtle: #fffbeb;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text-main: #1e293b;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --border-focus: #93c5fd;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+      --primary: #1a73e8;
+      --primary-hover: #1557b0;
+      --primary-light: #e8f0fe;
+      --primary-subtle: #d2e3fc;
+      --text-dark: #202124;
+      --text-muted: #5f6368;
+      --text-light: #80868b;
+      --bg-app: #f8fafd;
+      --bg-surface: #ffffff;
+      --border-color: #dadce0;
+      --border-light: #f1f3f4;
+      
+      /* Calendar Category Colors */
+      --cat-study: #1a73e8;
+      --cat-study-bg: #e8f0fe;
+      --cat-study-border: #8ab4f8;
+      
+      --cat-personal: #0d904f;
+      --cat-personal-bg: #e6f4ea;
+      --cat-personal-border: #81c995;
+      
+      --cat-family: #9334e6;
+      --cat-family-bg: #f3e8fd;
+      --cat-family-border: #c58af9;
+      
+      --cat-sport: #e37400;
+      --cat-sport-bg: #fef7e0;
+      --cat-sport-border: #fdd663;
+
+      --danger: #d93025;
+      --success: #1e8e3e;
+      --shadow-sm: 0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15);
+      --shadow-md: 0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15);
+      --shadow-lg: 0 8px 24px rgba(60,64,67,.2);
+      --radius: 8px;
     }
 
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      font-size: 13.5px;
-      scroll-behavior: smooth;
-    }
-
-    html, body {
-      height: auto !important;
-      min-height: 100vh !important;
-      overflow-x: hidden !important;
-      overflow-y: auto !important;
+      font-family: 'Google Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background-color: var(--bg);
-      color: var(--text-main);
-      padding: 12px 14px 60px 14px !important;
-      line-height: 1.45;
-      -webkit-font-smoothing: antialiased;
+      background-color: var(--bg-app);
+      color: var(--text-dark);
+      line-height: 1.5;
+      padding: 12px;
+      min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Modern Clean Scrollbar */
+    /* Scrollbars */
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
     }
     ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-      border-radius: 4px;
+      background: transparent;
     }
     ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
+      background: #dadce0;
       border-radius: 4px;
-      border: 2px solid #f1f5f9;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
+      background: #bdc1c6;
     }
 
-    .container {
-      max-width: 980px;
+    /* Outer Wrapper */
+    .app-container {
+      max-width: 1320px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
-    /* 3 Main Interactive Simulation Steps */
-    .steps-nav {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    /* Calendar Main Card */
+    .calendar-card {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 1px 3px rgba(60,64,67,0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Calendar Top Navigation Bar */
+    .cal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      border-bottom: 1px solid var(--border-color);
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #ffffff;
+    }
+
+    .cal-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .cal-logo-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .cal-logo-top {
+      background: #ea4335;
+      height: 12px;
+      width: 100%;
+    }
+    .cal-logo-num {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a73e8;
+    }
+    .cal-brand-text {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cal-brand-text span {
+      color: #1a73e8;
+    }
+
+    .cal-nav-group {
+      display: flex;
+      align-items: center;
       gap: 8px;
     }
-
-    .step-nav-btn {
-      padding: 10px 12px;
-      border-radius: 10px;
-      border: 1.5px solid var(--border);
-      background: var(--surface);
-      color: var(--text-muted);
-      cursor: pointer;
-      text-align: left;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: all 0.2s;
-    }
-
-    .step-nav-btn:hover {
-      border-color: var(--border-focus);
-      background: var(--primary-subtle);
-    }
-
-    .step-nav-btn.active {
-      background: var(--primary-subtle);
-      border-color: var(--primary);
-      color: var(--primary);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .step-nav-btn.completed {
-      border-color: #86efac;
-      background: var(--success-subtle);
-      color: var(--success);
-    }
-
-    .step-num-badge {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      font-size: 0.78rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .step-nav-btn.active .step-num-badge {
-      background: var(--primary);
-      color: white;
-      border-color: var(--primary);
-    }
-
-    .step-nav-btn.completed .step-num-badge {
-      background: var(--success);
-      color: white;
-      border-color: var(--success);
-    }
-
-    .step-btn-info h4 {
-      font-size: 0.86rem;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .step-btn-info p {
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
-
-    /* Simulation Card */
-    .sim-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    /* Step Panels */
-    .step-content {
-      display: none;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .step-content.active {
-      display: flex;
-    }
-
-    /* OS Simulation Window Frame */
-    .os-window {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
-    }
-
-    .os-titlebar {
-      background: #f1f5f9;
-      border-bottom: 1px solid var(--border);
-      padding: 8px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.78rem;
+    .btn-today {
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.85rem;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-today:hover {
+      background: #f1f3f4;
     }
 
-    .os-controls {
-      display: flex;
-      gap: 5px;
-    }
-
-    .os-dot {
-      width: 10px;
-      height: 10px;
+    .nav-arrow-btn {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
-    }
-
-    .os-dot.red { background: #ef4444; }
-    .os-dot.yellow { background: #f59e0b; }
-    .os-dot.green { background: #10b981; }
-
-    .os-body {
-      padding: 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    /* Interactive File Card */
-    .file-interactive-card {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border);
-      background: var(--bg);
-      transition: all 0.25s ease;
-    }
-
-    .file-interactive-card.locked {
-      border-color: #fca5a5;
-      background: #fef2f2;
-    }
-
-    .file-card-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .file-icon-box {
-      width: 40px;
-      height: 40px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      transition: all 0.3s ease;
-    }
-
-    .file-icon-box.plain {
-      background: #eff6ff;
-      color: #2563eb;
-    }
-
-    .file-icon-box.encrypted {
-      background: #fee2e2;
-      color: #dc2626;
-      animation: pulse 1.5s infinite;
-    }
-
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-
-    .file-meta h4 {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .file-meta p {
-      font-size: 0.74rem;
+      border: none;
+      background: transparent;
       color: var(--text-muted);
-      margin-top: 1px;
-    }
-
-    /* File Content Preview Box */
-    .content-box {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 14px;
-      font-family: 'Consolas', 'Courier New', monospace;
-      font-size: 0.85rem;
-      line-height: 1.5;
-      min-height: 75px;
-      background: #fafafa;
-      word-break: break-all;
-    }
-
-    .content-box.clear {
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-      color: #166534;
-    }
-
-    .content-box.scrambled {
-      background: #1e293b;
-      border-color: #334155;
-      color: #38bdf8;
-      letter-spacing: 0.05em;
-    }
-
-    /* Password Input Row */
-    .pass-input-row {
-      display: flex;
-      align-items: center;
-      background: white;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      padding: 0 10px;
-      height: 38px;
-    }
-
-    .pass-input-row input {
-      border: none;
-      outline: none;
-      width: 100%;
-      padding: 6px 8px;
-      font-size: 0.85rem;
-      color: var(--text-main);
-    }
-
-    /* Action Buttons */
-    .btn-action {
-      padding: 8px 18px;
-      border-radius: 8px;
-      border: none;
-      font-weight: 700;
-      font-size: 0.86rem;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+    .nav-arrow-btn:hover {
+      background: #f1f3f4;
+      color: var(--text-dark);
+    }
+
+    .current-date-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      min-width: 170px;
+    }
+
+    .cal-controls-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* View Switcher: Week / Month */
+    .view-mode-toggle {
+      display: flex;
+      background: #f1f3f4;
+      border-radius: 8px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .view-tab {
+      padding: 5px 12px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .view-tab.active {
+      background: #ffffff;
+      color: var(--primary);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    /* Perspective Switch (Owner vs Shared Guest) */
+    .perspective-box {
+      display: flex;
+      align-items: center;
       gap: 8px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      color: white;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      background: #f0f4f9;
+      border: 1.5px solid #d2e3fc;
+      border-radius: 30px;
+      padding: 3px 4px 3px 12px;
+    }
+    .perspective-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1a73e8;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .perspective-buttons {
+      display: flex;
+      gap: 2px;
+    }
+    .perspective-btn {
+      border: none;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      color: var(--text-muted);
+    }
+    .perspective-btn.active-owner {
+      background: #1a73e8;
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(26,115,232,0.4);
+    }
+    .perspective-btn.active-guest {
+      background: #e37400;
+      color: #ffffff;
+      box-shadow: 0 1px 3px rgba(227,116,0,0.4);
     }
 
-    .btn-action:hover {
-      transform: translateY(-1px);
-      filter: brightness(1.05);
+    /* Notice Banner when in Guest Mode */
+    .guest-notice-bar {
+      display: none;
+      background: #fef7e0;
+      border-bottom: 1px solid #fdd663;
+      padding: 8px 18px;
+      font-size: 0.84rem;
+      color: #7c4400;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .guest-notice-bar.show {
+      display: flex;
+    }
+    .guest-notice-content {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .btn-red { background: var(--danger); }
-    .btn-green { background: var(--success); }
-    .btn-blue { background: var(--primary); }
-    .btn-slate { background: #64748b; }
+    /* Calendar Main Workspace */
+    .cal-body {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 560px;
+      background: #ffffff;
+    }
 
-    /* Feature Highlight Box */
-    .feature-highlight-box {
+    /* Sidebar Column */
+    .cal-sidebar {
+      border-right: 1px solid var(--border-color);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      background: #fafbfc;
+    }
+
+    /* Create Event Button */
+    .btn-create-event {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: #ffffff;
+      border: 1px solid #dadce0;
+      border-radius: 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #3c4043;
+      cursor: pointer;
+      box-shadow: 0 1px 3px rgba(60,64,67,0.15);
+      transition: box-shadow 0.2s, background 0.2s;
+    }
+    .btn-create-event:hover {
+      box-shadow: 0 3px 6px rgba(60,64,67,0.25);
+      background: #f8fafd;
+    }
+    .create-plus-icon {
+      font-size: 1.1rem;
+      color: #1a73e8;
+    }
+
+    /* Mini Calendar */
+    .mini-cal-widget {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      padding: 10px;
+    }
+    .mini-cal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    .mini-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      gap: 2px;
+      font-size: 0.72rem;
+    }
+    .mini-day-name {
+      color: var(--text-light);
+      font-weight: 600;
+      padding: 2px 0;
+    }
+    .mini-date-cell {
+      padding: 4px 0;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--text-dark);
+    }
+    .mini-date-cell:hover {
+      background: #f1f3f4;
+    }
+    .mini-date-cell.active-today {
+      background: #1a73e8;
+      color: #ffffff;
+      font-weight: 700;
+    }
+    .mini-date-cell.selected-date {
+      background: #e8f0fe;
+      color: #1a73e8;
+      font-weight: 700;
+      box-shadow: 0 0 0 1.5px #1a73e8 inset;
+    }
+    .mini-date-cell.active-today.selected-date {
+      background: #1a73e8;
+      color: #ffffff;
+      box-shadow: 0 0 0 2px #174ea6;
+    }
+    .mini-date-cell.other-month {
+      color: #bdc1c6;
+    }
+
+    /* Feature Sidebar Sections */
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .sidebar-sec-title {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      font-weight: 700;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .sec-badge-feature {
+      background: #e8f0fe;
+      color: #1a73e8;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      text-transform: none;
+      letter-spacing: normal;
+      font-weight: 600;
+    }
+
+    /* Category Filter Chips */
+    .category-filter-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .cat-filter-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: left;
+    }
+    .cat-filter-btn:hover {
+      background: #f1f3f4;
+    }
+    .cat-filter-btn.active {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+      font-weight: 600;
+      color: #1a73e8;
+    }
+    .cat-item-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cat-badge-count {
+      background: #f1f3f4;
       border-radius: 10px;
+      padding: 1px 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .cat-filter-btn.active .cat-badge-count {
+      background: #ffffff;
+      color: #1a73e8;
+    }
+    .cat-del-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      color: #9aa0a6;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .cat-del-btn:hover {
+      background: #fce8e6;
+      color: #d93025;
+    }
+    .btn-add-category {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      border: 1px dashed #1a73e8;
+      background: #f8fafd;
+      color: #1a73e8;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 4px;
+    }
+    .btn-add-category:hover {
+      background: #e8f0fe;
+      border-style: solid;
+    }
+    .color-palette-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 4px;
+    }
+    .color-swatch-item {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      position: relative;
+    }
+    .color-swatch-item:hover {
+      transform: scale(1.15);
+    }
+    .color-swatch-item.selected {
+      border-color: #202124;
+      box-shadow: 0 0 0 2px #ffffff inset;
+    }
+    .color-swatch-item.selected::after {
+      content: "✓";
+      color: #ffffff;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .icon-palette-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .icon-choice-item {
+      height: 38px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      color: #5f6368;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .icon-choice-item:hover {
+      background: #f1f3f4;
+      color: #1a73e8;
+    }
+    .icon-choice-item.selected {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+      color: #1a73e8;
+      font-weight: bold;
+    }
+    .category-preview-box {
+      background: #f8fafd;
+      border: 1px dashed #dadce0;
+      border-radius: 8px;
       padding: 10px 14px;
       display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      font-size: 0.84rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cat-preview-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-left: 4px solid #1a73e8;
+      background: #e8f0fe;
+      color: #1a73e8;
     }
 
-    .feature-highlight-box.info {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
+    /* Calendar Checkbox List (Disable Calendar Feature) */
+    .calendar-toggle-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .cal-toggle-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-dark);
+      cursor: pointer;
+      padding: 5px 8px;
+      border-radius: 6px;
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .cal-toggle-item:hover {
+      background: #f1f3f4;
+    }
+    .cal-toggle-item input[type="checkbox"] {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+    }
+    .cal-color-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+    .cal-color-dot.study { background: var(--cat-study); }
+    .cal-color-dot.personal { background: var(--cat-personal); }
+    .cal-color-dot.family { background: var(--cat-family); }
+
+    /* Share Button */
+    .btn-share-modal-open {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px dashed #1a73e8;
+      border-radius: 8px;
+      background: #f8fafd;
+      color: #1a73e8;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+    .btn-share-modal-open:hover {
+      background: #e8f0fe;
     }
 
-    .feature-highlight-box.success {
-      background: #f0fdf4;
-      border: 1px solid #86efac;
-      color: #166534;
+    /* Main Grid View Area */
+    .cal-grid-area {
+      display: flex;
+      flex-direction: column;
+      overflow-x: auto;
+      background: #ffffff;
+      min-width: 680px;
     }
 
-    .feature-highlight-box.danger {
-      background: #fef2f2;
-      border: 1px solid #fca5a5;
-      color: #991b1b;
+    /* Week Header (7 Days) */
+    .week-header-grid {
+      display: grid;
+      grid-template-columns: 60px repeat(7, 1fr);
+      border-bottom: 1px solid var(--border-color);
+      background: #ffffff;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .week-timezone-cell {
+      padding: 10px 6px;
+      border-right: 1px solid var(--border-light);
+      font-size: 0.68rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .day-col-header {
+      padding: 10px 8px;
+      text-align: center;
+      border-right: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .day-col-header:hover {
+      background: #f8fafd;
+    }
+    .day-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      letter-spacing: 0.5px;
+    }
+    .day-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin-top: 2px;
+    }
+    .day-col-header.is-today .day-name {
+      color: #1a73e8;
+      font-weight: 700;
+    }
+    .day-col-header.is-today .day-number {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+    .day-col-header.is-selected:not(.is-today) .day-number {
+      background: #e8f0fe;
+      color: #1a73e8;
+      font-weight: 700;
+    }
+    .day-col-header.is-selected:not(.is-today) .day-name {
+      color: #1a73e8;
+      font-weight: 700;
     }
 
-    /* Custom In-App Modal */
+    /* Week Content Grid: Time Rows & Day Columns */
+    .week-content-grid {
+      display: grid;
+      grid-template-columns: 60px repeat(7, 1fr);
+      flex: 1;
+      position: relative;
+    }
+
+    /* Time gutter */
+    .time-gutter {
+      border-right: 1px solid var(--border-light);
+      display: flex;
+      flex-direction: column;
+    }
+    .time-slot-label {
+      height: 64px;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      text-align: right;
+      padding-right: 8px;
+      transform: translateY(-8px);
+    }
+
+    /* Day Columns */
+    .day-events-column {
+      border-right: 1px solid var(--border-light);
+      position: relative;
+      background: #ffffff;
+      min-height: 896px; /* 14 slots * 64px */
+    }
+    .hour-grid-line {
+      height: 64px;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      transition: background 0.1s;
+    }
+    .hour-grid-line:hover {
+      background: #f8fafd;
+    }
+
+    /* Event Cards */
+    .event-card {
+      position: absolute;
+      left: 4px;
+      right: 4px;
+      border-radius: 6px;
+      padding: 6px 8px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+      border-left: 4px solid #1a73e8;
+      z-index: 2;
+    }
+    .event-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      z-index: 5;
+    }
+
+    /* Category Colors for Events */
+    .event-card.cat-study {
+      background: var(--cat-study-bg);
+      border-left-color: var(--cat-study);
+      color: #174ea6;
+    }
+    .event-card.cat-personal {
+      background: var(--cat-personal-bg);
+      border-left-color: var(--cat-personal);
+      color: #0d652d;
+    }
+    .event-card.cat-family {
+      background: var(--cat-family-bg);
+      border-left-color: var(--cat-family);
+      color: #681da8;
+    }
+    .event-card.cat-sport {
+      background: var(--cat-sport-bg);
+      border-left-color: var(--cat-sport);
+      color: #a54600;
+    }
+
+    /* Private Event Masked in Guest Mode */
+    .event-card.is-private-masked {
+      background: repeating-linear-gradient(
+        45deg,
+        #f1f3f4,
+        #f1f3f4 8px,
+        #e8eaed 8px,
+        #e8eaed 16px
+      ) !important;
+      border-left-color: #5f6368 !important;
+      color: #3c4043 !important;
+      border: 1px dashed #9aa0a6;
+      border-left: 4px solid #5f6368 !important;
+    }
+    .event-card.is-private-masked .event-desc {
+      display: none !important;
+    }
+
+    .event-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .event-title-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .event-time-row {
+      font-size: 0.7rem;
+      opacity: 0.85;
+    }
+    .event-private-tag {
+      font-size: 0.68rem;
+      padding: 1px 4px;
+      border-radius: 3px;
+      background: rgba(0,0,0,0.08);
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    /* Month View Grid */
+    .month-view-container {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+    }
+    .month-view-container.active {
+      display: flex;
+    }
+    .month-day-headers {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      border-bottom: 1px solid var(--border-color);
+      background: #f8fafd;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .month-grid-cells {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(5, minmax(110px, 1fr));
+      border-bottom: 1px solid var(--border-color);
+    }
+    .month-cell {
+      border-right: 1px solid var(--border-light);
+      border-bottom: 1px solid var(--border-light);
+      padding: 6px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: #ffffff;
+      min-height: 110px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .month-cell:hover {
+      background: #f8fafd;
+    }
+    .month-cell-header {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      text-align: right;
+    }
+    .month-cell.is-today .month-cell-header span {
+      background: #1a73e8;
+      color: #ffffff;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .month-cell.other-month {
+      background: #fafbfc;
+      color: #9aa0a6;
+    }
+    .month-event-chip {
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    /* Modal Styling */
     .modal-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(15, 23, 42, 0.5);
-      backdrop-filter: blur(4px);
-      z-index: 999;
+      background: rgba(32, 33, 36, 0.6);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 520px;
+      overflow: hidden;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #f8fafd;
+    }
+    .modal-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-modal-close {
+      border: none;
+      background: transparent;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      animation: fadeIn 0.2s ease-out;
+      transition: background 0.15s;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .btn-modal-close:hover {
+      background: #e8eaed;
+      color: var(--text-dark);
     }
-
-    @keyframes popIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      max-width: 440px;
-      width: 100%;
+    .modal-body {
       padding: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       display: flex;
       flex-direction: column;
       gap: 14px;
-      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+      max-height: 75vh;
+      overflow-y: auto;
     }
-
-    .modal-header {
+    .form-group {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      flex-direction: column;
+      gap: 5px;
     }
-
-    .modal-icon-badge {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      flex-shrink: 0;
-    }
-
-    .modal-icon-badge.danger {
-      background: #fee2e2;
-      color: #dc2626;
-    }
-
-    .modal-header h3 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--text-main);
-    }
-
-    .modal-body {
-      font-size: 0.88rem;
+    .form-label {
+      font-size: 0.8rem;
+      font-weight: 600;
       color: var(--text-muted);
-      line-height: 1.5;
+    }
+    .form-input, .form-select {
+      padding: 8px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input:focus, .form-select:focus {
+      border-color: #1a73e8;
+      box-shadow: 0 0 0 3px rgba(26,115,232,0.15);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Privacy Toggle Box in Modal */
+    .privacy-setting-box {
+      background: #f8fafd;
+      border: 1.5px solid #d2e3fc;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .privacy-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .privacy-card-option {
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .privacy-card-option:hover {
+      border-color: #1a73e8;
+      background: #f8fafd;
+    }
+    .privacy-card-option.selected {
+      border-color: #1a73e8;
+      background: #e8f0fe;
+    }
+    .privacy-opt-title {
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-dark);
+    }
+    .privacy-card-option.selected .privacy-opt-title {
+      color: #1a73e8;
+    }
+    .privacy-opt-desc {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      line-height: 1.3;
     }
 
     .modal-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border-color);
       display: flex;
       justify-content: flex-end;
-      padding-top: 6px;
+      gap: 10px;
+      background: #f8fafd;
+    }
+    .btn-secondary {
+      padding: 8px 16px;
+      border: 1px solid var(--border-color);
+      background: #ffffff;
+      color: var(--text-dark);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-secondary:hover {
+      background: #f1f3f4;
+    }
+    .btn-primary {
+      padding: 8px 18px;
+      border: none;
+      background: #1a73e8;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-primary:hover {
+      background: #1557b0;
+    }
+    .btn-danger {
+      padding: 8px 14px;
+      border: none;
+      background: #d93025;
+      color: #ffffff;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-danger:hover {
+      background: #b3261e;
+    }
+
+    /* Delete Confirmation Modal */
+    .delete-options-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .delete-opt-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ffffff;
+      transition: all 0.2s;
+    }
+    .delete-opt-card:hover {
+      border-color: #d93025;
+      background: #fff8f7;
+    }
+    .delete-opt-card.selected {
+      border-color: #d93025;
+      background: #fce8e6;
+    }
+    .delete-opt-card input[type="radio"] {
+      margin-top: 3px;
+      accent-color: #d93025;
+      cursor: pointer;
+    }
+    .delete-opt-content {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+    }
+    .delete-opt-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .delete-opt-card.selected .delete-opt-title {
+      color: #c5221f;
+    }
+    .delete-opt-desc {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Shared Users List in Share Modal */
+    .shared-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 6px;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+    .shared-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #f1f3f4;
+      border-radius: 6px;
+      font-size: 0.82rem;
+    }
+    .shared-user-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .shared-user-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1a73e8;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.78rem;
+    }
+    .shared-permission-badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #e8f0fe;
+      color: #1a73e8;
+      font-weight: 600;
+    }
+    .btn-remove-shared {
+      border: none;
+      background: transparent;
+      color: #d93025;
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .btn-remove-shared:hover {
+      background: rgba(217, 48, 37, 0.1);
+    }
+
+    /* Toast Notification */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #202124;
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 0.86rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 2000;
+      animation: toastSlideUp 0.25s ease-out;
+    }
+    .toast-msg.show {
+      display: flex;
+    }
+    @keyframes toastSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .cal-body {
+        grid-template-columns: 1fr;
+      }
+      .cal-sidebar {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
     }
   </style>
 </head>
-
 <body>
 
-  <div class="container">
+<div class="app-container">
 
-    <!-- 3 Simulation Step Tabs -->
-    <div class="steps-nav">
-      <button class="step-nav-btn active" id="btn-step-1" onclick="goToStep(1)">
-        <div class="step-num-badge">1</div>
-        <div class="step-btn-info">
-          <h4>Bước 1: Khóa Mã Hóa</h4>
-          <p>Đặt mật khẩu & xáo trộn file</p>
+  
+
+  <!-- MAIN GOOGLE CALENDAR INTERFACE -->
+  <div class="calendar-card">
+    
+    <!-- TOP APPLICATION BAR -->
+    <div class="cal-topbar">
+      <!-- Left Branding -->
+      <div class="cal-brand">
+        <div class="cal-logo-icon">
+          <div class="cal-logo-top"></div>
+          <div class="cal-logo-num" id="topbar-logo-num">14</div>
         </div>
-      </button>
-
-      <button class="step-nav-btn" id="btn-step-2" onclick="goToStep(2)">
-        <div class="step-num-badge">2</div>
-        <div class="step-btn-info">
-          <h4>Bước 2: Kẻ Gian Mở File</h4>
-          <p>Không thể xem trực tiếp</p>
-        </div>
-      </button>
-
-      <button class="step-nav-btn" id="btn-step-3" onclick="goToStep(3)">
-        <div class="step-num-badge">3</div>
-        <div class="step-btn-info">
-          <h4>Bước 3: Mở Khóa Giải Mã</h4>
-          <p>Nhập mật khẩu / Khóa số</p>
-        </div>
-      </button>
-    </div>
-
-    <!-- MAIN SIMULATION STAGE -->
-    <div class="sim-card">
-
-      <!-- ==================== BƯỚC 1 ==================== -->
-      <div class="step-content active" id="panel-step-1">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--primary);">
-              <i class="fa-solid fa-file-pen"></i> Bước 1: Thiết Lập Mật Khẩu & Bật Mã Hóa
-            </h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted);">
-              Tập tin ban đầu ở dạng văn bản rõ (Plaintext). Hãy đặt mật khẩu để khóa bảo vệ dữ liệu.
-            </p>
-          </div>
-          <span class="badge-status" id="status-step-1" style="background:#fef2f2; color:#dc2626; border:1px solid #fca5a5; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
-            <i class="fa-solid fa-lock-open"></i> Chưa Mã Hóa
-          </span>
-        </div>
-
-        <!-- File Window -->
-        <div class="os-window">
-          <div class="os-titlebar">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-file-word" style="color: #2563eb;"></i>
-              <span id="p1-window-title">BangDiem_HocSinh.docx - Microsoft Word</span>
-            </div>
-            <div class="os-controls">
-              <div class="os-dot red"></div>
-              <div class="os-dot yellow"></div>
-              <div class="os-dot green"></div>
-            </div>
-          </div>
-
-          <div class="os-body">
-            <div class="file-interactive-card" id="p1-file-card">
-              <div class="file-card-left">
-                <div class="file-icon-box plain" id="p1-file-icon">
-                  <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div class="file-meta">
-                  <h4 id="p1-file-name">BangDiem_HocSinh.docx</h4>
-                  <p id="p1-file-status"><i class="fa-solid fa-circle" style="color: #10b981; font-size: 0.55rem;"></i> Trạng thái: Văn bản gốc đọc được bình thường</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Content Area -->
-            <div>
-              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
-                Nội dung tập tin đang mở:
-              </label>
-              <div class="content-box clear" id="p1-content-display">
-                <strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br>
-                <strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1
-              </div>
-            </div>
-
-            <!-- Set Password & Action -->
-            <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
-              <div class="pass-input-row" style="flex: 1;">
-                <i class="fa-solid fa-key" style="color: var(--warning);"></i>
-                <input type="text" id="p1-password-input" value="Lop7@2026" placeholder="Nhập mật khẩu mã hóa...">
-              </div>
-
-              <!-- Button: Red when not encrypted, Green when encrypted -->
-              <button class="btn-action btn-red" id="btn-p1-encrypt" onclick="p1ToggleEncryption()">
-                <i class="fa-solid fa-lock"></i>
-                <span id="btn-p1-text">Bật Mã Hóa Tập Tin</span>
-              </button>
-            </div>
-
-            <!-- Feature Highlight -->
-            <div class="feature-highlight-box info" id="p1-feature-box" style="display: none;">
-              <i class="fa-solid fa-circle-check" style="font-size: 1.1rem; margin-top: 1px; color: var(--primary);"></i>
-              <div>
-                <strong>Đặc điểm 1: Không thể xem trực tiếp!</strong>
-                <div>Toàn bộ văn bản đã bị thuật toán mã hóa AES xáo trộn thành chuỗi ký tự rác.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; margin-top: 4px;">
-          <button class="btn-action btn-blue" onclick="goToStep(2)">
-            <span>Sang Bước 2: Kẻ Gian Đánh Cắp File</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
+        <div class="cal-brand-text">
+          Lịch <span>Kỹ Thuật Số</span>
         </div>
       </div>
 
-      <!-- ==================== BƯỚC 2 ==================== -->
-      <div class="step-content" id="panel-step-2">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-size: 1.05rem; font-weight: 700; color: #dc2626;">
-              <i class="fa-solid fa-user-secret"></i> Bước 2: Kẻ Gian Đánh Cắp & Cố Mở Tập Tin
-            </h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted);">
-              Người ngoài hoặc hacker cố tình xem lén thông tin mà không có Khóa mã hóa (Key).
-            </p>
-          </div>
-          <span style="background:#fee2e2; color:#dc2626; border:1px solid #fca5a5; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
-            <i class="fa-solid fa-triangle-exclamation"></i> TRUY CẬP TRÁI PHÉP
-          </span>
-        </div>
-
-        <!-- Hacker OS Window -->
-        <div class="os-window" style="border-color: #fca5a5;">
-          <div class="os-titlebar" style="background: #fef2f2;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-skull-crossbones" style="color: #dc2626;"></i>
-              <span>Hacker_PC - Trình Xem File Hex/Text</span>
-            </div>
-          </div>
-
-          <div class="os-body">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-              <div>
-                <h4 style="font-size: 0.9rem; font-weight: 700; color: #991b1b;">
-                  <i class="fa-solid fa-file-shield"></i> Tập tin: BangDiem_HocSinh.docx.enc
-                </h4>
-                <p style="font-size: 0.76rem; color: var(--text-muted);">Kẻ gian không có mật khẩu/khóa giải mã</p>
-              </div>
-
-              <!-- Button: Red action -->
-              <button class="btn-action btn-red" onclick="p2HackerAttempt()">
-                <i class="fa-solid fa-eye-slash"></i>
-                <span>Thử Đọc Nội Dung</span>
-              </button>
-            </div>
-
-            <div>
-              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
-                Kết quả hiển thị trên màn hình kẻ gian:
-              </label>
-              <div class="content-box scrambled" id="p2-scrambled-screen">
-                [Nhấn nút "Thử Đọc Nội Dung" để kiểm tra phản ứng của tập tin mã hóa]
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-          <button class="btn-action btn-slate" onclick="goToStep(1)">
-            <i class="fa-solid fa-arrow-left"></i> Quay lại Bước 1
-          </button>
-          <button class="btn-action btn-blue" onclick="goToStep(3)">
-            <span>Sang Bước 3: Người Có Khóa Giải Mã</span>
-            <i class="fa-solid fa-arrow-right"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- ==================== BƯỚC 3 ==================== -->
-      <div class="step-content" id="panel-step-3">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-size: 1.05rem; font-weight: 700; color: #16a34a;">
-              <i class="fa-solid fa-key"></i> Bước 3: Mở Khóa Giải Mã (Decryption)
-            </h3>
-            <p style="font-size: 0.82rem; color: var(--text-muted);">
-              Chỉ người sở hữu Mật khẩu / Khóa kỹ thuật số hợp lệ mới có thể khôi phục lại dữ liệu gốc.
-            </p>
-          </div>
-          <span style="background:#f0fdf4; color:#16a34a; border:1px solid #86efac; font-size:0.75rem; font-weight:700; padding:3px 10px; border-radius:20px;">
-            <i class="fa-solid fa-shield-check"></i> NGƯỜI CÓ KHÓA
-          </span>
-        </div>
-
-        <!-- Decrypt Window -->
-        <div class="os-window">
-          <div class="os-titlebar">
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <i class="fa-solid fa-lock" style="color: #16a34a;"></i>
-              <span>Hộp Thoại Yêu Cầu Khóa Giải Mã</span>
-            </div>
-          </div>
-
-          <div class="os-body">
-            <div style="display: flex; gap: 10px; align-items: center;">
-              <div class="pass-input-row" style="flex: 1;">
-                <i class="fa-solid fa-unlock-keyhole" style="color: #10b981;"></i>
-                <input type="text" id="p3-decrypt-pass" placeholder="Nhập mật khẩu giải mã..." value="">
-              </div>
-
-              <button class="btn-action btn-green" onclick="p3AttemptDecrypt()">
-                <i class="fa-solid fa-unlock"></i>
-                <span>Giải Mã & Mở Tập Tin</span>
-              </button>
-
-              <button class="btn-action btn-slate" onclick="p3TestWrongPass()">
-                <span>Thử Nhập Sai Pass</span>
-              </button>
-            </div>
-
-            <div id="p3-alert-box" style="display: none; padding: 10px 14px; border-radius: 8px; font-size: 0.84rem;"></div>
-
-            <div>
-              <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 4px;">
-                Văn bản sau khi giải mã:
-              </label>
-              <div class="content-box scrambled" id="p3-result-display">
-                [Chưa nhập đúng mật khẩu để giải mã]
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: space-between; margin-top: 4px;">
-          <button class="btn-action btn-slate" onclick="goToStep(2)">
-            <i class="fa-solid fa-arrow-left"></i> Quay lại Bước 2
-          </button>
-          <button class="btn-action btn-blue" onclick="goToStep(1)">
-            <i class="fa-solid fa-rotate-left"></i>
-            <span>Thực Hành Lại Từ Đầu</span>
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-  <!-- Custom In-App Modal Dialog -->
-  <div id="custom-modal" class="modal-overlay" style="display: none;">
-    <div class="modal-card">
-      <div class="modal-header">
-        <div class="modal-icon-badge danger" id="modal-icon-badge">
-          <i class="fa-solid fa-user-secret" id="modal-icon"></i>
-        </div>
-        <h3 id="modal-title">Cảnh Báo Quyền Truy Cập</h3>
-      </div>
-      <div class="modal-body" id="modal-content">
-        <!-- Content injected here -->
-      </div>
-      <div class="modal-footer">
-        <button class="btn-action btn-blue" id="modal-btn" onclick="closeCustomModal()">
-          <span>Đã Hiểu</span>
+      <!-- Center Navigation Controls -->
+      <div class="cal-nav-group">
+        <button class="btn-today" onclick="goToToday()">Hôm nay</button>
+        <button class="nav-arrow-btn" onclick="prevWeek()" title="Tuần trước">
+          <i class="fa-solid fa-chevron-left"></i>
         </button>
+        <button class="nav-arrow-btn" onclick="nextWeek()" title="Tuần sau">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+        <div class="current-date-title" id="current-month-label">Tháng 9 năm 2026</div>
       </div>
+
+      <!-- Right Controls & Perspective Toggle -->
+      <div class="cal-controls-right">
+        <!-- View Toggle (Week / Month) -->
+        <div class="view-mode-toggle">
+          <button class="view-tab active" id="tab-week" onclick="setViewMode('week')">
+            <i class="fa-solid fa-table-columns"></i> Tuần
+          </button>
+          <button class="view-tab" id="tab-month" onclick="setViewMode('month')">
+            <i class="fa-solid fa-table-cells"></i> Tháng
+          </button>
+        </div>
+
+        <!-- Role / Perspective Switcher (Key Pedagogical Interaction) -->
+        <div class="perspective-box" title="Đổi góc nhìn để thấy tính năng 'Giữ riêng tư' hoạt động thế nào">
+          <span class="perspective-label">
+            <i class="fa-solid fa-eye"></i> Góc nhìn:
+          </span>
+          <div class="perspective-buttons">
+            <button class="perspective-btn active-owner" id="btn-view-owner" onclick="setPerspective('owner')">
+              <i class="fa-solid fa-user"></i> Tôi (Chủ sở hữu)
+            </button>
+            <button class="perspective-btn" id="btn-view-guest" onclick="setPerspective('guest')">
+              <i class="fa-solid fa-users"></i> Khách (Được chia sẻ)
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GUEST VIEW NOTICE BAR (Shows when viewing as shared guest) -->
+    <div class="guest-notice-bar" id="guest-notice-bar">
+      <div class="guest-notice-content">
+        <i class="fa-solid fa-shield-halved fa-lg"></i>
+        <span>
+          <strong>Bạn đang xem lịch với tư cách Người được chia sẻ (Khách):</strong> 
+          Những sự kiện được chủ nhân cài đặt <strong>"Giữ riêng tư" (Keep private)</strong> sẽ bị ẩn tên và nội dung, chỉ hiển thị trạng thái <strong>"🔒 Bận (Sự kiện riêng tư)"</strong>!
+        </span>
+      </div>
+      <button class="btn-today" style="font-size: 0.76rem; padding: 4px 10px;" onclick="setPerspective('owner')">
+        Quay lại góc nhìn của Tôi
+      </button>
+    </div>
+
+    <!-- MAIN CALENDAR BODY -->
+    <div class="cal-body">
+      
+      <!-- LEFT SIDEBAR -->
+      <aside class="cal-sidebar">
+        <!-- 1. Create Event Button -->
+        <button class="btn-create-event" onclick="openCreateModal()">
+          <span class="create-plus-icon"><i class="fa-solid fa-plus"></i></span>
+          <span>Tạo sự kiện mới</span>
+        </button>
+
+        <!-- Mini Calendar Widget -->
+        <div class="mini-cal-widget">
+          <div class="mini-cal-header">
+            <span id="mini-cal-header-title">Tháng 9, 2026</span>
+            <div style="display: flex; gap: 4px;">
+              <button class="nav-arrow-btn" style="width: 22px; height: 22px; font-size: 0.7rem;" onclick="prevMiniMonth()" title="Tháng trước"><i class="fa-solid fa-chevron-left"></i></button>
+              <button class="nav-arrow-btn" style="width: 22px; height: 22px; font-size: 0.7rem;" onclick="nextMiniMonth()" title="Tháng sau"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
+          </div>
+          <div class="mini-cal-grid" id="mini-cal-grid">
+            <!-- Dynamically generated by renderMiniCalendar() -->
+          </div>
+        </div>
+
+        <!-- 2. Feature: LỌC THEO DANH MỤC (Filter by category) -->
+        <div class="sidebar-section">
+          <div class="sidebar-sec-title">
+            <span><i class="fa-solid fa-filter"></i> Lọc theo danh mục</span>
+            <span class="sec-badge-feature">Tính năng 1</span>
+          </div>
+          <div class="category-filter-list" id="category-filters">
+            <!-- Dynamically populated by JS -->
+          </div>
+          <button class="btn-add-category" onclick="openCreateCategoryModal()">
+            <i class="fa-solid fa-plus"></i> Tạo danh mục mới
+          </button>
+        </div>
+
+        <!-- 3. Feature: TẮT LỊCH / BẬT LỊCH (Disable Calendar) -->
+        <div class="sidebar-section">
+          <div class="sidebar-sec-title">
+            <span><i class="fa-regular fa-calendar-check"></i> Lịch của tôi (Tắt lịch)</span>
+            <span class="sec-badge-feature">Tính năng 2</span>
+          </div>
+          <div class="calendar-toggle-list">
+            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện học tập">
+              <input type="checkbox" id="toggle-cal-study" checked onchange="toggleCalendar('cal-study')">
+              <span class="cal-color-dot study"></span>
+              <span>Lịch Học Tập & Luyện Thi</span>
+            </label>
+            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện cá nhân">
+              <input type="checkbox" id="toggle-cal-personal" checked onchange="toggleCalendar('cal-personal')">
+              <span class="cal-color-dot personal"></span>
+              <span>Lịch Hoạt Động Cá Nhân</span>
+            </label>
+            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện gia đình">
+              <input type="checkbox" id="toggle-cal-family" checked onchange="toggleCalendar('cal-family')">
+              <span class="cal-color-dot family"></span>
+              <span>Lịch Gia Đình & Bạn Bè</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 4. Feature: CHIA SẺ LỊCH QUA GMAIL (Share Calendar) -->
+        <div class="sidebar-section">
+          <div class="sidebar-sec-title">
+            <span><i class="fa-solid fa-share-nodes"></i> Chia sẻ lịch</span>
+            <span class="sec-badge-feature">Tính năng 3</span>
+          </div>
+          <button class="btn-share-modal-open" onclick="openShareModal()">
+            <i class="fa-solid fa-user-plus"></i> Chia sẻ lịch qua Gmail
+          </button>
+          <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
+            <i class="fa-solid fa-circle-info"></i> Đang chia sẻ với <strong id="shared-count-badge">2 người</strong>
+          </div>
+        </div>
+
+        <!-- Reset Sample Data Button -->
+        <button class="btn-secondary" style="font-size: 0.75rem; padding: 6px;" onclick="resetDefaultEvents()">
+          <i class="fa-solid fa-rotate-left"></i> Khôi phục dữ liệu mẫu
+        </button>
+
+      </aside>
+
+      <!-- MAIN GRID VIEW (WEEK / MONTH) -->
+      <main class="cal-grid-area">
+        
+        <!-- WEEK VIEW -->
+        <div id="week-view-wrapper">
+          <!-- Week Header Row -->
+          <div class="week-header-grid">
+            <div class="week-timezone-cell">GMT+7</div>
+            <div class="day-col-header is-today" id="head-day-0">
+              <div class="day-name">Thứ 2</div>
+              <div class="day-number">14</div>
+            </div>
+            <div class="day-col-header" id="head-day-1">
+              <div class="day-name">Thứ 3</div>
+              <div class="day-number">15</div>
+            </div>
+            <div class="day-col-header" id="head-day-2">
+              <div class="day-name">Thứ 4</div>
+              <div class="day-number">16</div>
+            </div>
+            <div class="day-col-header" id="head-day-3">
+              <div class="day-name">Thứ 5</div>
+              <div class="day-number">17</div>
+            </div>
+            <div class="day-col-header" id="head-day-4">
+              <div class="day-name">Thứ 6</div>
+              <div class="day-number">18</div>
+            </div>
+            <div class="day-col-header" id="head-day-5">
+              <div class="day-name">Thứ 7</div>
+              <div class="day-number">19</div>
+            </div>
+            <div class="day-col-header" id="head-day-6">
+              <div class="day-name">CN</div>
+              <div class="day-number">20</div>
+            </div>
+          </div>
+
+          <!-- Week Content Body with Hours and Event Slots -->
+          <div class="week-content-grid">
+            <!-- Time labels column (07:00 -> 20:00) -->
+            <div class="time-gutter">
+              <div class="time-slot-label">07:00</div>
+              <div class="time-slot-label">08:00</div>
+              <div class="time-slot-label">09:00</div>
+              <div class="time-slot-label">10:00</div>
+              <div class="time-slot-label">11:00</div>
+              <div class="time-slot-label">12:00</div>
+              <div class="time-slot-label">13:00</div>
+              <div class="time-slot-label">14:00</div>
+              <div class="time-slot-label">15:00</div>
+              <div class="time-slot-label">16:00</div>
+              <div class="time-slot-label">17:00</div>
+              <div class="time-slot-label">18:00</div>
+              <div class="time-slot-label">19:00</div>
+              <div class="time-slot-label">20:00</div>
+            </div>
+
+            <!-- 7 Columns for 7 Days -->
+            <div class="day-events-column" id="day-col-0" data-date="2026-09-14">
+              <!-- Grid lines -->
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-1" data-date="2026-09-15">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-2" data-date="2026-09-16">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-3" data-date="2026-09-17">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-4" data-date="2026-09-18">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-5" data-date="2026-09-19">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '20:00')"></div>
+            </div>
+
+            <div class="day-events-column" id="day-col-6" data-date="2026-09-20">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '07:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '08:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '09:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '10:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '11:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '12:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '13:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '14:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '15:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '16:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '17:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '18:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '19:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '20:00')"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- MONTH VIEW -->
+        <div class="month-view-container" id="month-view-wrapper">
+          <div class="month-day-headers">
+            <div>Thứ Hai</div>
+            <div>Thứ Ba</div>
+            <div>Thứ Tư</div>
+            <div>Thứ Năm</div>
+            <div>Thứ Sáu</div>
+            <div>Thứ Bảy</div>
+            <div>Chủ Nhật</div>
+          </div>
+          <div class="month-grid-cells" id="month-cells-grid">
+            <!-- Dynamically generated by JS -->
+          </div>
+        </div>
+
+      </main>
+
     </div>
   </div>
 
-  <script>
-    // State
-    let isP1Encrypted = false;
-    let correctPassword = "Lop7@2026";
+  
 
-    // Navigation
-    function goToStep(stepNum) {
-      document.querySelectorAll('.step-nav-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.step-content').forEach(p => p.classList.remove('active'));
+</div>
 
-      document.getElementById(`btn-step-` + stepNum).classList.add('active');
-      document.getElementById(`panel-step-` + stepNum).classList.add('active');
+<!-- MODAL 1: TẠO SỰ KIỆN MỚI (CREATE EVENT MODAL) -->
+<div class="modal-overlay" id="modal-create-event">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fa-regular fa-calendar-plus" style="color: #1a73e8;"></i> Tạo Sự Kiện Mới
+      </div>
+      <button class="btn-modal-close" onclick="closeCreateModal()">&times;</button>
+    </div>
 
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+    <div class="modal-body">
+      <!-- Event Title -->
+      <div class="form-group">
+        <label class="form-label" for="event-title-input">Tên sự kiện *</label>
+        <input type="text" id="event-title-input" class="form-input" placeholder="Ví dụ: Ôn thi Tin học IC3, Đi bơi, Sinh nhật bạn...">
+      </div>
+
+      <!-- Date & Times -->
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="event-date-input">Ngày diễn ra</label>
+          <input type="date" id="event-date-input" class="form-input" value="2026-09-14">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="event-cal-select">Bộ lịch</label>
+          <select id="event-cal-select" class="form-select">
+            <option value="cal-study">🟢 Lịch Học Tập & Luyện Thi</option>
+            <option value="cal-personal">🔵 Lịch Hoạt Động Cá Nhân</option>
+            <option value="cal-family">🟣 Lịch Gia Đình & Bạn Bè</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="event-start-time">Giờ bắt đầu</label>
+          <select id="event-start-time" class="form-select">
+            <option value="07:00">07:00</option>
+            <option value="08:00" selected>08:00</option>
+            <option value="09:00">09:00</option>
+            <option value="10:00">10:00</option>
+            <option value="11:00">11:00</option>
+            <option value="12:00">12:00</option>
+            <option value="13:00">13:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:00">15:00</option>
+            <option value="16:00">16:00</option>
+            <option value="17:00">17:00</option>
+            <option value="18:00">18:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:00">20:00</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="event-end-time">Giờ kết thúc</label>
+          <select id="event-end-time" class="form-select">
+            <option value="08:00">08:00</option>
+            <option value="09:30" selected>09:30</option>
+            <option value="10:00">10:00</option>
+            <option value="11:30">11:30</option>
+            <option value="12:00">12:00</option>
+            <option value="14:00">14:00</option>
+            <option value="15:30">15:30</option>
+            <option value="17:00">17:00</option>
+            <option value="19:00">19:00</option>
+            <option value="20:30">20:30</option>
+            <option value="21:00">21:00</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Event Category -->
+      <div class="form-group">
+        <label class="form-label" for="event-category-select">Danh mục sự kiện (Phục vụ tính năng Lọc)</label>
+        <div style="display: flex; gap: 8px;">
+          <select id="event-category-select" class="form-select" style="flex: 1;"></select>
+          <button type="button" class="btn-secondary" style="padding: 0 12px; font-size: 0.8rem; white-space: nowrap;" onclick="openCreateCategoryModal(true)" title="Tạo danh mục mới">
+            <i class="fa-solid fa-plus"></i> Thêm
+          </button>
+        </div>
+      </div>
+
+      <!-- KEY FEATURE: PRIVACY OPTION (KEEP PRIVATE) -->
+      <div class="privacy-setting-box">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <span class="form-label" style="color: #1a73e8; display: flex; align-items: center; gap: 5px;">
+            <i class="fa-solid fa-lock"></i> Quyền riêng tư của sự kiện (Tính năng cốt lõi)
+          </span>
+          <span class="sec-badge-feature">Giữ riêng tư</span>
+        </div>
+
+        <div class="privacy-options">
+          <div class="privacy-card-option selected" id="opt-privacy-public" onclick="selectPrivacyOption('public')">
+            <div class="privacy-opt-title">
+              <i class="fa-solid fa-globe"></i> Công khai
+            </div>
+            <div class="privacy-opt-desc">
+              Người được chia sẻ lịch sẽ đọc được tên và chi tiết sự kiện này.
+            </div>
+          </div>
+
+          <div class="privacy-card-option" id="opt-privacy-private" onclick="selectPrivacyOption('private')">
+            <div class="privacy-opt-title">
+              <i class="fa-solid fa-shield-halved"></i> Giữ riêng tư
+            </div>
+            <div class="privacy-opt-desc">
+              Người khác chỉ thấy khung giờ báo "Bận", hoàn toàn không thấy tên hay chi tiết!
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeCreateModal()">Hủy bỏ</button>
+      <button class="btn-primary" onclick="saveNewEvent()">
+        <i class="fa-solid fa-check"></i> Lưu sự kiện
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: TẠO DANH MỤC MỚI (CREATE CATEGORY MODAL) -->
+<div class="modal-overlay" id="modal-create-category">
+  <div class="modal-card" style="max-width: 480px;">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fa-solid fa-tags" style="color: #1a73e8;"></i> Tạo Danh Mục Sự Kiện Mới
+      </div>
+      <button class="btn-modal-close" onclick="closeCreateCategoryModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+        Thêm danh mục mới giúp phân loại và lọc các sự kiện dễ dàng theo môn học, câu lạc bộ hoặc lịch trình riêng của bạn.
+      </p>
+
+      <!-- Category Name -->
+      <div class="form-group">
+        <label class="form-label" for="category-name-input">Tên danh mục mới *</label>
+        <input type="text" id="category-name-input" class="form-input" placeholder="Ví dụ: Ngoại ngữ, Mỹ thuật, CLB Robot, Tình nguyện..." oninput="updateCategoryPreview()">
+      </div>
+
+      <!-- Color Selection -->
+      <div class="form-group">
+        <label class="form-label">Chọn màu sắc nhận diện</label>
+        <div class="color-palette-grid" id="category-color-picker"></div>
+      </div>
+
+      <!-- Icon Selection -->
+      <div class="form-group">
+        <label class="form-label">Chọn biểu tượng đại diện</label>
+        <div class="icon-palette-grid" id="category-icon-picker"></div>
+      </div>
+
+      <!-- Preview Box -->
+      <div class="category-preview-box">
+        <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 500;">Hiển thị xem trước:</span>
+        <div class="cat-preview-tag" id="cat-preview-badge">
+          <i class="fa-solid fa-tag" id="cat-preview-icon"></i>
+          <span id="cat-preview-text">Tên danh mục</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeCreateCategoryModal()">Hủy bỏ</button>
+      <button class="btn-primary" onclick="saveNewCategory()">
+        <i class="fa-solid fa-check"></i> Lưu danh mục
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2: CHIA SẺ LỊCH QUA GMAIL (SHARE CALENDAR MODAL) -->
+<div class="modal-overlay" id="modal-share-calendar">
+  <div class="modal-card">
+    <div class="modal-header">
+      <div class="modal-title">
+        <i class="fa-solid fa-share-nodes" style="color: #1a73e8;"></i> Chia Sẻ Lịch Cá Nhân Với Người Khác
+      </div>
+      <button class="btn-modal-close" onclick="closeShareModal()">&times;</button>
+    </div>
+
+    <div class="modal-body">
+      <p style="font-size: 0.84rem; color: var(--text-muted);">
+        Tính năng <strong>Chia sẻ lịch</strong> cho phép bạn gửi quyền xem lịch trình của mình cho cha mẹ, thầy cô hoặc bạn bè qua địa chỉ Gmail:
+      </p>
+
+      <!-- Input Email -->
+      <div class="form-group">
+        <label class="form-label" for="share-email-input">Thêm người được chia sẻ (Nhập Gmail) *</label>
+        <div style="display: flex; gap: 8px;">
+          <input type="email" id="share-email-input" class="form-input" style="flex: 1;" placeholder="Ví dụ: gv.tinhoc@gmail.com, banthan@gmail.com">
+          <button class="btn-primary" onclick="addShareUser()">
+            <i class="fa-solid fa-paper-plane"></i> Gửi lời mời
+          </button>
+        </div>
+      </div>
+
+      <!-- Permission Level -->
+      <div class="form-group">
+        <label class="form-label" for="share-perm-select">Quyền hạn xem lịch:</label>
+        <select id="share-perm-select" class="form-select">
+          <option value="view_all">📖 Xem tất cả chi tiết sự kiện (trừ sự kiện Giữ riêng tư)</option>
+          <option value="view_busy">🔒 Chỉ xem trạng thái Rảnh/Bận (Ẩn hoàn toàn chi tiết)</option>
+          <option value="edit">✏️ Có thể chỉnh sửa và thêm sự kiện mới</option>
+        </select>
+      </div>
+
+      <!-- Current Shared List -->
+      <div class="form-group" style="margin-top: 6px;">
+        <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
+          <span>Danh sách người đang được chia sẻ:</span>
+          <span id="shared-list-count" style="font-size: 0.76rem; color: #1a73e8;">2 tài khoản</span>
+        </label>
+        <div class="shared-list" id="shared-users-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div style="background: #e8f0fe; border-radius: 8px; padding: 10px 12px; font-size: 0.8rem; color: #174ea6;">
+        <i class="fa-solid fa-lightbulb"></i> <strong>Lưu ý IC3 GS6:</strong> Bạn có thể dùng nút <em>"Góc nhìn Khách"</em> ở thanh công cụ trên cùng để trực tiếp kiểm tra xem những người này sẽ nhìn thấy lịch của bạn như thế nào!
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeShareModal()">Đóng cửa sổ</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 3: XEM / XÓA SỰ KIỆN (EVENT DETAIL MODAL) -->
+<div class="modal-overlay" id="modal-event-detail">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-header">
+      <div class="modal-title" id="detail-title">
+        Chi tiết sự kiện
+      </div>
+      <button class="btn-modal-close" onclick="closeDetailModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div style="display: flex; flex-direction: column; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; font-weight: 600;" id="detail-time">
+          <i class="fa-regular fa-clock" style="color: #1a73e8;"></i> 08:00 - 09:30
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-dark);" id="detail-date">
+          <i class="fa-regular fa-calendar"></i> Thứ Hai, 14/09/2026
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-muted);" id="detail-cal">
+          <i class="fa-solid fa-folder-open"></i> Bộ lịch: Lịch Học Tập & Luyện Thi
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: var(--text-muted);" id="detail-cat">
+          <i class="fa-solid fa-tags"></i> Danh mục: Học tập
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.84rem;" id="detail-privacy">
+          <i class="fa-solid fa-shield-halved"></i> Quyền riêng tư: Công khai
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: space-between;">
+      <button class="btn-danger" id="btn-delete-event" onclick="deleteCurrentEvent()">
+        <i class="fa-solid fa-trash"></i> Xóa sự kiện
+      </button>
+      <button class="btn-secondary" onclick="closeDetailModal()">Đóng</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 4: HỘP THOẠI XÁC NHẬN XÓA SỰ KIỆN (DELETE CONFIRMATION MODAL) -->
+<div class="modal-overlay" id="modal-delete-confirm">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-header" style="background: #fce8e6; border-bottom: 1px solid #fad2cf;">
+      <div class="modal-title" style="color: #c5221f;">
+        <i class="fa-solid fa-triangle-exclamation"></i> Xác Nhận Xóa Sự Kiện
+      </div>
+      <button class="btn-modal-close" onclick="closeDeleteConfirmModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 0.88rem; color: var(--text-dark); line-height: 1.5;">
+        Bạn có chắc chắn muốn xóa sự kiện <strong id="delete-event-title" style="color: #c5221f;">"Ôn tập Tin học IC3 GS6"</strong> không?
+      </p>
+
+      <div class="delete-options-list">
+        <label class="delete-opt-card selected" id="opt-card-delete-today" onclick="selectDeleteMode('today')">
+          <input type="radio" name="delete_choice" id="radio-delete-today" value="today" checked>
+          <div class="delete-opt-content">
+            <div class="delete-opt-title">
+              <i class="fa-regular fa-calendar-xmark" style="color: #d93025;"></i> Xóa trong hôm nay
+            </div>
+            <div class="delete-opt-desc">
+              Chỉ xóa hoặc hủy lịch trong ngày đang chọn (<span id="delete-selected-date-text" style="font-weight: 600;">14/09/2026</span>).
+            </div>
+          </div>
+        </label>
+
+        <label class="delete-opt-card" id="opt-card-delete-all" onclick="selectDeleteMode('all')">
+          <input type="radio" name="delete_choice" id="radio-delete-all" value="all">
+          <div class="delete-opt-content">
+            <div class="delete-opt-title">
+              <i class="fa-solid fa-trash" style="color: #d93025;"></i> Xóa sự kiện này (Xóa mãi mãi)
+            </div>
+            <div class="delete-opt-desc">
+              Xóa hoàn toàn và vĩnh viễn sự kiện này khỏi bộ lịch của bạn.
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end; gap: 8px;">
+      <button class="btn-secondary" onclick="closeDeleteConfirmModal()">Hủy bỏ</button>
+      <button class="btn-danger" onclick="executeDeleteEvent()">
+        <i class="fa-solid fa-trash"></i> Xác nhận xóa
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST MESSAGE -->
+<div class="toast-msg" id="toast-msg">
+  <i class="fa-solid fa-circle-check" style="color: #81c995;"></i>
+  <span id="toast-text">Thực hiện thành công!</span>
+</div>
+
+<script>
+  /* ==========================================================
+     DATA STORE & INITIAL STATE
+     ========================================================== */
+  const INITIAL_EVENTS = [
+    {
+      id: 1,
+      title: "Ôn tập Tin học IC3 GS6",
+      date: "2026-09-14", // Monday
+      startTime: "08:00",
+      endTime: "09:30",
+      calendar: "cal-study",
+      category: "personal",
+      isPrivate: false,
+      desc: "Ôn tập các chuyên đề phần cứng và mạng máy tính"
+    },
+    {
+      id: 2,
+      title: "Hẹn gặp bác sĩ nha khoa",
+      date: "2026-09-15", // Tuesday
+      startTime: "14:00",
+      endTime: "15:30",
+      calendar: "cal-personal",
+      category: "personal",
+      isPrivate: true, // KEEP PRIVATE!
+      desc: "Khám định kỳ răng miệng tại phòng khám nha khoa"
+    }
+  ];
+
+  const DEFAULT_CATEGORIES = [
+    { id: 'personal', name: 'Sinh hoạt cá nhân', shortName: 'Cá nhân', color: '#0d904f', bg: '#e6f4ea', icon: 'fa-user', deletable: false }
+  ];
+
+  const AVAILABLE_COLORS = [
+    { color: '#1a73e8', bg: '#e8f0fe', name: 'Xanh dương' },
+    { color: '#0d904f', bg: '#e6f4ea', name: 'Xanh lá' },
+    { color: '#9334e6', bg: '#f3e8fd', name: 'Tím' },
+    { color: '#e37400', bg: '#fef7e0', name: 'Cam' },
+    { color: '#d93025', bg: '#fce8e6', name: 'Đỏ san hô' },
+    { color: '#00897b', bg: '#e0f2f1', name: 'Xanh ngọc' },
+    { color: '#d81b60', bg: '#fce4ec', name: 'Hồng sen' },
+    { color: '#8d6e63', bg: '#efebe9', name: 'Nâu cà phê' },
+    { color: '#3949ab', bg: '#e8eaf6', name: 'Chàm đậm' },
+    { color: '#5f6368', bg: '#f1f3f4', name: 'Xám chì' }
+  ];
+
+  const AVAILABLE_ICONS = [
+    'fa-book-open', 'fa-user', 'fa-house', 'fa-futbol',
+    'fa-language', 'fa-palette', 'fa-music', 'fa-laptop-code',
+    'fa-flask', 'fa-heart', 'fa-star', 'fa-gamepad',
+    'fa-users', 'fa-calculator', 'fa-award', 'fa-globe',
+    'fa-compass', 'fa-briefcase'
+  ];
+
+  let categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+  let events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
+
+  let sharedUsers = [
+    { email: "gv.tinhoc@thcs.edu.vn", perm: "view_all", label: "Giáo viên Tin học" },
+    { email: "me.yeuthuong@gmail.com", perm: "view_all", label: "Mẹ" }
+  ];
+
+  // Active States
+  let currentPerspective = 'owner'; // 'owner' | 'guest'
+  let currentCategoryFilter = 'all'; // 'all' | category id
+  let currentViewMode = 'week'; // 'week' | 'month'
+  let activeCalendars = {
+    'cal-study': true,
+    'cal-personal': true,
+    'cal-family': true
+  };
+
+  let selectedPrivacy = 'public'; // in modal
+  let selectedEventId = null;
+
+  // Date & Calendar Navigation States
+  const TODAY_STR = '2026-09-14';
+  let selectedDate = '2026-09-14';
+  let currentMiniYear = 2026;
+  let currentMiniMonth = 8; // 0-indexed: 8 = September
+
+  // State for Create Category Modal
+  let newCategoryColor = AVAILABLE_COLORS[5];
+  let newCategoryIcon = 'fa-language';
+  let openedFromEventModal = false;
+
+  /* ==========================================================
+     DATE & TIME HELPER UTILITIES
+     ========================================================== */
+  function parseDateYMD(str) {
+    if (!str) return new Date(2026, 8, 14);
+    const parts = str.split('-').map(Number);
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+
+  function formatDateYMD(dateObj) {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const d = String(dateObj.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function getWeekDays(targetDateStr) {
+    const d = parseDateYMD(targetDateStr);
+    const dayOfWeek = d.getDay(); // 0 is Sun, 1 is Mon ... 6 is Sat
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1) - dayOfWeek;
+    const monday = new Date(d);
+    monday.setDate(d.getDate() + diffToMonday);
+
+    const days = [];
+    const dayNames = ['Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7', 'CN'];
+    for (let i = 0; i < 7; i++) {
+      const cur = new Date(monday);
+      cur.setDate(monday.getDate() + i);
+      days.push({
+        dateStr: formatDateYMD(cur),
+        dayNum: cur.getDate(),
+        month: cur.getMonth() + 1,
+        year: cur.getFullYear(),
+        dayName: dayNames[i]
+      });
+    }
+    return days;
+  }
+
+  function getDayColIndex(dateStr) {
+    const week = getWeekDays(selectedDate);
+    return week.findIndex(w => w.dateStr === dateStr);
+  }
+
+  /* ==========================================================
+     LIFECYCLE & INITIALIZATION
+     ========================================================== */
+  document.addEventListener('DOMContentLoaded', () => {
+    renderCategoryFilters();
+    renderCategorySelectOptions();
+    renderAll();
+    renderSharedUsersList();
+  });
+
+  function renderAll() {
+    renderMiniCalendar();
+    renderWeekHeader();
+    renderWeekView();
+    renderMonthView();
+    updateCategoryCounts();
+    updateTopDateTitle();
+  }
+
+  function renderWeekHeader() {
+    const week = getWeekDays(selectedDate);
+    week.forEach((w, idx) => {
+      const colHeader = document.getElementById(`head-day-${idx}`);
+      if (!colHeader) return;
+      const isToday = (w.dateStr === TODAY_STR);
+      const isSelected = (w.dateStr === selectedDate);
+      colHeader.className = `day-col-header ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}`;
+      colHeader.innerHTML = `
+        <div class="day-name">${w.dayName}</div>
+        <div class="day-number">${w.dayNum}</div>
+      `;
+      colHeader.onclick = () => {
+        selectDate(w.dateStr);
+      };
+    });
+  }
+
+  function updateTopDateTitle() {
+    const titleEl = document.getElementById('current-month-label');
+    if (!titleEl) return;
+    const d = parseDateYMD(selectedDate);
+
+    if (currentViewMode === 'week') {
+      const week = getWeekDays(selectedDate);
+      const first = week[0];
+      const last = week[6];
+      if (first.month === last.month) {
+        titleEl.innerText = `Tháng ${first.month} năm ${first.year}`;
+      } else {
+        titleEl.innerText = `Tháng ${first.month} - Tháng ${last.month} năm ${last.year}`;
+      }
+    } else {
+      titleEl.innerText = `Tháng ${d.getMonth() + 1} năm ${d.getFullYear()}`;
+    }
+  }
+
+  /* ==========================================================
+     MINI CALENDAR RENDERING & INTERACTION
+     ========================================================== */
+  function renderMiniCalendar() {
+    const headerTitle = document.getElementById('mini-cal-header-title');
+    const grid = document.getElementById('mini-cal-grid');
+    if (!grid) return;
+
+    if (headerTitle) {
+      headerTitle.innerText = `Tháng ${currentMiniMonth + 1}, ${currentMiniYear}`;
     }
 
-    // Step 1: Toggle Encryption
-    function p1ToggleEncryption() {
-      const pass = document.getElementById('p1-password-input').value.trim();
-      const btn = document.getElementById('btn-p1-encrypt');
-      const btnText = document.getElementById('btn-p1-text');
-      const statusBadge = document.getElementById('status-step-1');
-      const fileCard = document.getElementById('p1-file-card');
-      const fileIcon = document.getElementById('p1-file-icon');
-      const fileName = document.getElementById('p1-file-name');
-      const fileStatus = document.getElementById('p1-file-status');
-      const contentDisplay = document.getElementById('p1-content-display');
-      const windowTitle = document.getElementById('p1-window-title');
-      const featureBox = document.getElementById('p1-feature-box');
+    let html = `
+      <div class="mini-day-name">T2</div>
+      <div class="mini-day-name">T3</div>
+      <div class="mini-day-name">T4</div>
+      <div class="mini-day-name">T5</div>
+      <div class="mini-day-name">T6</div>
+      <div class="mini-day-name">T7</div>
+      <div class="mini-day-name">CN</div>
+    `;
 
-      if (!pass) {
-        showCustomModal({
-          title: "Thiếu Mật Khẩu",
-          icon: "fa-solid fa-triangle-exclamation",
-          type: "danger",
-          content: "Vui lòng nhập mật khẩu mã hóa để thực hiện khóa tập tin!",
-          btnText: "Đồng Ý"
-        });
+    const firstDay = new Date(currentMiniYear, currentMiniMonth, 1);
+    const dayOfWeek = firstDay.getDay();
+    const leadingDays = (dayOfWeek === 0 ? 6 : dayOfWeek - 1);
+
+    const prevMonthLastDate = new Date(currentMiniYear, currentMiniMonth, 0).getDate();
+    for (let i = leadingDays - 1; i >= 0; i--) {
+      const prevDateNum = prevMonthLastDate - i;
+      const prevDate = new Date(currentMiniYear, currentMiniMonth - 1, prevDateNum);
+      const dateStr = formatDateYMD(prevDate);
+      html += `<div class="mini-date-cell other-month" onclick="selectDate('${dateStr}')">${prevDateNum}</div>`;
+    }
+
+    const daysInMonth = new Date(currentMiniYear, currentMiniMonth + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+      const curDate = new Date(currentMiniYear, currentMiniMonth, day);
+      const dateStr = formatDateYMD(curDate);
+      const isToday = (dateStr === TODAY_STR);
+      const isSelected = (dateStr === selectedDate);
+
+      let classes = ['mini-date-cell'];
+      if (isToday) classes.push('active-today');
+      if (isSelected) classes.push('selected-date');
+
+      html += `<div class="${classes.join(' ')}" onclick="selectDate('${dateStr}')">${day}</div>`;
+    }
+
+    const totalRendered = leadingDays + daysInMonth;
+    const trailingDays = (7 - (totalRendered % 7)) % 7;
+    for (let day = 1; day <= trailingDays; day++) {
+      const nextDate = new Date(currentMiniYear, currentMiniMonth + 1, day);
+      const dateStr = formatDateYMD(nextDate);
+      html += `<div class="mini-date-cell other-month" onclick="selectDate('${dateStr}')">${day}</div>`;
+    }
+
+    grid.innerHTML = html;
+  }
+
+  function selectDate(dateStr) {
+    selectedDate = dateStr;
+    const d = parseDateYMD(dateStr);
+    currentMiniMonth = d.getMonth();
+    currentMiniYear = d.getFullYear();
+
+    renderAll();
+    showToast(`Đã chọn ngày: ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`);
+  }
+
+  function prevMiniMonth() {
+    currentMiniMonth--;
+    if (currentMiniMonth < 0) {
+      currentMiniMonth = 11;
+      currentMiniYear--;
+    }
+    renderMiniCalendar();
+  }
+
+  function nextMiniMonth() {
+    currentMiniMonth++;
+    if (currentMiniMonth > 11) {
+      currentMiniMonth = 0;
+      currentMiniYear++;
+    }
+    renderMiniCalendar();
+  }
+
+  function getCategoryObj(catId) {
+    return categories.find(c => c.id === catId) || {
+      id: catId,
+      name: catId,
+      shortName: catId,
+      color: '#1a73e8',
+      bg: '#e8f0fe',
+      icon: 'fa-tag',
+      deletable: false
+    };
+  }
+
+  function getCategoryName(catId) {
+    if (catId === 'all') return 'Tất cả sự kiện';
+    const cat = getCategoryObj(catId);
+    return cat.shortName || cat.name;
+  }
+
+  /* ==========================================================
+     WEEK VIEW RENDERING
+     ========================================================== */
+  function renderWeekView() {
+    // Clear existing events in columns
+    for (let i = 0; i < 7; i++) {
+      const col = document.getElementById(`day-col-${i}`);
+      if (!col) continue;
+      const oldCards = col.querySelectorAll('.event-card');
+      oldCards.forEach(c => c.remove());
+    }
+
+    const startHour = 7; // Grid starts at 07:00
+    const slotHeight = 64; // 64px per hour
+
+    const visibleEvents = events.filter(evt => {
+      if (!activeCalendars[evt.calendar]) return false;
+      if (currentCategoryFilter !== 'all' && evt.category !== currentCategoryFilter) return false;
+      return true;
+    });
+
+    visibleEvents.forEach(evt => {
+      const colIndex = getDayColIndex(evt.date);
+      if (colIndex < 0 || colIndex > 6) return;
+
+      const col = document.getElementById(`day-col-${colIndex}`);
+      if (!col) return;
+
+      const [sh, sm] = evt.startTime.split(':').map(Number);
+      const [eh, em] = evt.endTime.split(':').map(Number);
+
+      const startFloat = sh + (sm / 60);
+      const endFloat = eh + (em / 60);
+      const durationHours = Math.max(0.6, endFloat - startFloat);
+
+      const topOffset = (startFloat - startHour) * slotHeight;
+      const height = durationHours * slotHeight;
+
+      const catObj = getCategoryObj(evt.category);
+      const card = document.createElement('div');
+      card.className = `event-card`;
+      card.style.top = `${topOffset}px`;
+      card.style.height = `${height}px`;
+      card.style.borderLeftColor = catObj.color;
+      card.style.backgroundColor = catObj.bg;
+      card.style.color = catObj.color;
+
+      // Handle PERSPECTIVE & PRIVACY:
+      if (currentPerspective === 'guest' && evt.isPrivate) {
+        card.classList.add('is-private-masked');
+        card.innerHTML = `
+          <div class="event-title-row">
+            <span class="event-title-text"><i class="fa-solid fa-lock"></i> <strong>Bận (Sự kiện riêng tư)</strong></span>
+          </div>
+          <div class="event-time-row">${evt.startTime} - ${evt.endTime}</div>
+          <div style="font-size: 0.68rem; color: #5f6368; margin-top: 2px;">
+            <em>Chi tiết đã được chủ sở hữu giữ riêng tư</em>
+          </div>
+        `;
+        card.title = "Sự kiện này được chủ sở hữu đặt 'Giữ riêng tư' (Keep private). Bạn chỉ biết khung giờ này chủ nhân đang Bận mà không đọc được chi tiết.";
+      } else {
+        let privateBadgeHtml = '';
+        if (evt.isPrivate) {
+          privateBadgeHtml = `<span class="event-private-tag" title="Sự kiện được Giữ riêng tư"><i class="fa-solid fa-lock"></i> Riêng tư</span>`;
+        }
+
+        card.innerHTML = `
+          <div class="event-title-row">
+            <span class="event-title-text" style="color: ${catObj.color};">
+              <i class="fa-solid ${catObj.icon}" style="font-size: 0.72rem; margin-right: 3px;"></i>
+              ${escapeHtml(evt.title)}
+            </span>
+            ${privateBadgeHtml}
+          </div>
+          <div class="event-time-row" style="color: #3c4043;">${evt.startTime} - ${evt.endTime}</div>
+          <div class="event-desc" style="font-size: 0.68rem; opacity: 0.85; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #5f6368;">
+            ${escapeHtml(evt.desc || '')}
+          </div>
+        `;
+      }
+
+      card.onclick = (e) => {
+        e.stopPropagation();
+        openDetailModal(evt.id);
+      };
+
+      col.appendChild(card);
+    });
+  }
+
+  /* ==========================================================
+     MONTH VIEW RENDERING
+     ========================================================== */
+  function renderMonthView() {
+    const grid = document.getElementById('month-cells-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    const daysInMonth = new Date(currentMiniYear, currentMiniMonth + 1, 0).getDate();
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const curDate = new Date(currentMiniYear, currentMiniMonth, day);
+      const dateStr = formatDateYMD(curDate);
+      const isToday = (dateStr === TODAY_STR);
+      const isSelected = (dateStr === selectedDate);
+
+      const cell = document.createElement('div');
+      cell.className = `month-cell ${isToday ? 'is-today' : ''} ${isSelected ? 'is-selected' : ''}`;
+
+      cell.innerHTML = `
+        <div class="month-cell-header">
+          <span>${day}</span>
+        </div>
+        <div class="month-events-wrapper" id="month-events-${day}"></div>
+      `;
+
+      cell.onclick = () => {
+        selectDate(dateStr);
+      };
+
+      grid.appendChild(cell);
+
+      const dayWrapper = cell.querySelector(`#month-events-${day}`);
+      const dayEvents = events.filter(e => e.date === dateStr);
+
+      dayEvents.forEach(evt => {
+        if (!activeCalendars[evt.calendar]) return;
+        if (currentCategoryFilter !== 'all' && evt.category !== currentCategoryFilter) return;
+
+        const catObj = getCategoryObj(evt.category);
+        const chip = document.createElement('div');
+        chip.className = `month-event-chip`;
+        chip.style.backgroundColor = catObj.bg;
+        chip.style.color = catObj.color;
+        chip.style.borderLeft = `3px solid ${catObj.color}`;
+
+        if (currentPerspective === 'guest' && evt.isPrivate) {
+          chip.style.background = '#e8eaed';
+          chip.style.color = '#3c4043';
+          chip.style.borderLeft = '3px solid #5f6368';
+          chip.innerHTML = `<i class="fa-solid fa-lock" style="font-size: 0.65rem;"></i> Bận`;
+          chip.title = "Sự kiện được Giữ riêng tư";
+        } else {
+          let lockIcon = evt.isPrivate ? `<i class="fa-solid fa-lock" style="font-size: 0.65rem;"></i>` : `<i class="fa-solid ${catObj.icon}" style="font-size: 0.65rem;"></i>`;
+          chip.innerHTML = `${lockIcon} <span>${escapeHtml(evt.title)}</span>`;
+        }
+
+        chip.onclick = (e) => {
+          e.stopPropagation();
+          openDetailModal(evt.id);
+        };
+
+        dayWrapper.appendChild(chip);
+      });
+    }
+  }
+
+  /* ==========================================================
+     CATEGORY FILTER & MANAGEMENT FEATURE
+     ========================================================== */
+  function renderCategoryFilters() {
+    const container = document.getElementById('category-filters');
+    if (!container) return;
+
+    let html = `
+      <button class="cat-filter-btn ${currentCategoryFilter === 'all' ? 'active' : ''}" data-cat="all" onclick="filterByCategory('all')">
+        <span class="cat-item-info">
+          <i class="fa-solid fa-layer-group" style="color: #5f6368;"></i> Tất cả sự kiện
+        </span>
+        <span class="cat-badge-count" id="count-all">0</span>
+      </button>
+    `;
+
+    categories.forEach(cat => {
+      const isActive = (currentCategoryFilter === cat.id);
+      const delBtn = cat.deletable ? `
+        <span class="cat-del-btn" onclick="deleteCategory(event, '${cat.id}')" title="Xóa danh mục này">
+          <i class="fa-solid fa-xmark"></i>
+        </span>
+      ` : '';
+
+      html += `
+        <button class="cat-filter-btn ${isActive ? 'active' : ''}" data-cat="${cat.id}" onclick="filterByCategory('${cat.id}')">
+          <span class="cat-item-info">
+            <i class="fa-solid ${cat.icon}" style="color: ${cat.color};"></i> ${escapeHtml(cat.shortName || cat.name)}
+          </span>
+          <div style="display: flex; align-items: center; gap: 4px;">
+            <span class="cat-badge-count" id="count-${cat.id}">0</span>
+            ${delBtn}
+          </div>
+        </button>
+      `;
+    });
+
+    container.innerHTML = html;
+    updateCategoryCounts();
+  }
+
+  function renderCategorySelectOptions() {
+    const select = document.getElementById('event-category-select');
+    if (!select) return;
+    const currentVal = select.value;
+    select.innerHTML = categories.map(cat => 
+      `<option value="${cat.id}">${escapeHtml(cat.name)}</option>`
+    ).join('');
+    if (categories.some(c => c.id === currentVal)) {
+      select.value = currentVal;
+    }
+  }
+
+  function filterByCategory(cat) {
+    currentCategoryFilter = cat;
+
+    const buttons = document.querySelectorAll('.cat-filter-btn');
+    buttons.forEach(btn => {
+      if (btn.getAttribute('data-cat') === cat) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    renderAll();
+    showToast(`Đã lọc danh mục: ${getCategoryName(cat)}`);
+  }
+
+  function updateCategoryCounts() {
+    const counts = { all: 0 };
+    categories.forEach(c => { counts[c.id] = 0; });
+
+    events.forEach(evt => {
+      if (activeCalendars[evt.calendar]) {
+        counts.all++;
+        if (counts[evt.category] !== undefined) {
+          counts[evt.category]++;
+        }
+      }
+    });
+
+    const elAll = document.getElementById('count-all');
+    if (elAll) elAll.innerText = counts.all;
+
+    categories.forEach(c => {
+      const el = document.getElementById(`count-${c.id}`);
+      if (el) el.innerText = counts[c.id] || 0;
+    });
+  }
+
+  /* ==========================================================
+     CREATE NEW CATEGORY MODAL LOGIC
+     ========================================================== */
+  function openCreateCategoryModal(fromEventModal = false) {
+    openedFromEventModal = fromEventModal;
+    const nameInput = document.getElementById('category-name-input');
+    if (nameInput) nameInput.value = '';
+    newCategoryColor = AVAILABLE_COLORS[5]; // Xanh ngọc
+    newCategoryIcon = 'fa-language';
+    renderColorPicker();
+    renderIconPicker();
+    updateCategoryPreview();
+    document.getElementById('modal-create-category').classList.add('active');
+    if (nameInput) nameInput.focus();
+  }
+
+  function closeCreateCategoryModal() {
+    document.getElementById('modal-create-category').classList.remove('active');
+  }
+
+  function renderColorPicker() {
+    const container = document.getElementById('category-color-picker');
+    if (!container) return;
+    container.innerHTML = AVAILABLE_COLORS.map((c, idx) => `
+      <div class="color-swatch-item ${c.color === newCategoryColor.color ? 'selected' : ''}" 
+           style="background-color: ${c.color};" 
+           onclick="selectCategoryColor(${idx})" 
+           title="${c.name}">
+      </div>
+    `).join('');
+  }
+
+  function selectCategoryColor(index) {
+    newCategoryColor = AVAILABLE_COLORS[index];
+    renderColorPicker();
+    updateCategoryPreview();
+  }
+
+  function renderIconPicker() {
+    const container = document.getElementById('category-icon-picker');
+    if (!container) return;
+    container.innerHTML = AVAILABLE_ICONS.map(icon => `
+      <div class="icon-choice-item ${icon === newCategoryIcon ? 'selected' : ''}" 
+           onclick="selectCategoryIcon('${icon}')">
+        <i class="fa-solid ${icon}"></i>
+      </div>
+    `).join('');
+  }
+
+  function selectCategoryIcon(icon) {
+    newCategoryIcon = icon;
+    renderIconPicker();
+    updateCategoryPreview();
+  }
+
+  function updateCategoryPreview() {
+    const input = document.getElementById('category-name-input');
+    const name = (input && input.value.trim()) ? input.value.trim() : 'Tên danh mục';
+    const tag = document.getElementById('cat-preview-badge');
+    const icon = document.getElementById('cat-preview-icon');
+    const text = document.getElementById('cat-preview-text');
+
+    if (tag) {
+      tag.style.borderLeftColor = newCategoryColor.color;
+      tag.style.backgroundColor = newCategoryColor.bg;
+      tag.style.color = newCategoryColor.color;
+    }
+    if (icon) {
+      icon.className = `fa-solid ${newCategoryIcon}`;
+    }
+    if (text) {
+      text.innerText = name;
+    }
+  }
+
+  function saveNewCategory() {
+    const input = document.getElementById('category-name-input');
+    const name = input.value.trim();
+    if (!name) {
+      alert('Vui lòng nhập tên danh mục sự kiện!');
+      input.focus();
+      return;
+    }
+
+    if (categories.some(c => c.name.toLowerCase() === name.toLowerCase() || c.shortName.toLowerCase() === name.toLowerCase())) {
+      alert('Danh mục này đã tồn tại!');
+      input.focus();
+      return;
+    }
+
+    const newId = 'cat_' + Date.now();
+    const newCat = {
+      id: newId,
+      name: name,
+      shortName: name,
+      color: newCategoryColor.color,
+      bg: newCategoryColor.bg,
+      icon: newCategoryIcon,
+      deletable: true
+    };
+
+    categories.push(newCat);
+    closeCreateCategoryModal();
+    renderCategoryFilters();
+    renderCategorySelectOptions();
+
+    if (openedFromEventModal) {
+      const select = document.getElementById('event-category-select');
+      if (select) select.value = newId;
+    }
+
+    showToast(`Đã tạo thành công danh mục mới: "${name}"`);
+  }
+
+  function deleteCategory(event, catId) {
+    event.stopPropagation();
+    const cat = getCategoryObj(catId);
+    if (!cat.deletable) return;
+
+    if (confirm(`Bạn có chắc chắn muốn xóa danh mục "${cat.name}" không?\n(Các sự kiện thuộc danh mục này sẽ chuyển về "Cá nhân")`)) {
+      events.forEach(e => {
+        if (e.category === catId) e.category = 'personal';
+      });
+      categories = categories.filter(c => c.id !== catId);
+      if (currentCategoryFilter === catId) {
+        currentCategoryFilter = 'all';
+      }
+      renderCategoryFilters();
+      renderCategorySelectOptions();
+      renderAll();
+      showToast(`Đã xóa danh mục: ${cat.name}`);
+    }
+  }
+
+  /* ==========================================================
+     DISABLE CALENDAR FEATURE (TẮT / BẬT LỊCH)
+     ========================================================== */
+  function toggleCalendar(calKey) {
+    const checkbox = document.getElementById(`toggle-${calKey}`);
+    activeCalendars[calKey] = checkbox.checked;
+    
+    renderAll();
+
+    const calNames = {
+      'cal-study': 'Lịch Học Tập & Luyện Thi',
+      'cal-personal': 'Lịch Hoạt Động Cá Nhân',
+      'cal-family': 'Lịch Gia Đình & Bạn Bè'
+    };
+
+    if (checkbox.checked) {
+      showToast(`Đã bật hiển thị ${calNames[calKey]}`);
+    } else {
+      showToast(`Đã tắt (ẩn) toàn bộ sự kiện của ${calNames[calKey]}`);
+    }
+  }
+
+  /* ==========================================================
+     PERSPECTIVE TOGGLE (OWNER VS GUEST VIEW)
+     Key pedagogical mechanism for "Keep Private"
+     ========================================================== */
+  function setPerspective(mode) {
+    currentPerspective = mode;
+    const btnOwner = document.getElementById('btn-view-owner');
+    const btnGuest = document.getElementById('btn-view-guest');
+    const noticeBar = document.getElementById('guest-notice-bar');
+
+    if (mode === 'owner') {
+      btnOwner.classList.add('active-owner');
+      btnGuest.classList.remove('active-guest');
+      noticeBar.classList.remove('show');
+      showToast("Chuyển sang góc nhìn: Chủ sở hữu (Bạn)");
+    } else {
+      btnOwner.classList.remove('active-owner');
+      btnGuest.classList.add('active-guest');
+      noticeBar.classList.add('show');
+      showToast("Chuyển sang góc nhìn: Người được chia sẻ (Khách)");
+    }
+
+    renderAll();
+  }
+
+  /* ==========================================================
+     VIEW MODE TOGGLE (WEEK / MONTH)
+     ========================================================== */
+  function setViewMode(mode) {
+    currentViewMode = mode;
+    const tabWeek = document.getElementById('tab-week');
+    const tabMonth = document.getElementById('tab-month');
+    const weekWrap = document.getElementById('week-view-wrapper');
+    const monthWrap = document.getElementById('month-view-wrapper');
+
+    if (mode === 'week') {
+      tabWeek.classList.add('active');
+      tabMonth.classList.remove('active');
+      weekWrap.style.display = 'block';
+      monthWrap.classList.remove('active');
+    } else {
+      tabWeek.classList.remove('active');
+      tabMonth.classList.add('active');
+      weekWrap.style.display = 'none';
+      monthWrap.classList.add('active');
+    }
+  }
+
+  function goToToday() {
+    selectDate(TODAY_STR);
+    setViewMode('week');
+    showToast("Đã quay về ngày hôm nay (14/09/2026)");
+  }
+
+  function prevWeek() {
+    const d = parseDateYMD(selectedDate);
+    if (currentViewMode === 'week') {
+      d.setDate(d.getDate() - 7);
+    } else {
+      d.setMonth(d.getMonth() - 1);
+    }
+    selectDate(formatDateYMD(d));
+  }
+
+  function nextWeek() {
+    const d = parseDateYMD(selectedDate);
+    if (currentViewMode === 'week') {
+      d.setDate(d.getDate() + 7);
+    } else {
+      d.setMonth(d.getMonth() + 1);
+    }
+    selectDate(formatDateYMD(d));
+  }
+
+  /* ==========================================================
+     CREATE EVENT MODAL
+     ========================================================== */
+  function openCreateModal(defaultDate = selectedDate, defaultTime = '08:00') {
+    document.getElementById('event-title-input').value = '';
+    document.getElementById('event-date-input').value = defaultDate;
+    document.getElementById('event-start-time').value = defaultTime;
+    
+    // Set default end time 1.5h later
+    const hourNum = parseInt(defaultTime.split(':')[0]);
+    const endH = String(Math.min(21, hourNum + 1)).padStart(2, '0');
+    document.getElementById('event-end-time').value = `${endH}:30`;
+
+    selectPrivacyOption('public');
+    document.getElementById('modal-create-event').classList.add('active');
+    document.getElementById('event-title-input').focus();
+  }
+
+  function quickCreate(dateStr, timeStr) {
+    openCreateModal(dateStr, timeStr);
+  }
+
+  function closeCreateModal() {
+    document.getElementById('modal-create-event').classList.remove('active');
+  }
+
+  function selectPrivacyOption(opt) {
+    selectedPrivacy = opt;
+    const pubCard = document.getElementById('opt-privacy-public');
+    const priCard = document.getElementById('opt-privacy-private');
+
+    if (opt === 'public') {
+      pubCard.classList.add('selected');
+      priCard.classList.remove('selected');
+    } else {
+      pubCard.classList.remove('selected');
+      priCard.classList.add('selected');
+    }
+  }
+
+  function saveNewEvent() {
+    const titleInput = document.getElementById('event-title-input');
+    const title = titleInput.value.trim();
+    if (!title) {
+      alert('Vui lòng nhập tên sự kiện!');
+      titleInput.focus();
+      return;
+    }
+
+    const date = document.getElementById('event-date-input').value;
+    const startTime = document.getElementById('event-start-time').value;
+    const endTime = document.getElementById('event-end-time').value;
+    const calendar = document.getElementById('event-cal-select').value;
+    const category = document.getElementById('event-category-select').value;
+    const isPrivate = (selectedPrivacy === 'private');
+
+    const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
+
+    events.push({
+      id: newId,
+      title: title,
+      date: date,
+      startTime: startTime,
+      endTime: endTime,
+      calendar: calendar,
+      category: category,
+      isPrivate: isPrivate,
+      desc: isPrivate ? "Sự kiện được cài đặt Giữ riêng tư (Keep private)" : "Sự kiện công khai"
+    });
+
+    closeCreateModal();
+    renderAll();
+    showToast(`Đã tạo sự kiện: "${title}" (${isPrivate ? '🔒 Giữ riêng tư' : '🌐 Công khai'})`);
+  }
+
+  /* ==========================================================
+     EVENT DETAIL & DELETE MODAL
+     ========================================================== */
+  function openDetailModal(eventId) {
+    const evt = events.find(e => e.id === eventId);
+    if (!evt) return;
+
+    selectedEventId = eventId;
+    const modal = document.getElementById('modal-event-detail');
+    
+    // In guest view for private event
+    if (currentPerspective === 'guest' && evt.isPrivate) {
+      document.getElementById('detail-title').innerHTML = `<i class="fa-solid fa-lock" style="color: #5f6368;"></i> Bận (Sự kiện riêng tư)`;
+      document.getElementById('detail-time').innerHTML = `<i class="fa-regular fa-clock"></i> Khung giờ: ${evt.startTime} - ${evt.endTime}`;
+      document.getElementById('detail-date').innerHTML = `<i class="fa-regular fa-calendar"></i> Ngày: ${evt.date}`;
+      document.getElementById('detail-cal').innerHTML = `<i class="fa-solid fa-shield-halved"></i> Thông tin chi tiết đã được ẩn.`;
+      document.getElementById('detail-cat').style.display = 'none';
+      document.getElementById('detail-privacy').innerHTML = `<span style="color: #e37400; font-weight: 600;">🔒 Giữ riêng tư (Keep private)</span>`;
+      document.getElementById('btn-delete-event').style.display = 'none';
+    } else {
+      document.getElementById('detail-title').innerHTML = escapeHtml(evt.title);
+      document.getElementById('detail-time').innerHTML = `<i class="fa-regular fa-clock" style="color: #1a73e8;"></i> ${evt.startTime} - ${evt.endTime}`;
+      document.getElementById('detail-date').innerHTML = `<i class="fa-regular fa-calendar"></i> Ngày diễn ra: ${evt.date}`;
+      document.getElementById('detail-cal').innerHTML = `<i class="fa-solid fa-folder-open"></i> Bộ lịch: ${getCalendarLabel(evt.calendar)}`;
+      const catObj = getCategoryObj(evt.category);
+      document.getElementById('detail-cat').style.display = 'flex';
+      document.getElementById('detail-cat').innerHTML = `<i class="fa-solid ${catObj.icon}" style="color: ${catObj.color};"></i> Danh mục: ${escapeHtml(catObj.name)}`;
+      
+      const privHtml = evt.isPrivate 
+        ? `<span style="color: #e37400; font-weight: 600;"><i class="fa-solid fa-lock"></i> Giữ riêng tư (Người khác chỉ thấy "Bận")</span>`
+        : `<span style="color: #1e8e3e; font-weight: 600;"><i class="fa-solid fa-globe"></i> Công khai (Ai cũng xem được chi tiết)</span>`;
+      document.getElementById('detail-privacy').innerHTML = `<i class="fa-solid fa-shield-halved"></i> Trạng thái: ${privHtml}`;
+      document.getElementById('btn-delete-event').style.display = 'inline-flex';
+    }
+
+    modal.classList.add('active');
+  }
+
+  function getCalendarLabel(calKey) {
+    switch (calKey) {
+      case 'cal-study': return '🟢 Lịch Học Tập & Luyện Thi';
+      case 'cal-personal': return '🔵 Lịch Hoạt Động Cá Nhân';
+      case 'cal-family': return '🟣 Lịch Gia Đình & Bạn Bè';
+      default: return 'Lịch của tôi';
+    }
+  }
+
+  function closeDetailModal() {
+    document.getElementById('modal-event-detail').classList.remove('active');
+    selectedEventId = null;
+  }
+
+  let deleteTargetEventId = null;
+  let currentDeleteMode = 'today';
+
+  function deleteCurrentEvent() {
+    if (!selectedEventId) return;
+    const evt = events.find(e => e.id === selectedEventId);
+    if (!evt) return;
+
+    deleteTargetEventId = selectedEventId;
+
+    // Set event title and date text
+    const titleEl = document.getElementById('delete-event-title');
+    if (titleEl) titleEl.innerText = `"${evt.title}"`;
+
+    const dateTextEl = document.getElementById('delete-selected-date-text');
+    if (dateTextEl) {
+      const parts = (evt.date || selectedDate).split('-');
+      if (parts.length === 3) {
+        dateTextEl.innerText = `${parts[2]}/${parts[1]}/${parts[0]}`;
+      } else {
+        dateTextEl.innerText = evt.date;
+      }
+    }
+
+    selectDeleteMode('today');
+    // Hide detail modal without resetting deleteTargetEventId
+    document.getElementById('modal-event-detail').classList.remove('active');
+    document.getElementById('modal-delete-confirm').classList.add('active');
+  }
+
+  function selectDeleteMode(mode) {
+    currentDeleteMode = mode;
+    const optToday = document.getElementById('opt-card-delete-today');
+    const optAll = document.getElementById('opt-card-delete-all');
+    const radioToday = document.getElementById('radio-delete-today');
+    const radioAll = document.getElementById('radio-delete-all');
+
+    if (mode === 'today') {
+      if (optToday) optToday.classList.add('selected');
+      if (optAll) optAll.classList.remove('selected');
+      if (radioToday) radioToday.checked = true;
+    } else {
+      if (optToday) optToday.classList.remove('selected');
+      if (optAll) optAll.classList.add('selected');
+      if (radioAll) radioAll.checked = true;
+    }
+  }
+
+  function closeDeleteConfirmModal() {
+    const modal = document.getElementById('modal-delete-confirm');
+    if (modal) modal.classList.remove('active');
+    deleteTargetEventId = null;
+    selectedEventId = null;
+  }
+
+  function executeDeleteEvent() {
+    if (!deleteTargetEventId) return;
+    const evt = events.find(e => e.id === deleteTargetEventId);
+    if (!evt) {
+      closeDeleteConfirmModal();
+      return;
+    }
+
+    const eventTitle = evt.title;
+    if (currentDeleteMode === 'today') {
+      events = events.filter(e => e.id !== deleteTargetEventId);
+      closeDeleteConfirmModal();
+      renderAll();
+      showToast(`Đã xóa sự kiện "${eventTitle}" trong ngày hôm nay!`);
+    } else {
+      events = events.filter(e => e.id !== deleteTargetEventId);
+      closeDeleteConfirmModal();
+      renderAll();
+      showToast(`Đã xóa vĩnh viễn sự kiện "${eventTitle}" khỏi bộ lịch!`);
+    }
+  }
+
+  /* ==========================================================
+     SHARE CALENDAR MODAL & USER MANAGEMENT
+     ========================================================== */
+  function openShareModal() {
+    document.getElementById('share-email-input').value = '';
+    renderSharedUsersList();
+    document.getElementById('modal-share-calendar').classList.add('active');
+    document.getElementById('share-email-input').focus();
+  }
+
+  function closeShareModal() {
+    document.getElementById('modal-share-calendar').classList.remove('active');
+  }
+
+  function renderSharedUsersList() {
+    const container = document.getElementById('shared-users-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    sharedUsers.forEach((u, idx) => {
+      const item = document.createElement('div');
+      item.className = 'shared-item';
+      
+      const permText = u.perm === 'view_busy' ? 'Chỉ xem Rảnh/Bận' : (u.perm === 'edit' ? 'Chỉnh sửa' : 'Xem chi tiết');
+
+      item.innerHTML = `
+        <div class="shared-user-meta">
+          <div class="shared-user-avatar">${u.email.charAt(0).toUpperCase()}</div>
+          <div>
+            <div style="font-weight: 600; color: var(--text-dark);">${escapeHtml(u.email)}</div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(u.label || 'Khách')}</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="shared-permission-badge">${permText}</span>
+          <button class="btn-remove-shared" onclick="removeSharedUser(${idx})" title="Hủy chia sẻ với tài khoản này">
+            <i class="fa-solid fa-user-xmark"></i>
+          </button>
+        </div>
+      `;
+      container.appendChild(item);
+    });
+
+    document.getElementById('shared-list-count').innerText = `${sharedUsers.length} tài khoản`;
+    document.getElementById('shared-count-badge').innerText = `${sharedUsers.length} người`;
+  }
+
+  function addShareUser() {
+    const input = document.getElementById('share-email-input');
+    const email = input.value.trim().toLowerCase();
+    
+    if (!email || !email.includes('@')) {
+      alert('Vui lòng nhập địa chỉ Gmail hợp lệ (ví dụ: banthan@gmail.com)!');
+      input.focus();
+      return;
+    }
+
+    if (sharedUsers.some(u => u.email === email)) {
+      alert('Địa chỉ email này đã có trong danh sách được chia sẻ!');
+      input.focus();
+      return;
+    }
+
+    const perm = document.getElementById('share-perm-select').value;
+    sharedUsers.push({
+      email: email,
+      perm: perm,
+      label: "Người nhận chia sẻ"
+    });
+
+    input.value = '';
+    renderSharedUsersList();
+    showToast(`Đã gửi lời mời chia sẻ lịch tới: ${email}`);
+  }
+
+  function removeSharedUser(index) {
+    const removed = sharedUsers[index];
+    if (confirm(`Bạn muốn hủy chia sẻ lịch với ${removed.email}?`)) {
+      sharedUsers.splice(index, 1);
+      renderSharedUsersList();
+      showToast(`Đã hủy chia sẻ với ${removed.email}`);
+    }
+  }
+
+  /* ==========================================================
+     RESET TO DEFAULT EVENTS
+     ========================================================== */
+  function resetDefaultEvents() {
+    if (confirm("Khôi phục lại toàn bộ dữ liệu sự kiện và danh mục mẫu?")) {
+      events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
+      categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+      activeCalendars = { 'cal-study': true, 'cal-personal': true, 'cal-family': true };
+      document.getElementById('toggle-cal-study').checked = true;
+      document.getElementById('toggle-cal-personal').checked = true;
+      document.getElementById('toggle-cal-family').checked = true;
+      currentCategoryFilter = 'all';
+      renderCategoryFilters();
+      renderCategorySelectOptions();
+      setPerspective('owner');
+      renderAll();
+      showToast("Đã khôi phục dữ liệu lịch mẫu thành công!");
+    }
+  }
+
+  
+
+  /* ==========================================================
+     HELPERS & UTILITIES
+     ========================================================== */
+  function showToast(text) {
+    const toast = document.getElementById('toast-msg');
+    const toastText = document.getElementById('toast-text');
+    toastText.innerText = text;
+    toast.classList.add('show');
+    clearTimeout(window._toastTimeout);
+    window._toastTimeout = setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2800);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, function(m) {
+      return {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[m];
+    });
+  }
+
+  /* ==========================================================
+     KEYBOARD & BACKDROP MODAL DISMISSAL (ESC KEY & OUTSIDE CLICK)
+     ========================================================== */
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      const delModal = document.getElementById('modal-delete-confirm');
+      if (delModal && delModal.classList.contains('active')) {
+        closeDeleteConfirmModal();
         return;
       }
-
-      isP1Encrypted = !isP1Encrypted;
-
-      if (isP1Encrypted) {
-        correctPassword = pass;
-        btn.className = "btn-action btn-green";
-        btn.querySelector('i').className = "fa-solid fa-lock-open";
-        btnText.innerText = "Tắt Mã Hóa (Mở lại)";
-
-        statusBadge.style.background = "#f0fdf4";
-        statusBadge.style.color = "#16a34a";
-        statusBadge.style.borderColor = "#86efac";
-        statusBadge.innerHTML = '<i class="fa-solid fa-lock"></i> Đã Khóa Mã Hóa';
-
-        fileCard.className = "file-interactive-card locked";
-        fileIcon.className = "file-icon-box encrypted";
-        fileIcon.innerHTML = '<i class="fa-solid fa-file-shield"></i>';
-        fileName.innerText = "BangDiem_HocSinh.docx.enc";
-        fileStatus.innerHTML = '<i class="fa-solid fa-lock" style="color: #dc2626;"></i> Tập tin đã bị mã hóa bảo vệ (AES-256)';
-
-        contentDisplay.className = "content-box scrambled";
-        contentDisplay.innerText = "9F8A#d291!e38b*82e98fa9012a9e8d7c6b5a4@32187#8192a83e01b92";
-
-        windowTitle.innerText = "BangDiem_HocSinh.docx.enc (Encrypted - Read Only)";
-        featureBox.style.display = "flex";
-        document.getElementById('btn-step-1').classList.add('completed');
-      } else {
-        btn.className = "btn-action btn-red";
-        btn.querySelector('i').className = "fa-solid fa-lock";
-        btnText.innerText = "Bật Mã Hóa Tập Tin";
-
-        statusBadge.style.background = "#fef2f2";
-        statusBadge.style.color = "#dc2626";
-        statusBadge.style.borderColor = "#fca5a5";
-        statusBadge.innerHTML = '<i class="fa-solid fa-lock-open"></i> Chưa Mã Hóa';
-
-        fileCard.className = "file-interactive-card";
-        fileIcon.className = "file-icon-box plain";
-        fileIcon.innerHTML = '<i class="fa-solid fa-file-lines"></i>';
-        fileName.innerText = "BangDiem_HocSinh.docx";
-        fileStatus.innerHTML = '<i class="fa-solid fa-circle" style="color: #10b981; font-size: 0.55rem;"></i> Trạng thái: Văn bản gốc đọc được bình thường';
-
-        contentDisplay.className = "content-box clear";
-        contentDisplay.innerHTML = '<strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br><strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1';
-
-        windowTitle.innerText = "BangDiem_HocSinh.docx - Microsoft Word";
-        featureBox.style.display = "none";
+      const catModal = document.getElementById('modal-create-category');
+      if (catModal && catModal.classList.contains('active')) {
+        closeCreateCategoryModal();
+        return;
       }
+      closeCreateModal();
+      closeShareModal();
+      closeDetailModal();
     }
+  });
 
-    // Step 2: Hacker Attempt
-    function p2HackerAttempt() {
-      const screen = document.getElementById('p2-scrambled-screen');
-      screen.innerText = "0x7F 0x45 0x4C 0x46 ... [DỮ LIỆU ĐÃ BỊ MÃ HOÁ - KHÔNG THỂ HIỂN THỊ NỘI DUNG GỐC]";
-      
-      showCustomModal({
-        title: "Cảnh Báo Quyền Truy Cập",
-        icon: "fa-solid fa-user-secret",
-        type: "danger",
-        content: "🕵️ <strong>Kẻ gian không có mật khẩu/khóa!</strong><br><br>Nội dung hoàn toàn vô nghĩa và không thể đọc được nếu không có khóa mã hóa hợp lệ.",
-        btnText: "Tôi Đã Hiểu"
+  // Close modals on clicking overlay backdrop
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+          overlay.classList.remove('active');
+        }
       });
+    });
+  });
 
-      document.getElementById('btn-step-2').classList.add('completed');
-    }
-
-    // Step 3: Decrypt Attempt
-    function p3AttemptDecrypt() {
-      const pass = document.getElementById('p3-decrypt-pass').value.trim();
-      const alertBox = document.getElementById('p3-alert-box');
-      const resultBox = document.getElementById('p3-result-display');
-      const step3Nav = document.getElementById('btn-step-3');
-
-      if (pass === correctPassword) {
-        alertBox.style.display = "block";
-        alertBox.style.background = "#f0fdf4";
-        alertBox.style.color = "#166534";
-        alertBox.style.border = "1px solid #86efac";
-        alertBox.innerHTML = '<i class="fa-solid fa-circle-check"></i> <strong>Chính xác!</strong> Mật khẩu hợp lệ. Tập tin đã được giải mã nguyên vẹn.';
-
-        resultBox.className = "content-box clear";
-        resultBox.innerHTML = '<strong>Họ và tên:</strong> Nguyễn Văn An - <strong>Lớp:</strong> 7A1<br><strong>Điểm Tin Học:</strong> 10.0 | <strong>Mật mã tài khoản:</strong> Secret@7A1';
-
-        step3Nav.classList.add('completed');
-      } else {
-        alertBox.style.display = "block";
-        alertBox.style.background = "#fef2f2";
-        alertBox.style.color = "#991b1b";
-        alertBox.style.border = "1px solid #fca5a5";
-        alertBox.innerHTML = '<i class="fa-solid fa-circle-xmark"></i> <strong>Sai mật khẩu!</strong> Không thể giải mã tập tin nếu không có khóa chính xác.';
-
-        resultBox.className = "content-box scrambled";
-        resultBox.innerText = "[Mật khẩu sai - Không thể đọc nội dung]";
+  // Support ESC message from parent portal frame
+  window.addEventListener('message', (e) => {
+    if (e.data && e.data.action === 'close_modal') {
+      const delModal = document.getElementById('modal-delete-confirm');
+      if (delModal && delModal.classList.contains('active')) {
+        closeDeleteConfirmModal();
+        return;
       }
+      const catModal = document.getElementById('modal-create-category');
+      if (catModal && catModal.classList.contains('active')) {
+        closeCreateCategoryModal();
+        return;
+      }
+      closeCreateModal();
+      closeShareModal();
+      closeDetailModal();
     }
+  });
+</script>
 
-    function p3TestWrongPass() {
-      document.getElementById('p3-decrypt-pass').value = "SaiMatKhau123";
-      p3AttemptDecrypt();
-    }
-
-    // Modal Functions
-    function showCustomModal(config) {
-      const modal = document.getElementById('custom-modal');
-      const title = document.getElementById('modal-title');
-      const content = document.getElementById('modal-content');
-      const icon = document.getElementById('modal-icon');
-      const iconBadge = document.getElementById('modal-icon-badge');
-      const btn = document.getElementById('modal-btn');
-
-      title.innerText = config.title || "Thông Báo";
-      content.innerHTML = config.content || "";
-      icon.className = config.icon || "fa-solid fa-circle-info";
-      iconBadge.className = `modal-icon-badge ${config.type || 'info'}`;
-      btn.querySelector('span').innerText = config.btnText || "Đã Hiểu";
-
-      modal.style.display = "flex";
-    }
-
-    function closeCustomModal() {
-      document.getElementById('custom-modal').style.display = "none";
-    }
-
-    // Support external setLab
-    window.setLab = function(id) {
-      console.log("Set Lab in Level 2 GM1:", id);
-      goToStep(1);
-    };
-  </script>
 </body>
-
 </html>

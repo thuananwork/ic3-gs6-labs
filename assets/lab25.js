@@ -1,6 +1,6 @@
 /**
  * Lab 25: Nhận diện Ngụy biện Logic
- * Modular standalone component decoupled from main bundle.
+ * Modular standalone lab decoupled from main bundle.
  */
 (function () {
   window.AGY_LABS = window.AGY_LABS || {};
