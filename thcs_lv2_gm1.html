@@ -55,9 +55,12 @@
       background-color: var(--bg-app);
       color: var(--text-dark);
       line-height: 1.5;
-      padding: 12px;
-      min-height: 100vh;
-      overflow-x: hidden;
+      padding: 8px;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
 
     /* Scrollbars */
@@ -78,22 +81,28 @@
 
     /* Outer Wrapper */
     .app-container {
-      max-width: 1320px;
+      width: 100%;
+      height: 100%;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      flex: 1;
+      min-height: 0;
+      overflow: hidden;
     }
 
     /* Calendar Main Card */
     .calendar-card {
       background: var(--bg-surface);
-      border-radius: 12px;
+      border-radius: 10px;
       border: 1px solid var(--border-color);
       box-shadow: 0 1px 3px rgba(60,64,67,0.08);
       overflow: hidden;
       display: flex;
       flex-direction: column;
+      flex: 1;
+      height: 100%;
+      min-height: 0;
     }
 
     /* Calendar Top Navigation Bar */
@@ -297,19 +306,44 @@
     /* Calendar Main Workspace */
     .cal-body {
       display: grid;
-      grid-template-columns: 260px 1fr;
-      min-height: 560px;
+      grid-template-columns: 280px 1fr;
+      flex: 1;
+      min-height: 0;
+      height: 100%;
       background: #ffffff;
+      overflow: hidden;
     }
 
     /* Sidebar Column */
     .cal-sidebar {
       border-right: 1px solid var(--border-color);
-      padding: 16px 14px;
+      padding: 14px 14px;
       display: flex;
       flex-direction: column;
-      gap: 18px;
+      gap: 14px;
       background: #fafbfc;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: #dadce0 transparent;
+    }
+
+    .cal-sidebar::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    .cal-sidebar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .cal-sidebar::-webkit-scrollbar-thumb {
+      background: #dadce0;
+      border-radius: 4px;
+    }
+
+    .cal-sidebar::-webkit-scrollbar-thumb:hover {
+      background: #bdc1c6;
     }
 
     /* Create Event Button */
@@ -647,20 +681,32 @@
     .cal-grid-area {
       display: flex;
       flex-direction: column;
-      overflow-x: auto;
       background: #ffffff;
-      min-width: 680px;
+      min-width: 0;
+      overflow: hidden;
+      flex: 1;
+    }
+
+    #week-view-wrapper {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
     }
 
     /* Week Header (7 Days) */
     .week-header-grid {
       display: grid;
-      grid-template-columns: 60px repeat(7, 1fr);
+      grid-template-columns: 55px repeat(7, minmax(0, 1fr));
       border-bottom: 1px solid var(--border-color);
       background: #ffffff;
       position: sticky;
       top: 0;
       z-index: 10;
+      flex-shrink: 0;
+      scrollbar-gutter: stable;
     }
     .week-timezone-cell {
       padding: 10px 6px;
@@ -721,9 +767,13 @@
     /* Week Content Grid: Time Rows & Day Columns */
     .week-content-grid {
       display: grid;
-      grid-template-columns: 60px repeat(7, 1fr);
+      grid-template-columns: 55px repeat(7, minmax(0, 1fr));
       flex: 1;
       position: relative;
+      overflow-y: scroll;
+      padding-bottom: 24px;
+      scrollbar-gutter: stable;
+      scroll-behavior: smooth;
     }
 
     /* Time gutter */
@@ -733,12 +783,21 @@
       flex-direction: column;
     }
     .time-slot-label {
-      height: 64px;
-      font-size: 0.7rem;
+      height: 56px;
+      font-size: 0.68rem;
       color: var(--text-light);
       text-align: right;
-      padding-right: 8px;
-      transform: translateY(-8px);
+      padding-right: 6px;
+      transform: translateY(-7px);
+      user-select: none;
+    }
+    .time-slot-label:first-child {
+      transform: translateY(2px);
+    }
+    .time-slot-label.time-slot-last {
+      height: 24px;
+      font-weight: 600;
+      color: #3c4043;
     }
 
     /* Day Columns */
@@ -746,10 +805,11 @@
       border-right: 1px solid var(--border-light);
       position: relative;
       background: #ffffff;
-      min-height: 896px; /* 14 slots * 64px */
+      height: calc(24 * 56px); /* 1344px */
+      min-width: 0;
     }
     .hour-grid-line {
-      height: 64px;
+      height: 56px;
       border-bottom: 1px solid var(--border-light);
       cursor: pointer;
       transition: background 0.1s;
@@ -855,13 +915,16 @@
       display: none;
       flex-direction: column;
       flex: 1;
+      height: 100%;
+      min-height: 0;
+      overflow: hidden;
     }
     .month-view-container.active {
       display: flex;
     }
     .month-day-headers {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(7, minmax(0, 1fr));
       border-bottom: 1px solid var(--border-color);
       background: #f8fafd;
       text-align: center;
@@ -869,11 +932,15 @@
       font-size: 0.76rem;
       font-weight: 600;
       color: var(--text-muted);
+      flex-shrink: 0;
     }
     .month-grid-cells {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: repeat(5, minmax(110px, 1fr));
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      grid-auto-rows: minmax(75px, 1fr);
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
       border-bottom: 1px solid var(--border-color);
     }
     .month-cell {
@@ -1267,16 +1334,56 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
+    /* CURRENT TIME MARKER */
+    .cal-current-time-marker {
+      position: absolute;
+      left: 0;
+      right: 0;
+      z-index: 8;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+    }
+    .cal-current-time-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ea4335;
+      position: absolute;
+      left: -5px;
+      box-shadow: 0 0 4px rgba(234, 67, 53, 0.5);
+    }
+    .cal-current-time-line {
+      height: 2px;
+      background: #ea4335;
+      width: 100%;
+    }
+
     /* Responsive */
+    @media (max-width: 1280px) {
+      .cal-body {
+        grid-template-columns: 250px 1fr;
+      }
+      .current-date-title {
+        font-size: 0.95rem;
+      }
+    }
+    @media (max-width: 1050px) {
+      .cal-body {
+        grid-template-columns: 230px 1fr;
+      }
+    }
     @media (max-width: 900px) {
       .cal-body {
         grid-template-columns: 1fr;
       }
       .cal-sidebar {
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
+        display: none;
       }
-      
+      .cal-topbar {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -1386,7 +1493,6 @@
         <div class="sidebar-section">
           <div class="sidebar-sec-title">
             <span><i class="fa-solid fa-filter"></i> Lọc theo danh mục</span>
-            <span class="sec-badge-feature">Tính năng 1</span>
           </div>
           <div class="category-filter-list" id="category-filters">
             <!-- Dynamically populated by JS -->
@@ -1396,36 +1502,10 @@
           </button>
         </div>
 
-        <!-- 3. Feature: TẮT LỊCH / BẬT LỊCH (Disable Calendar) -->
-        <div class="sidebar-section">
-          <div class="sidebar-sec-title">
-            <span><i class="fa-regular fa-calendar-check"></i> Lịch của tôi (Tắt lịch)</span>
-            <span class="sec-badge-feature">Tính năng 2</span>
-          </div>
-          <div class="calendar-toggle-list">
-            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện học tập">
-              <input type="checkbox" id="toggle-cal-study" checked onchange="toggleCalendar('cal-study')">
-              <span class="cal-color-dot study"></span>
-              <span>Lịch Học Tập & Luyện Thi</span>
-            </label>
-            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện cá nhân">
-              <input type="checkbox" id="toggle-cal-personal" checked onchange="toggleCalendar('cal-personal')">
-              <span class="cal-color-dot personal"></span>
-              <span>Lịch Hoạt Động Cá Nhân</span>
-            </label>
-            <label class="cal-toggle-item" title="Bỏ tích để tạm thời ẩn toàn bộ sự kiện gia đình">
-              <input type="checkbox" id="toggle-cal-family" checked onchange="toggleCalendar('cal-family')">
-              <span class="cal-color-dot family"></span>
-              <span>Lịch Gia Đình & Bạn Bè</span>
-            </label>
-          </div>
-        </div>
-
-        <!-- 4. Feature: CHIA SẺ LỊCH QUA GMAIL (Share Calendar) -->
+        <!-- 3. Feature: CHIA SẺ LỊCH QUA GMAIL (Share Calendar) -->
         <div class="sidebar-section">
           <div class="sidebar-sec-title">
             <span><i class="fa-solid fa-share-nodes"></i> Chia sẻ lịch</span>
-            <span class="sec-badge-feature">Tính năng 3</span>
           </div>
           <button class="btn-share-modal-open" onclick="openShareModal()">
             <i class="fa-solid fa-user-plus"></i> Chia sẻ lịch qua Gmail
@@ -1482,8 +1562,14 @@
 
           <!-- Week Content Body with Hours and Event Slots -->
           <div class="week-content-grid">
-            <!-- Time labels column (07:00 -> 20:00) -->
             <div class="time-gutter">
+              <div class="time-slot-label">00:00</div>
+              <div class="time-slot-label">01:00</div>
+              <div class="time-slot-label">02:00</div>
+              <div class="time-slot-label">03:00</div>
+              <div class="time-slot-label">04:00</div>
+              <div class="time-slot-label">05:00</div>
+              <div class="time-slot-label">06:00</div>
               <div class="time-slot-label">07:00</div>
               <div class="time-slot-label">08:00</div>
               <div class="time-slot-label">09:00</div>
@@ -1498,11 +1584,20 @@
               <div class="time-slot-label">18:00</div>
               <div class="time-slot-label">19:00</div>
               <div class="time-slot-label">20:00</div>
+              <div class="time-slot-label">21:00</div>
+              <div class="time-slot-label">22:00</div>
+              <div class="time-slot-label">23:00</div>
+              <div class="time-slot-label time-slot-last">24:00</div>
             </div>
 
-            <!-- 7 Columns for 7 Days -->
             <div class="day-events-column" id="day-col-0" data-date="2026-09-14">
-              <!-- Grid lines -->
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '09:00')"></div>
@@ -1517,9 +1612,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-14', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-1" data-date="2026-09-15">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '09:00')"></div>
@@ -1534,9 +1639,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-15', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-2" data-date="2026-09-16">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '09:00')"></div>
@@ -1551,9 +1666,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-16', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-3" data-date="2026-09-17">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '09:00')"></div>
@@ -1568,9 +1693,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-17', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-4" data-date="2026-09-18">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '09:00')"></div>
@@ -1585,9 +1720,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-18', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-5" data-date="2026-09-19">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '09:00')"></div>
@@ -1602,9 +1747,19 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-19', '23:00')"></div>
             </div>
 
             <div class="day-events-column" id="day-col-6" data-date="2026-09-20">
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '00:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '01:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '02:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '03:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '04:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '05:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '06:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '07:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '08:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '09:00')"></div>
@@ -1619,8 +1774,10 @@
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '18:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '19:00')"></div>
               <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '20:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '21:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '22:00')"></div>
+              <div class="hour-grid-line" onclick="quickCreate('2026-09-20', '23:00')"></div>
             </div>
-
           </div>
         </div>
 
@@ -1968,6 +2125,96 @@
   </div>
 </div>
 
+<!-- MODAL 5: HỘP THOẠI XÁC NHẬN XÓA DANH MỤC (DELETE CATEGORY CONFIRMATION MODAL) -->
+<div class="modal-overlay" id="modal-delete-category-confirm">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-header" style="background: #fce8e6; border-bottom: 1px solid #fad2cf;">
+      <div class="modal-title" style="color: #c5221f;">
+        <i class="fa-solid fa-triangle-exclamation"></i> Xác Nhận Xóa Danh Mục
+      </div>
+      <button class="btn-modal-close" onclick="closeDeleteCategoryModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 0.88rem; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px;">
+        Bạn có chắc chắn muốn xóa danh mục <strong id="delete-cat-name-display" style="color: #c5221f;">""</strong> không?
+      </p>
+
+      <div style="background: #f8fafd; border: 1px solid #dadce0; border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #3c4043; line-height: 1.4;">
+        <div style="font-weight: 600; color: #1a73e8; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-circle-info"></i> Chuyển tiếp dữ liệu sự kiện:
+        </div>
+        Các sự kiện thuộc danh mục này sẽ được tự động chuyển về danh mục <strong id="delete-cat-fallback-display" style="color: #0d904f;">"Cá nhân"</strong>.
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end; gap: 8px;">
+      <button class="btn-secondary" onclick="closeDeleteCategoryModal()">Hủy bỏ</button>
+      <button class="btn-danger" onclick="executeDeleteCategory()">
+        <i class="fa-solid fa-trash"></i> Xác nhận xóa
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 6: HỘP THOẠI XÁC NHẬN KHÔI PHỤC DỮ LIỆU MẪU (RESET CONFIRM MODAL) -->
+<div class="modal-overlay" id="modal-reset-confirm">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-header" style="background: #fef7e0; border-bottom: 1px solid #feefc3;">
+      <div class="modal-title" style="color: #b06000;">
+        <i class="fa-solid fa-rotate-left"></i> Khôi Phục Dữ Liệu Mẫu
+      </div>
+      <button class="btn-modal-close" onclick="closeResetConfirmModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 0.88rem; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px;">
+        Bạn có chắc chắn muốn khôi phục lại toàn bộ dữ liệu sự kiện và danh mục mẫu ban đầu không?
+      </p>
+
+      <div style="background: #f8fafd; border: 1px solid #dadce0; border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #3c4043; line-height: 1.4;">
+        <div style="font-weight: 600; color: #1a73e8; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-circle-info"></i> Lưu ý làm mới:
+        </div>
+        Tất cả các sự kiện và danh mục do bạn tạo thêm hoặc chỉnh sửa sẽ được đặt lại về trạng thái mặc định ban đầu của bài thực hành.
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end; gap: 8px;">
+      <button class="btn-secondary" onclick="closeResetConfirmModal()">Hủy bỏ</button>
+      <button class="btn-danger" style="background: #e37400; border-color: #e37400;" onclick="executeResetDefaults()">
+        <i class="fa-solid fa-rotate-left"></i> Xác nhận khôi phục
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 7: HỘP THOẠI XÁC NHẬN HỦY CHIA SẺ LỊCH (REMOVE SHARE CONFIRM MODAL) -->
+<div class="modal-overlay" id="modal-remove-share-confirm">
+  <div class="modal-card" style="max-width: 440px;">
+    <div class="modal-header" style="background: #fce8e6; border-bottom: 1px solid #fad2cf;">
+      <div class="modal-title" style="color: #c5221f;">
+        <i class="fa-solid fa-user-xmark"></i> Hủy Chia Sẻ Lịch
+      </div>
+      <button class="btn-modal-close" onclick="closeRemoveShareModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size: 0.88rem; color: var(--text-dark); line-height: 1.5; margin-bottom: 12px;">
+        Bạn có chắc chắn muốn hủy chia sẻ lịch với tài khoản <strong id="remove-share-email-display" style="color: #c5221f;"></strong> không?
+      </p>
+
+      <div style="background: #f8fafd; border: 1px solid #dadce0; border-radius: 8px; padding: 10px 14px; font-size: 0.82rem; color: #3c4043; line-height: 1.4;">
+        <div style="font-weight: 600; color: #d93025; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+          <i class="fa-solid fa-circle-exclamation"></i> Quyền truy cập:
+        </div>
+        Tài khoản này sẽ lập tức mất quyền truy cập xem hoặc cập nhật các sự kiện trong bộ lịch của bạn.
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content: flex-end; gap: 8px;">
+      <button class="btn-secondary" onclick="closeRemoveShareModal()">Hủy bỏ</button>
+      <button class="btn-danger" onclick="executeRemoveShare()">
+        <i class="fa-solid fa-user-xmark"></i> Hủy chia sẻ
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- TOAST MESSAGE -->
 <div class="toast-msg" id="toast-msg">
   <i class="fa-solid fa-circle-check" style="color: #81c995;"></i>
@@ -1986,7 +2233,7 @@
       startTime: "08:00",
       endTime: "09:30",
       calendar: "cal-study",
-      category: "personal",
+      category: "study",
       isPrivate: false,
       desc: "Ôn tập các chuyên đề phần cứng và mạng máy tính"
     },
@@ -2000,11 +2247,36 @@
       category: "personal",
       isPrivate: true, // KEEP PRIVATE!
       desc: "Khám định kỳ răng miệng tại phòng khám nha khoa"
+    },
+    {
+      id: 3,
+      title: "Giao hữu bóng đá khối 7",
+      date: "2026-09-17", // Thursday
+      startTime: "16:30",
+      endTime: "18:00",
+      calendar: "cal-study",
+      category: "sport",
+      isPrivate: false,
+      desc: "Hoạt động thể thao rèn luyện thể chất sau giờ học"
+    },
+    {
+      id: 4,
+      title: "Sinh nhật bạn cùng lớp",
+      date: "2026-09-19", // Saturday
+      startTime: "18:00",
+      endTime: "19:30",
+      calendar: "cal-family",
+      category: "family",
+      isPrivate: false,
+      desc: "Tổ chức họp mặt và sinh nhật bạn tại nhà"
     }
   ];
 
   const DEFAULT_CATEGORIES = [
-    { id: 'personal', name: 'Sinh hoạt cá nhân', shortName: 'Cá nhân', color: '#0d904f', bg: '#e6f4ea', icon: 'fa-user', deletable: false }
+    { id: 'personal', name: 'Sinh hoạt cá nhân', shortName: 'Cá nhân', color: '#0d904f', bg: '#e6f4ea', icon: 'fa-user', deletable: false },
+    { id: 'study', name: 'Học tập & Luyện thi', shortName: 'Học tập', color: '#1a73e8', bg: '#e8f0fe', icon: 'fa-book-open', deletable: false },
+    { id: 'family', name: 'Gia đình & Bạn bè', shortName: 'Gia đình', color: '#9334e6', bg: '#f3e8fd', icon: 'fa-house', deletable: false },
+    { id: 'sport', name: 'Thể thao & Ngoại khóa', shortName: 'Ngoại khóa', color: '#e37400', bg: '#fef7e0', icon: 'fa-futbol', deletable: false }
   ];
 
   const AVAILABLE_COLORS = [
@@ -2059,6 +2331,8 @@
   let newCategoryColor = AVAILABLE_COLORS[5];
   let newCategoryIcon = 'fa-language';
   let openedFromEventModal = false;
+  let pendingDeleteCatId = null;
+  let pendingRemoveShareIndex = null;
 
   /* ==========================================================
      DATE & TIME HELPER UTILITIES
@@ -2107,12 +2381,57 @@
   /* ==========================================================
      LIFECYCLE & INITIALIZATION
      ========================================================== */
-  document.addEventListener('DOMContentLoaded', () => {
+  function initApp() {
     renderCategoryFilters();
     renderCategorySelectOptions();
+    initWeekGridHours();
     renderAll();
     renderSharedUsersList();
-  });
+    scrollGridToDefault();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+  } else {
+    initApp();
+  }
+
+  function initWeekGridHours() {
+    const timeGutter = document.querySelector('.time-gutter');
+    if (timeGutter) {
+      let html = '';
+      for (let h = 0; h < 24; h++) {
+        html += `<div class="time-slot-label">${String(h).padStart(2, '0')}:00</div>`;
+      }
+      html += `<div class="time-slot-label time-slot-last">24:00</div>`;
+      timeGutter.innerHTML = html;
+    }
+
+    updateDayColumnGrid();
+  }
+
+  function updateDayColumnGrid() {
+    const week = getWeekDays(selectedDate);
+    for (let colIdx = 0; colIdx < 7; colIdx++) {
+      const col = document.getElementById(`day-col-${colIdx}`);
+      if (!col) continue;
+      const dateStr = week[colIdx] ? week[colIdx].dateStr : '';
+      col.setAttribute('data-date', dateStr);
+      let gridHtml = '';
+      for (let h = 0; h < 24; h++) {
+        const timeStr = `${String(h).padStart(2, '0')}:00`;
+        gridHtml += `<div class="hour-grid-line" onclick="quickCreate('${dateStr}', '${timeStr}')"></div>`;
+      }
+      col.innerHTML = gridHtml;
+    }
+  }
+
+  function scrollGridToDefault() {
+    const scrollContainer = document.querySelector('.week-content-grid');
+    if (scrollContainer) {
+      scrollContainer.scrollTop = 7 * 56;
+    }
+  }
 
   function renderAll() {
     renderMiniCalendar();
@@ -2269,6 +2588,7 @@
      WEEK VIEW RENDERING
      ========================================================== */
   function renderWeekView() {
+    updateDayColumnGrid();
     // Clear existing events in columns
     for (let i = 0; i < 7; i++) {
       const col = document.getElementById(`day-col-${i}`);
@@ -2277,8 +2597,30 @@
       oldCards.forEach(c => c.remove());
     }
 
-    const startHour = 7; // Grid starts at 07:00
-    const slotHeight = 64; // 64px per hour
+    // Remove old time markers
+    document.querySelectorAll('.cal-current-time-marker').forEach(m => m.remove());
+
+    const startHour = 0; // Grid starts at 00:00 (full 24h)
+    const slotHeight = 56; // 56px per hour
+
+    const todayColIdx = getDayColIndex(TODAY_STR);
+    if (todayColIdx >= 0) {
+      const todayCol = document.getElementById(`day-col-${todayColIdx}`);
+      if (todayCol) {
+        const now = new Date();
+        const currentHour = now.getHours();
+        const currentMin = now.getMinutes();
+        const currentTimeTop = (currentHour + currentMin / 60) * slotHeight;
+        const timeMarker = document.createElement('div');
+        timeMarker.className = 'cal-current-time-marker';
+        timeMarker.style.top = `${currentTimeTop}px`;
+        timeMarker.innerHTML = `
+          <div class="cal-current-time-circle"></div>
+          <div class="cal-current-time-line"></div>
+        `;
+        todayCol.appendChild(timeMarker);
+      }
+    }
 
     const visibleEvents = events.filter(evt => {
       if (!activeCalendars[evt.calendar]) return false;
@@ -2440,8 +2782,9 @@
 
     categories.forEach(cat => {
       const isActive = (currentCategoryFilter === cat.id);
-      const delBtn = cat.deletable ? `
-        <span class="cat-del-btn" onclick="deleteCategory(event, '${cat.id}')" title="Xóa danh mục này">
+      const canDelete = categories.length > 1;
+      const delBtn = canDelete ? `
+        <span class="cat-del-btn" onclick="deleteCategory(event, '${cat.id}')" title="Xóa danh mục '${escapeHtml(cat.name)}'">
           <i class="fa-solid fa-xmark"></i>
         </span>
       ` : '';
@@ -2592,13 +2935,13 @@
     const input = document.getElementById('category-name-input');
     const name = input.value.trim();
     if (!name) {
-      alert('Vui lòng nhập tên danh mục sự kiện!');
+      showToast('Vui lòng nhập tên danh mục sự kiện!');
       input.focus();
       return;
     }
 
     if (categories.some(c => c.name.toLowerCase() === name.toLowerCase() || c.shortName.toLowerCase() === name.toLowerCase())) {
-      alert('Danh mục này đã tồn tại!');
+      showToast('Danh mục này đã tồn tại!');
       input.focus();
       return;
     }
@@ -2627,24 +2970,62 @@
     showToast(`Đã tạo thành công danh mục mới: "${name}"`);
   }
 
-  function deleteCategory(event, catId) {
-    event.stopPropagation();
-    const cat = getCategoryObj(catId);
-    if (!cat.deletable) return;
-
-    if (confirm(`Bạn có chắc chắn muốn xóa danh mục "${cat.name}" không?\n(Các sự kiện thuộc danh mục này sẽ chuyển về "Cá nhân")`)) {
-      events.forEach(e => {
-        if (e.category === catId) e.category = 'personal';
-      });
-      categories = categories.filter(c => c.id !== catId);
-      if (currentCategoryFilter === catId) {
-        currentCategoryFilter = 'all';
-      }
-      renderCategoryFilters();
-      renderCategorySelectOptions();
-      renderAll();
-      showToast(`Đã xóa danh mục: ${cat.name}`);
+  function openDeleteCategoryModal(event, catId) {
+    if (event) event.stopPropagation();
+    if (categories.length <= 1) {
+      showToast("Cần giữ lại ít nhất 1 danh mục sự kiện!");
+      return;
     }
+    pendingDeleteCatId = catId;
+    const cat = getCategoryObj(catId);
+    const remainingCat = categories.find(c => c.id !== catId);
+    const fallbackName = remainingCat ? (remainingCat.shortName || remainingCat.name) : 'Cá nhân';
+    const fallbackColor = remainingCat ? remainingCat.color : '#0d904f';
+
+    const nameEl = document.getElementById('delete-cat-name-display');
+    if (nameEl) nameEl.innerText = `"${cat.name}"`;
+
+    const fbEl = document.getElementById('delete-cat-fallback-display');
+    if (fbEl) {
+      fbEl.innerText = `"${fallbackName}"`;
+      fbEl.style.color = fallbackColor;
+    }
+
+    const modal = document.getElementById('modal-delete-category-confirm');
+    if (modal) modal.classList.add('active');
+  }
+
+  function closeDeleteCategoryModal() {
+    pendingDeleteCatId = null;
+    const modal = document.getElementById('modal-delete-category-confirm');
+    if (modal) modal.classList.remove('active');
+  }
+
+  function executeDeleteCategory() {
+    if (!pendingDeleteCatId) return;
+    const catId = pendingDeleteCatId;
+    const cat = getCategoryObj(catId);
+    const remainingCat = categories.find(c => c.id !== catId);
+    const fallbackId = remainingCat ? remainingCat.id : 'personal';
+
+    events.forEach(e => {
+      if (e.category === catId) e.category = fallbackId;
+    });
+
+    categories = categories.filter(c => c.id !== catId);
+    if (currentCategoryFilter === catId) {
+      currentCategoryFilter = 'all';
+    }
+
+    closeDeleteCategoryModal();
+    renderCategoryFilters();
+    renderCategorySelectOptions();
+    renderAll();
+    showToast(`Đã xóa danh mục: ${cat.name}`);
+  }
+
+  function deleteCategory(event, catId) {
+    openDeleteCategoryModal(event, catId);
   }
 
   /* ==========================================================
@@ -2707,7 +3088,7 @@
     if (mode === 'week') {
       tabWeek.classList.add('active');
       tabMonth.classList.remove('active');
-      weekWrap.style.display = 'block';
+      weekWrap.style.display = 'flex';
       monthWrap.classList.remove('active');
     } else {
       tabWeek.classList.remove('active');
@@ -2787,7 +3168,7 @@
     const titleInput = document.getElementById('event-title-input');
     const title = titleInput.value.trim();
     if (!title) {
-      alert('Vui lòng nhập tên sự kiện!');
+      showToast('Vui lòng nhập tên sự kiện!');
       titleInput.focus();
       return;
     }
@@ -2999,13 +3380,13 @@
     const email = input.value.trim().toLowerCase();
     
     if (!email || !email.includes('@')) {
-      alert('Vui lòng nhập địa chỉ Gmail hợp lệ (ví dụ: banthan@gmail.com)!');
+      showToast('Vui lòng nhập địa chỉ Gmail hợp lệ (ví dụ: banthan@gmail.com)!');
       input.focus();
       return;
     }
 
     if (sharedUsers.some(u => u.email === email)) {
-      alert('Địa chỉ email này đã có trong danh sách được chia sẻ!');
+      showToast('Địa chỉ email này đã có trong danh sách được chia sẻ!');
       input.focus();
       return;
     }
@@ -3022,33 +3403,69 @@
     showToast(`Đã gửi lời mời chia sẻ lịch tới: ${email}`);
   }
 
+  function openRemoveShareModal(index) {
+    pendingRemoveShareIndex = index;
+    const user = sharedUsers[index];
+    if (!user) return;
+    const emailEl = document.getElementById('remove-share-email-display');
+    if (emailEl) emailEl.innerText = `"${user.email}"`;
+    const modal = document.getElementById('modal-remove-share-confirm');
+    if (modal) modal.classList.add('active');
+  }
+
+  function closeRemoveShareModal() {
+    pendingRemoveShareIndex = null;
+    const modal = document.getElementById('modal-remove-share-confirm');
+    if (modal) modal.classList.remove('active');
+  }
+
+  function executeRemoveShare() {
+    if (pendingRemoveShareIndex === null || pendingRemoveShareIndex < 0 || pendingRemoveShareIndex >= sharedUsers.length) return;
+    const removed = sharedUsers[pendingRemoveShareIndex];
+    sharedUsers.splice(pendingRemoveShareIndex, 1);
+    closeRemoveShareModal();
+    renderSharedUsersList();
+    showToast(`Đã hủy chia sẻ với ${removed.email}`);
+  }
+
   function removeSharedUser(index) {
-    const removed = sharedUsers[index];
-    if (confirm(`Bạn muốn hủy chia sẻ lịch với ${removed.email}?`)) {
-      sharedUsers.splice(index, 1);
-      renderSharedUsersList();
-      showToast(`Đã hủy chia sẻ với ${removed.email}`);
-    }
+    openRemoveShareModal(index);
   }
 
   /* ==========================================================
-     RESET TO DEFAULT EVENTS
+     RESET TO DEFAULT EVENTS (WITH CUSTOM MODAL)
      ========================================================== */
+  function openResetConfirmModal() {
+    const modal = document.getElementById('modal-reset-confirm');
+    if (modal) modal.classList.add('active');
+  }
+
+  function closeResetConfirmModal() {
+    const modal = document.getElementById('modal-reset-confirm');
+    if (modal) modal.classList.remove('active');
+  }
+
+  function executeResetDefaults() {
+    events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
+    categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+    activeCalendars = { 'cal-study': true, 'cal-personal': true, 'cal-family': true };
+    const tStudy = document.getElementById('toggle-cal-study');
+    if (tStudy) tStudy.checked = true;
+    const tPers = document.getElementById('toggle-cal-personal');
+    if (tPers) tPers.checked = true;
+    const tFam = document.getElementById('toggle-cal-family');
+    if (tFam) tFam.checked = true;
+    currentCategoryFilter = 'all';
+    closeResetConfirmModal();
+    renderCategoryFilters();
+    renderCategorySelectOptions();
+    setPerspective('owner');
+    renderAll();
+    showToast("Đã khôi phục dữ liệu lịch mẫu thành công!");
+  }
+
   function resetDefaultEvents() {
-    if (confirm("Khôi phục lại toàn bộ dữ liệu sự kiện và danh mục mẫu?")) {
-      events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
-      categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
-      activeCalendars = { 'cal-study': true, 'cal-personal': true, 'cal-family': true };
-      document.getElementById('toggle-cal-study').checked = true;
-      document.getElementById('toggle-cal-personal').checked = true;
-      document.getElementById('toggle-cal-family').checked = true;
-      currentCategoryFilter = 'all';
-      renderCategoryFilters();
-      renderCategorySelectOptions();
-      setPerspective('owner');
-      renderAll();
-      showToast("Đã khôi phục dữ liệu lịch mẫu thành công!");
-    }
+    openResetConfirmModal();
   }
 
   
@@ -3085,6 +3502,21 @@
      ========================================================== */
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' || e.key === 'Esc') {
+      const resetModal = document.getElementById('modal-reset-confirm');
+      if (resetModal && resetModal.classList.contains('active')) {
+        closeResetConfirmModal();
+        return;
+      }
+      const remShareModal = document.getElementById('modal-remove-share-confirm');
+      if (remShareModal && remShareModal.classList.contains('active')) {
+        closeRemoveShareModal();
+        return;
+      }
+      const delCatModal = document.getElementById('modal-delete-category-confirm');
+      if (delCatModal && delCatModal.classList.contains('active')) {
+        closeDeleteCategoryModal();
+        return;
+      }
       const delModal = document.getElementById('modal-delete-confirm');
       if (delModal && delModal.classList.contains('active')) {
         closeDeleteConfirmModal();
@@ -3115,6 +3547,21 @@
   // Support ESC message from parent portal frame
   window.addEventListener('message', (e) => {
     if (e.data && e.data.action === 'close_modal') {
+      const resetModal = document.getElementById('modal-reset-confirm');
+      if (resetModal && resetModal.classList.contains('active')) {
+        closeResetConfirmModal();
+        return;
+      }
+      const remShareModal = document.getElementById('modal-remove-share-confirm');
+      if (remShareModal && remShareModal.classList.contains('active')) {
+        closeRemoveShareModal();
+        return;
+      }
+      const delCatModal = document.getElementById('modal-delete-category-confirm');
+      if (delCatModal && delCatModal.classList.contains('active')) {
+        closeDeleteCategoryModal();
+        return;
+      }
       const delModal = document.getElementById('modal-delete-confirm');
       if (delModal && delModal.classList.contains('active')) {
         closeDeleteConfirmModal();

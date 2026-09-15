@@ -162,7 +162,9 @@
       padding: 6px 14px;
       display: flex;
       align-items: center;
-      width: 280px;
+      max-width: 260px;
+      min-width: 140px;
+      width: 100%;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
@@ -571,6 +573,44 @@
     body.focus-mode .app-container {
       height: calc(100vh - 48px);
     }
+
+    /* RESPONSIVE PORTAL LAYOUT */
+    @media (max-width: 1200px) {
+      .search-box {
+        max-width: 210px;
+      }
+      .brand-title p {
+        display: none;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .portal-header {
+        padding: 0 12px;
+      }
+      #btn-focus-mode span {
+        display: none;
+      }
+      .search-box {
+        max-width: 160px;
+        padding: 5px 10px;
+      }
+      .brand-title h1 {
+        font-size: 1.05rem;
+      }
+      :root {
+        --sidebar-width: 250px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --sidebar-width: 230px;
+      }
+      .search-box {
+        display: none;
+      }
+    }
   </style>
 </head>
 
@@ -641,16 +681,16 @@
           </div>
 
           <div class="tree-content">
-            <!-- LEVEL 1 -->
-            <div class="level-block expanded" id="lvl-thcs-1">
-              <button class="level-header-btn active" id="btn-lvl-thcs-1" onclick="toggleLevel('lvl-thcs-1')">
-                <span><i class="fa-solid fa-folder-open" style="color: #64748b; margin-right: 6px;"></i> Level 1 (Lớp 6)</span>
+            <!-- LEVEL 1 (Lớp 6) -->
+            <div class="level-block" id="lvl-thcs-1">
+              <button class="level-header-btn" id="btn-lvl-thcs-1" onclick="toggleLevel('lvl-thcs-1')">
+                <span><i class="fa-solid fa-folder" style="color: #64748b; margin-right: 6px;"></i> Level 1 (Lớp 6)</span>
                 <i class="fa-solid fa-chevron-down level-chevron"></i>
               </button>
 
               <div class="modules-list">
                 <!-- GM1 -->
-                <button class="module-item-btn active expanded" id="btn-mod-thcs-lv1-gm1" onclick="toggleGM1Lessons()">
+                <button class="module-item-btn" id="btn-mod-thcs-lv1-gm1" onclick="toggleGM1Lessons()">
                   <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
                   <span style="display: flex; align-items: center; gap: 6px;">
                     <span class="badge-pill">22 Lab</span>
@@ -659,12 +699,12 @@
                 </button>
 
                 <!-- 20 Lessons of GM1 -->
-                <div class="lessons-sublist expanded" id="gm1-lessons-container">
+                <div class="lessons-sublist" id="gm1-lessons-container">
                   <!-- Populated by JavaScript -->
                 </div>
 
                 <!-- GM2 -->
-                <button class="module-item-btn" id="btn-mod-thcs-lv1-gm2" onclick="selectModule('thcs', 'lv1', 'gm2', 'THCS Level 1 - GM2')">
+                <button class="module-item-btn" id="btn-mod-thcs-lv1-gm2" onclick="selectModule('thcs', 'lv1', 'gm2', 'THCS Level 1 (Lớp 6) - GM2')">
                   <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
                 </button>
               </div>
@@ -681,36 +721,42 @@
                 <!-- GM1 -->
                 <button class="module-item-btn" id="btn-mod-thcs-lv2-gm1" onclick="toggleLV2GM1Lessons()">
                   <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
-                  <i class="fa-solid fa-chevron-down gm-chevron"></i>
+                  <span style="display: flex; align-items: center; gap: 6px;">
+                    <span class="badge-pill">1 Lab</span>
+                    <i class="fa-solid fa-chevron-down gm-chevron"></i>
+                  </span>
                 </button>
 
                 <!-- Lessons of Level 2 GM1 -->
                 <div class="lessons-sublist" id="lv2-gm1-lessons-container">
-                  <button class="lesson-link" id="lesson-btn-lv2-2" onclick="loadLab02()">
+                  <button class="lesson-link" id="lesson-btn-lv2-2" onclick="loadLab02(true, true)">
                     <span class="lesson-num">2</span>
                     <span>Tính Năng Của Lịch Kỹ Thuật Số</span>
                   </button>
                 </div>
 
                 <!-- GM2 -->
-                <button class="module-item-btn" id="btn-mod-thcs-lv2-gm2" onclick="selectModule('thcs', 'lv2', 'gm2', 'THCS Level 2 - GM2')">
+                <button class="module-item-btn" id="btn-mod-thcs-lv2-gm2" onclick="selectModule('thcs', 'lv2', 'gm2', 'THCS Level 2 (Lớp 7) - GM2')">
                   <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
                 </button>
               </div>
             </div>
 
-            <!-- LEVEL 3 -->
+            <!-- LEVEL 3 (Lớp 8) -->
             <div class="level-block" id="lvl-thcs-3">
               <button class="level-header-btn" id="btn-lvl-thcs-3" onclick="toggleLevel('lvl-thcs-3')">
-                <span><i class="fa-solid fa-folder" style="color: #64748b; margin-right: 6px;"></i> Level 3 (LV3)</span>
+                <span><i class="fa-solid fa-folder" style="color: #64748b; margin-right: 6px;"></i> Level 3 (Lớp 8)</span>
                 <i class="fa-solid fa-chevron-down level-chevron"></i>
               </button>
 
               <div class="modules-list">
-                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm1" onclick="selectModule('thcs', 'lv3', 'gm1', 'THCS Level 3 - GM1')">
+                <!-- GM1 -->
+                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm1" onclick="selectModule('thcs', 'lv3', 'gm1', 'THCS Level 3 (Lớp 8) - GM1')">
                   <span><i class="fa-solid fa-play" style="font-size: 0.72rem; margin-right: 6px;"></i> GM1</span>
                 </button>
-                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm2" onclick="selectModule('thcs', 'lv3', 'gm2', 'THCS Level 3 - GM2')">
+
+                <!-- GM2 -->
+                <button class="module-item-btn" id="btn-mod-thcs-lv3-gm2" onclick="selectModule('thcs', 'lv3', 'gm2', 'THCS Level 3 (Lớp 8) - GM2')">
                   <span><i class="fa-solid fa-gamepad" style="font-size: 0.76rem; margin-right: 6px;"></i> GM2</span>
                 </button>
               </div>
@@ -918,13 +964,13 @@
           <span class="lesson-num">${lab.num !== undefined ? lab.num : lab.id}</span>
           <span>${lab.name}</span>
         `;
-        btn.onclick = () => selectLabLesson(lab.id);
+        btn.onclick = () => selectLabLesson(lab.id, true, true);
         container.appendChild(btn);
       });
     }
 
-    // Switch to a specific lesson (1-20)
-    function selectLabLesson(labId) {
+    // Switch to a specific lesson (1-25)
+    function selectLabLesson(labId, expandList = false, expandLevel = false) {
       currentLabId = labId;
       saveState({ type: 'thcs-lv1-gm1', labId: labId });
 
@@ -933,18 +979,30 @@
       const activeBtn = document.getElementById(`lesson-btn-${labId}`);
       if (activeBtn) {
         activeBtn.classList.add('active');
-        try {
-          activeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } catch (e) {
-          activeBtn.scrollIntoView();
+        if (expandList) {
+          try {
+            activeBtn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } catch (e) {
+            activeBtn.scrollIntoView();
+          }
         }
       }
 
-      // Expand necessary parent tree nodes
+      // Ensure THCS section is expanded
       document.getElementById('sec-thcs')?.classList.add('expanded');
-      document.getElementById('lvl-thcs-1')?.classList.add('expanded');
-      document.getElementById('gm1-lessons-container')?.classList.add('expanded');
-      document.getElementById('btn-mod-thcs-lv1-gm1')?.classList.add('expanded');
+
+      // Only expand Level 1 if explicitly requested (e.g. user clicked on it or clicked a lesson)
+      if (expandLevel) {
+        document.getElementById('lvl-thcs-1')?.classList.add('expanded');
+        const icon = document.querySelector('#lvl-thcs-1 .level-header-btn i.fa-folder, #lvl-thcs-1 .level-header-btn i.fa-folder-open');
+        if (icon) icon.className = 'fa-solid fa-folder-open';
+      }
+
+      // Only expand lessons sublist if explicitly requested (e.g. clicking GM1 or clicking a lesson inside list)
+      if (expandList) {
+        document.getElementById('gm1-lessons-container')?.classList.add('expanded');
+        document.getElementById('btn-mod-thcs-lv1-gm1')?.classList.add('expanded');
+      }
 
       // Highlight GM1 module button
       document.querySelectorAll('.module-item-btn').forEach(el => el.classList.remove('active'));
@@ -1039,7 +1097,16 @@
     // Toggle Level Block
     function toggleLevel(lvlId) {
       const lvl = document.getElementById(lvlId);
+      if (!lvl) return;
       lvl.classList.toggle('expanded');
+      const icon = lvl.querySelector('.level-header-btn i.fa-folder, .level-header-btn i.fa-folder-open');
+      if (icon) {
+        if (lvl.classList.contains('expanded')) {
+          icon.className = 'fa-solid fa-folder-open';
+        } else {
+          icon.className = 'fa-solid fa-folder';
+        }
+      }
     }
 
     // Toggle GM1 Lessons List (Level 1)
@@ -1049,19 +1116,14 @@
       if (!container) return;
 
       const isExpanded = container.classList.contains('expanded');
-      const isGM1Active = modBtn?.classList.contains('active');
-
-      if (!isGM1Active) {
+      if (isExpanded) {
+        container.classList.remove('expanded');
+        modBtn?.classList.remove('expanded');
+      } else {
         container.classList.add('expanded');
         modBtn?.classList.add('expanded');
-        selectLabLesson(currentLabId || 1);
-      } else {
-        if (isExpanded) {
-          container.classList.remove('expanded');
-          modBtn?.classList.remove('expanded');
-        } else {
-          container.classList.add('expanded');
-          modBtn?.classList.add('expanded');
+        if (!modBtn?.classList.contains('active')) {
+          selectLabLesson(currentLabId || 1, true, true);
         }
       }
     }
@@ -1109,40 +1171,48 @@
       if (!container) return;
 
       const isExpanded = container.classList.contains('expanded');
-      const isActive = modBtn?.classList.contains('active');
-
-      if (!isActive) {
+      if (isExpanded) {
+        container.classList.remove('expanded');
+        modBtn?.classList.remove('expanded');
+      } else {
         container.classList.add('expanded');
         modBtn?.classList.add('expanded');
-        loadLab02();
-      } else {
-        if (isExpanded) {
-          container.classList.remove('expanded');
-          modBtn?.classList.remove('expanded');
-        } else {
-          container.classList.add('expanded');
-          modBtn?.classList.add('expanded');
+        if (!modBtn?.classList.contains('active')) {
+          loadLab02(true, true);
         }
       }
     }
 
-    function loadLab02() {
+    function loadLab02(expandList = false, expandLevel = false) {
       saveState({ type: 'thcs-lv2-gm1', labId: 2 });
 
       document.querySelectorAll('.module-item-btn, .lesson-link').forEach(el => el.classList.remove('active'));
       
-      // Ensure tree is expanded
       document.getElementById('sec-thcs')?.classList.add('expanded');
-      document.getElementById('lvl-thcs-2')?.classList.add('expanded');
-      document.getElementById('lv2-gm1-lessons-container')?.classList.add('expanded');
-      document.getElementById('btn-mod-thcs-lv2-gm1')?.classList.add('expanded');
+      
+      if (expandLevel) {
+        document.getElementById('lvl-thcs-2')?.classList.add('expanded');
+        const icon = document.querySelector('#lvl-thcs-2 .level-header-btn i.fa-folder, #lvl-thcs-2 .level-header-btn i.fa-folder-open');
+        if (icon) icon.className = 'fa-solid fa-folder-open';
+      }
+
+      if (expandList) {
+        document.getElementById('lv2-gm1-lessons-container')?.classList.add('expanded');
+        document.getElementById('btn-mod-thcs-lv2-gm1')?.classList.add('expanded');
+      }
 
       const modBtn = document.getElementById('btn-mod-thcs-lv2-gm1');
       if (modBtn) modBtn.classList.add('active');
       const labBtn = document.getElementById('lesson-btn-lv2-2') || document.getElementById('lesson-btn-lv2-43');
       if (labBtn) {
         labBtn.classList.add('active');
-        labBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        if (expandList) {
+          try {
+            labBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          } catch (e) {
+            labBtn.scrollIntoView();
+          }
+        }
       }
 
       let iframe = document.getElementById('lab-iframe');
@@ -1159,6 +1229,23 @@
       }
     }
     const loadLab43 = loadLab02;
+
+    // Toggle & Load Level 3 (Lớp 8) - GM1
+    function toggleLV3GM1Lessons() {
+      const container = document.getElementById('lv3-gm1-lessons-container');
+      const modBtn = document.getElementById('btn-mod-thcs-lv3-gm1');
+      if (!container) return;
+
+      const isExpanded = container.classList.contains('expanded');
+      if (isExpanded) {
+        container.classList.remove('expanded');
+        modBtn?.classList.remove('expanded');
+      } else {
+        container.classList.add('expanded');
+        modBtn?.classList.add('expanded');
+        selectModule('thcs', 'lv3', 'gm1', 'THCS Level 3 (Lớp 8) - GM1');
+      }
+    }
 
     // Toggle & Load Lab 06 for Level 2 (Lớp 7) - GM2
     function toggleLV2GM2Lessons() {
@@ -1289,6 +1376,10 @@
       if (q) {
         document.querySelectorAll('.tree-section, .level-block, .lessons-sublist').forEach(el => el.classList.add('expanded'));
         document.querySelectorAll('.module-item-btn').forEach(el => el.classList.add('expanded'));
+      } else {
+        // When search is cleared, collapse sublists to keep sidebar compact
+        document.querySelectorAll('.lessons-sublist').forEach(el => el.classList.remove('expanded'));
+        document.querySelectorAll('.module-item-btn').forEach(el => el.classList.remove('expanded'));
       }
     });
 
@@ -1321,17 +1412,17 @@
       const savedState = getSavedState();
       if (savedState) {
         if (savedState.type === 'thcs-lv2-gm1') {
-          loadLab02();
+          loadLab02(false, false);
         } else if (savedState.type === 'thcs-lv1-gm1' && savedState.labId) {
-          selectLabLesson(savedState.labId);
+          selectLabLesson(savedState.labId, false, false);
         } else if (savedState.type === 'module') {
           selectModule(savedState.cat, savedState.lvl, savedState.mod, savedState.title);
         } else {
-          selectLabLesson(1);
+          selectLabLesson(1, false, false);
         }
       } else {
         // Default to Lesson 1
-        selectLabLesson(1);
+        selectLabLesson(1, false, false);
       }
     }
 
