@@ -2028,13 +2028,103 @@
         </div>
       </div>
 
-      <div style="background: #e8f0fe; border-radius: 8px; padding: 10px 12px; font-size: 0.8rem; color: #174ea6;">
-        <i class="fa-solid fa-lightbulb"></i> <strong>Lưu ý IC3 GS6:</strong> Bạn có thể dùng nút <em>"Góc nhìn Khách"</em> ở thanh công cụ trên cùng để trực tiếp kiểm tra xem những người này sẽ nhìn thấy lịch của bạn như thế nào!
+      <div style="background: #e8f0fe; border-left: 4px solid #1a73e8; border-radius: 8px; padding: 10px 14px; font-size: 0.8rem; color: #174ea6; line-height: 1.5;">
+        <i class="fa-solid fa-lightbulb"></i> <strong>Lưu ý mô phỏng IC3 GS6:</strong> Đây là tính năng mô phỏng giảng dạy. Khi bấm <em>"Gửi lời mời"</em>, hệ thống sẽ mở bức thư Gmail mẫu gửi đến email người nhận và cho phép bạn chuyển nhanh sang <em>"Góc nhìn Khách"</em> để kiểm tra phân quyền thực tế!
       </div>
     </div>
 
     <div class="modal-footer">
       <button class="btn-secondary" onclick="closeShareModal()">Đóng cửa sổ</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: HÒM THƯ MÔ PHỎNG (GMAIL INVITATION EMAIL PREVIEW) -->
+<div class="modal-overlay" id="modal-invitation-email-preview" style="z-index: 1200;">
+  <div class="modal-card" style="max-width: 560px; width: 92%; border-radius: 16px; overflow: hidden; padding: 0;">
+    <!-- Gmail Window Top Header -->
+    <div style="background: #ea4335; color: #ffffff; padding: 12px 18px; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 0.95rem;">
+        <span style="font-size: 1.25rem;">✉️</span>
+        <span>Hòm Thư Mô Phỏng (Email Preview)</span>
+      </div>
+      <button onclick="closeInvitationEmailPreview()" style="background: transparent; border: none; color: #ffffff; font-size: 1.4rem; cursor: pointer; line-height: 1;" title="Đóng thư">&times;</button>
+    </div>
+
+    <!-- Email Meta Bar -->
+    <div style="background: #f8f9fa; border-bottom: 1px solid #e0e0e0; padding: 12px 18px; font-size: 0.82rem;">
+      <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+        <div>
+          <span style="color: #5f6368; font-weight: 600;">Người gửi: </span>
+          <strong style="color: #202124;">Google Calendar</strong> &lt;calendar-notification@google.com&gt;
+        </div>
+        <div style="color: #70757a;" id="preview-invite-time">Hôm nay, 08:00</div>
+      </div>
+      <div style="margin-bottom: 4px;">
+        <span style="color: #5f6368; font-weight: 600;">Gửi đến: </span>
+        <strong style="color: #1a73e8;" id="preview-invite-to">email@gmail.com</strong>
+      </div>
+      <div>
+        <span style="color: #5f6368; font-weight: 600;">Tiêu đề: </span>
+        <span style="color: #202124; font-weight: 600;">
+          [Google Calendar] Bạn nhận được lời mời chia sẻ lịch từ Chủ sở hữu
+        </span>
+      </div>
+    </div>
+
+    <!-- Email Letter Body -->
+    <div style="padding: 20px 22px; max-height: 68vh; overflow-y: auto;">
+      <div style="display: flex; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid #f1f3f4; margin-bottom: 16px;">
+        <div style="width: 44px; height: 44px; border-radius: 10px; background: #4285f4; color: white; display: flex; align-items: center; justify-content: center; font-size: 1.35rem; box-shadow: 0 2px 6px rgba(66, 133, 244, 0.3);">
+          📅
+        </div>
+        <div>
+          <h3 style="margin: 0; font-size: 1.15rem; color: #202124; font-weight: 700;">Google Calendar</h3>
+          <p style="margin: 2px 0 0 0; font-size: 0.8rem; color: #5f6368;">Thông báo chia sẻ quyền truy cập lịch học tập</p>
+        </div>
+      </div>
+
+      <p style="font-size: 0.92rem; color: #202124; line-height: 1.6; margin: 0 0 12px 0;">
+        Xin chào <strong id="preview-greeting-name">email@gmail.com</strong>,
+      </p>
+      <p style="font-size: 0.88rem; color: #3c4043; line-height: 1.6; margin: 0 0 16px 0;">
+        <strong>Chủ sở hữu lịch học tập</strong> vừa cấp quyền cho bạn để cùng theo dõi lịch trình trên ứng dụng <em>Lịch Kỹ Thuật Số</em>.
+      </p>
+
+      <div style="background: #f8fafd; border: 1px solid #dadce0; border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;">
+        <div style="display: grid; grid-template-columns: 120px 1fr; row-gap: 8px; font-size: 0.86rem;">
+          <div style="color: #5f6368; font-weight: 600;">Tên lịch:</div>
+          <div style="color: #1a73e8; font-weight: 700;">Lịch Kỹ Thuật Số (IC3 GS6)</div>
+
+          <div style="color: #5f6368; font-weight: 600;">Người gửi:</div>
+          <div style="color: #202124;">Chủ sở hữu (Bạn)</div>
+
+          <div style="color: #5f6368; font-weight: 600;">Quyền xem lịch:</div>
+          <div>
+            <span id="preview-perm-badge" style="display: inline-block; background: #e6f4ea; color: #188038; font-weight: 700; padding: 2px 8px; border-radius: 6px; font-size: 0.8rem; margin-bottom: 4px;">
+              Xem tất cả chi tiết sự kiện
+            </span>
+            <div id="preview-perm-desc" style="font-size: 0.78rem; color: #5f6368; line-height: 1.4;">
+              Người nhận có thể xem đầy đủ nội dung, thời gian và chi tiết sự kiện.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin: 20px 0 16px 0;">
+        <button onclick="acceptInviteFromPreview()" style="background: #1a73e8; color: #ffffff; border: none; border-radius: 24px; padding: 12px 28px; font-size: 0.95rem; font-weight: 700; cursor: pointer; box-shadow: 0 2px 8px rgba(26, 115, 232, 0.35); display: inline-flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Chấp nhận lời mời & Mở xem lịch (Góc nhìn Khách)</span>
+        </button>
+      </div>
+
+      <div style="background: #e8f0fe; border-left: 4px solid #1a73e8; border-radius: 8px; padding: 10px 14px; font-size: 0.8rem; color: #174ea6; line-height: 1.5;">
+        <strong>💡 Bản chất công nghệ (IC3 GS6):</strong> Trong thực tế, khi chia sẻ qua Google Calendar hoặc Outlook, máy chủ đám mây sẽ tự động tạo một thư mời kèm đường liên kết xác thực gửi đến hộp thư người nhận. Người nhận bấm chấp nhận thì lịch sẽ tự động xuất hiện trong mục <em>"Lịch khác"</em> trên tài khoản của họ mà không cần gửi tệp tin qua lại.
+      </div>
+    </div>
+
+    <div style="background: #f8f9fa; border-top: 1px solid #e0e0e0; padding: 12px 18px; display: flex; justify-content: flex-end; gap: 10px;">
+      <button class="btn-secondary" onclick="closeInvitationEmailPreview()" style="padding: 8px 18px; border-radius: 8px;">Đóng bức thư</button>
     </div>
   </div>
 </div>
@@ -3361,8 +3451,12 @@
             <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(u.label || 'Khách')}</div>
           </div>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 6px;">
           <span class="shared-permission-badge">${permText}</span>
+          <button type="button" class="btn-preview-invite" onclick="openInvitationEmailPreview('${escapeHtml(u.email)}', '${u.perm}')" title="Xem lại bức thư mời gửi đến email này" style="background: #f1f3f4; border: none; border-radius: 6px; padding: 4px 8px; color: #1a73e8; font-size: 0.78rem; cursor: pointer; display: inline-flex; align-items: center; gap: 4px;">
+            <i class="fa-solid fa-envelope-open-text"></i>
+            <span>Thư mời</span>
+          </button>
           <button class="btn-remove-shared" onclick="removeSharedUser(${idx})" title="Hủy chia sẻ với tài khoản này">
             <i class="fa-solid fa-user-xmark"></i>
           </button>
@@ -3373,6 +3467,51 @@
 
     document.getElementById('shared-list-count').innerText = `${sharedUsers.length} tài khoản`;
     document.getElementById('shared-count-badge').innerText = `${sharedUsers.length} người`;
+  }
+
+  let currentPreviewInviteEmail = '';
+
+  function openInvitationEmailPreview(email, perm) {
+    currentPreviewInviteEmail = email;
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    
+    document.getElementById('preview-invite-to').innerText = email;
+    document.getElementById('preview-greeting-name').innerText = email;
+    document.getElementById('preview-invite-time').innerText = `Hôm nay, ${timeStr}`;
+
+    const badge = document.getElementById('preview-perm-badge');
+    const desc = document.getElementById('preview-perm-desc');
+
+    if (perm === 'view_busy') {
+      badge.innerText = 'Chỉ xem trạng thái Rảnh / Bận';
+      badge.style.background = '#fef7e0';
+      badge.style.color = '#e37400';
+      desc.innerText = 'Người nhận chỉ biết khung giờ bạn đang Bận, tiêu đề và chi tiết sự kiện sẽ hoàn toàn được ẩn.';
+    } else if (perm === 'edit') {
+      badge.innerText = 'Toàn quyền Chỉnh sửa sự kiện';
+      badge.style.background = '#fce8e6';
+      badge.style.color = '#d93025';
+      desc.innerText = 'Người nhận có thể tự do xem, thêm mới sự kiện, sửa đổi hoặc xóa các sự kiện trên lịch của bạn.';
+    } else {
+      badge.innerText = 'Xem tất cả chi tiết sự kiện';
+      badge.style.background = '#e6f4ea';
+      badge.style.color = '#188038';
+      desc.innerText = 'Người nhận có thể xem đầy đủ nội dung, thời gian và chi tiết sự kiện (trừ sự kiện bạn đánh dấu Riêng tư).';
+    }
+
+    document.getElementById('modal-invitation-email-preview').classList.add('active');
+  }
+
+  function closeInvitationEmailPreview() {
+    document.getElementById('modal-invitation-email-preview').classList.remove('active');
+  }
+
+  function acceptInviteFromPreview() {
+    closeInvitationEmailPreview();
+    closeShareModal();
+    setPerspective('guest');
+    showToast(`Đã chấp nhận lời mời! Đang xem lịch dưới góc nhìn của ${currentPreviewInviteEmail}`);
   }
 
   function addShareUser() {
@@ -3401,6 +3540,7 @@
     input.value = '';
     renderSharedUsersList();
     showToast(`Đã gửi lời mời chia sẻ lịch tới: ${email}`);
+    openInvitationEmailPreview(email, perm);
   }
 
   function openRemoveShareModal(index) {
