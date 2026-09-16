@@ -834,7 +834,7 @@
       transition: transform 0.15s, box-shadow 0.15s, filter 0.15s;
       box-shadow: 0 1px 3px rgba(0,0,0,0.12);
       border-left: 4px solid #1a73e8;
-      z-index: 2;
+      z-index: 3;
     }
     .event-card:hover {
       transform: scale(1.02);
@@ -1339,7 +1339,7 @@
       position: absolute;
       left: 0;
       right: 0;
-      z-index: 8;
+      z-index: 1;
       pointer-events: none;
       display: flex;
       align-items: center;
@@ -1511,7 +1511,7 @@
             <i class="fa-solid fa-user-plus"></i> Chia sẻ lịch qua Gmail
           </button>
           <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">
-            <i class="fa-solid fa-circle-info"></i> Đang chia sẻ với <strong id="shared-count-badge">2 người</strong>
+            <i class="fa-solid fa-circle-info"></i> Đang chia sẻ với <strong id="shared-count-badge">1 người</strong>
           </div>
         </div>
 
@@ -2303,10 +2303,10 @@
   let categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
   let events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
 
-  let sharedUsers = [
-    { email: "gv.tinhoc@thcs.edu.vn", perm: "view_all", label: "Giáo viên Tin học" },
-    { email: "me.yeuthuong@gmail.com", perm: "view_all", label: "Mẹ" }
+  const DEFAULT_SHARED_USERS = [
+    { email: "gv.tinhoc@thcs.edu.vn", perm: "view_all", label: "Giáo viên Tin học" }
   ];
+  let sharedUsers = JSON.parse(JSON.stringify(DEFAULT_SHARED_USERS));
 
   // Active States
   let currentPerspective = 'owner'; // 'owner' | 'guest'
@@ -3448,6 +3448,7 @@
   function executeResetDefaults() {
     events = JSON.parse(JSON.stringify(INITIAL_EVENTS));
     categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+    sharedUsers = JSON.parse(JSON.stringify(DEFAULT_SHARED_USERS));
     activeCalendars = { 'cal-study': true, 'cal-personal': true, 'cal-family': true };
     const tStudy = document.getElementById('toggle-cal-study');
     if (tStudy) tStudy.checked = true;
@@ -3459,6 +3460,7 @@
     closeResetConfirmModal();
     renderCategoryFilters();
     renderCategorySelectOptions();
+    renderSharedUsersList();
     setPerspective('owner');
     renderAll();
     showToast("Đã khôi phục dữ liệu lịch mẫu thành công!");
