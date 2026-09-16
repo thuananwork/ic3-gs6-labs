@@ -1843,36 +1843,107 @@
         <div class="form-group">
           <label class="form-label" for="event-start-time">Giờ bắt đầu</label>
           <select id="event-start-time" class="form-select">
+            <option value="00:00">00:00</option>
+            <option value="00:30">00:30</option>
+            <option value="01:00">01:00</option>
+            <option value="01:30">01:30</option>
+            <option value="02:00">02:00</option>
+            <option value="02:30">02:30</option>
+            <option value="03:00">03:00</option>
+            <option value="03:30">03:30</option>
+            <option value="04:00">04:00</option>
+            <option value="04:30">04:30</option>
+            <option value="05:00">05:00</option>
+            <option value="05:30">05:30</option>
+            <option value="06:00">06:00</option>
+            <option value="06:30">06:30</option>
             <option value="07:00">07:00</option>
+            <option value="07:30">07:30</option>
             <option value="08:00" selected>08:00</option>
+            <option value="08:30">08:30</option>
             <option value="09:00">09:00</option>
+            <option value="09:30">09:30</option>
             <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
             <option value="11:00">11:00</option>
+            <option value="11:30">11:30</option>
             <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
             <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
             <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
             <option value="15:00">15:00</option>
+            <option value="15:30">15:30</option>
             <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
             <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
             <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
             <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
             <option value="20:00">20:00</option>
+            <option value="20:30">20:30</option>
+            <option value="21:00">21:00</option>
+            <option value="21:30">21:30</option>
+            <option value="22:00">22:00</option>
+            <option value="22:30">22:30</option>
+            <option value="23:00">23:00</option>
+            <option value="23:30">23:30</option>
           </select>
         </div>
         <div class="form-group">
           <label class="form-label" for="event-end-time">Giờ kết thúc</label>
           <select id="event-end-time" class="form-select">
+            <option value="00:30">00:30</option>
+            <option value="01:00">01:00</option>
+            <option value="01:30">01:30</option>
+            <option value="02:00">02:00</option>
+            <option value="02:30">02:30</option>
+            <option value="03:00">03:00</option>
+            <option value="03:30">03:30</option>
+            <option value="04:00">04:00</option>
+            <option value="04:30">04:30</option>
+            <option value="05:00">05:00</option>
+            <option value="05:30">05:30</option>
+            <option value="06:00">06:00</option>
+            <option value="06:30">06:30</option>
+            <option value="07:00">07:00</option>
+            <option value="07:30">07:30</option>
             <option value="08:00">08:00</option>
-            <option value="09:30" selected>09:30</option>
+            <option value="08:30">08:30</option>
+            <option value="09:00" selected>09:00</option>
+            <option value="09:30">09:30</option>
             <option value="10:00">10:00</option>
+            <option value="10:30">10:30</option>
+            <option value="11:00">11:00</option>
             <option value="11:30">11:30</option>
             <option value="12:00">12:00</option>
+            <option value="12:30">12:30</option>
+            <option value="13:00">13:00</option>
+            <option value="13:30">13:30</option>
             <option value="14:00">14:00</option>
+            <option value="14:30">14:30</option>
+            <option value="15:00">15:00</option>
             <option value="15:30">15:30</option>
+            <option value="16:00">16:00</option>
+            <option value="16:30">16:30</option>
             <option value="17:00">17:00</option>
+            <option value="17:30">17:30</option>
+            <option value="18:00">18:00</option>
+            <option value="18:30">18:30</option>
             <option value="19:00">19:00</option>
+            <option value="19:30">19:30</option>
+            <option value="20:00">20:00</option>
             <option value="20:30">20:30</option>
             <option value="21:00">21:00</option>
+            <option value="21:30">21:30</option>
+            <option value="22:00">22:00</option>
+            <option value="22:30">22:30</option>
+            <option value="23:00">23:00</option>
+            <option value="23:30">23:30</option>
+            <option value="24:00">24:00</option>
           </select>
         </div>
       </div>
@@ -3217,15 +3288,22 @@
   /* ==========================================================
      CREATE EVENT MODAL
      ========================================================== */
+  function calculateDefaultEndTime(startTime) {
+    const parts = (startTime || '08:00').split(':').map(Number);
+    const sh = isNaN(parts[0]) ? 8 : parts[0];
+    const sm = isNaN(parts[1]) ? 0 : parts[1];
+    const startMin = sh * 60 + sm;
+    const endMin = Math.min(24 * 60, startMin + 60);
+    const endH = Math.floor(endMin / 60);
+    const endM = endMin % 60;
+    return `${String(endH).padStart(2, '0')}:${String(endM).padStart(2, '0')}`;
+  }
+
   function openCreateModal(defaultDate = selectedDate, defaultTime = '08:00') {
     document.getElementById('event-title-input').value = '';
     document.getElementById('event-date-input').value = defaultDate;
     document.getElementById('event-start-time').value = defaultTime;
-    
-    // Set default end time 1.5h later
-    const hourNum = parseInt(defaultTime.split(':')[0]);
-    const endH = String(Math.min(21, hourNum + 1)).padStart(2, '0');
-    document.getElementById('event-end-time').value = `${endH}:30`;
+    document.getElementById('event-end-time').value = calculateDefaultEndTime(defaultTime);
 
     selectPrivacyOption('public');
     document.getElementById('modal-create-event').classList.add('active');
@@ -3266,6 +3344,16 @@
     const date = document.getElementById('event-date-input').value;
     const startTime = document.getElementById('event-start-time').value;
     const endTime = document.getElementById('event-end-time').value;
+
+    const [sh, sm] = startTime.split(':').map(Number);
+    const [eh, em] = endTime.split(':').map(Number);
+    const startMin = (isNaN(sh) ? 0 : sh) * 60 + (isNaN(sm) ? 0 : sm);
+    const endMin = (isNaN(eh) ? 0 : eh) * 60 + (isNaN(em) ? 0 : em);
+    if (endMin <= startMin) {
+      showToast('⚠️ Giờ kết thúc phải sau giờ bắt đầu!');
+      return;
+    }
+
     const calendar = document.getElementById('event-cal-select').value;
     const category = document.getElementById('event-category-select').value;
     const isPrivate = (selectedPrivacy === 'private');
@@ -3675,8 +3763,22 @@
     }
   });
 
-  // Close modals on clicking overlay backdrop
+  // Close modals on clicking overlay backdrop & auto adjust end time on start time change
   document.addEventListener('DOMContentLoaded', () => {
+    const startTimeEl = document.getElementById('event-start-time');
+    if (startTimeEl) {
+      startTimeEl.addEventListener('change', function() {
+        const startTime = this.value;
+        const [sh, sm] = startTime.split(':').map(Number);
+        const [eh, em] = document.getElementById('event-end-time').value.split(':').map(Number);
+        const startMin = (isNaN(sh) ? 0 : sh) * 60 + (isNaN(sm) ? 0 : sm);
+        const endMin = (isNaN(eh) ? 0 : eh) * 60 + (isNaN(em) ? 0 : em);
+        if (endMin <= startMin) {
+          document.getElementById('event-end-time').value = calculateDefaultEndTime(startTime);
+        }
+      });
+    }
+
     document.querySelectorAll('.modal-overlay').forEach(overlay => {
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) {
